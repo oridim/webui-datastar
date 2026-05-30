@@ -15,8 +15,6 @@ export const createFile = defineAction<State, PartialState>(
         const { fileName } = ephemeralFile;
         const { directoryPath } = workspace;
 
-        console.log('createFile', { fileName, directoryPath });
-
         if (!directoryPath) {
             return;
         }
@@ -32,9 +30,7 @@ export const createFile = defineAction<State, PartialState>(
         };
 
         const filePath = join(directoryPath, fileName);
-        console.log('createFile', { filePath });
         await Deno.writeTextFile(filePath, DEFAULT_FILE_CONTENT);
-        console.log('createFile', 'file written to');
 
         yield {
             signals: {
