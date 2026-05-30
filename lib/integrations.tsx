@@ -5,10 +5,8 @@ import type { Router } from './router.ts';
 import { defineConstantFile, defineGroup, matchRoute } from './router.ts';
 import { WEBUI_BASE_URL } from './webui.tsx';
 
-import SCRIPT_DATASTAR from './assets/datastar.min.js' with { type: 'text' };
-import SCRIPT_DATASTAR_INTEGRATIONS from './assets/datastar.integrations.js' with {
-    type: 'text',
-};
+import SCRIPT_DATASTAR from './assets/datastar.min.js';
+import SCRIPT_DATASTAR_INTEGRATIONS from './assets/datastar.integrations.js';
 
 interface NavigateOptions {
     readonly path: string;

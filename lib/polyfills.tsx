@@ -1,9 +1,7 @@
 import type { JSX } from './preact.ts';
 import { defineConstantFile, defineGroup } from './router.ts';
 
-import SCRIPT_VIEW_TRANSITIONS_POLYFILL from './assets/view-transitions-polyfill.min.js' with {
-    type: 'text',
-};
+import SCRIPT_VIEW_TRANSITIONS_POLYFILL from './assets/view-transitions-polyfill.min.js';
 
 const FEATURE_POLYFILLS = [
     {
