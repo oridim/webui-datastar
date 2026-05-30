@@ -18,6 +18,6 @@ See the [`/examples`](./examples) directory for complete usage examples on how t
 
 # References
 
-- [`preactjs/preact`](https://github.com/preactjs/preact) — webui-datastar uses to render JSX elements.
+- [`preactjs/preact`](https://github.com/preactjs/preact) — webui-datastar uses to render JSX elements on the backend.
 - [`starfederation/datastar`](https://github.com/starfederation/datastar) — webui-datastar is built upon this framework, which provides the basis of interactivity and reactivity.
 - [`webui-dev/deno-webui`](https://github.com/webui-dev/deno-webui) — webui-datastar is built upon this library, which provides the basis of the backing webview.
