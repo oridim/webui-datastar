@@ -2,6 +2,25 @@
 
 > Framework for WebUI which glues a WebView frontend and Deno backend together over IPC via Datastar.
 
+# Features
+
+## Framework Features
+
+- **Client-Side Routing:** Navigate without hard refreshes by patching pages directly from the backend.
+- **Server-Side Actions:** Declaratively wire frontend-to-backend IPC directly inside your HTML.
+- **Server-Side Routing:** Easily serve views, custom routes, and static assets with a built-in backend router.
+- **Server-Side JSX Rendering (SSR):** Use JSX as your native backend HTML templating language.
+- **Stream Patches:** Fully control UI updates by streaming patches from your backend sync and async function and generator actions.
+- **Zero-Build Frontend:** Import the framework and launch a webview without a frontend build step.
+
+## Datastar Features
+
+[Datastar](https://data-star.dev) allows you to incorporate interactivity and reactivity declaratively into your HTML.
+
+## WebUI Features
+
+[WebUI](https://webui.me) allows you to build webviews across many platforms with only a single codebase.
+
 # Getting Started
 
 ## 1. Installation
