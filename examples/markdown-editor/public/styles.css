@@ -1,0 +1,42 @@
+@import url('./open-props.min.css');
+@import url('./open-props.normalize.min.css');
+@import url('./deno-gfm.css');
+
+@import url('./layout.css');
+@import url('./home-view.css');
+@import url('./workspace-view.css');
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: var(--size-2);
+    height: var(--size-2);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--surface-4);
+    border-radius: var(--radius-round);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--surface-5);
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}

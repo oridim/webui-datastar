@@ -1,0 +1,76 @@
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.skeleton-card {
+    padding: 2rem;
+
+    width: 300px;
+
+    background-color: whitesmoke;
+    border: 1px solid gainsboro;
+    border-radius: 12px;
+
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.skeleton-avatar {
+    margin-bottom: 1rem;
+
+    width: 64px;
+    height: 64px;
+
+    background-color: lightgray;
+    border-radius: 50%;
+}
+
+.skeleton-text-line {
+    margin-bottom: 0.5rem;
+
+    height: 1rem;
+
+    background-color: lightgray;
+    border-radius: 4px;
+
+    &.short {
+        width: 60%;
+    }
+}
+
+.profile-card {
+    padding: 2rem;
+
+    width: 300px;
+
+    background-color: white;
+    border: 1px solid gainsboro;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+
+    & h2 {
+        margin: 0 0 0.25rem 0;
+
+        font-size: 1.25rem;
+    }
+
+    & img {
+        margin-bottom: 1rem;
+
+        width: 64px;
+        height: 64px;
+
+        border-radius: 50%;
+    }
+
+    & p {
+        margin: 0;
+
+        color: dimgray;
+    }
+}

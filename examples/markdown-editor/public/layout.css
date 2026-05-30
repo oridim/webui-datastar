@@ -1,0 +1,32 @@
+.status-bar {
+    display: flex;
+    position: fixed;
+
+    align-items: center;
+
+    gap: var(--size-2);
+    padding: var(--size-2) var(--size-3);
+
+    bottom: var(--size-3);
+    right: var(--size-3);
+
+    background: var(--surface-2);
+    border-radius: var(--radius-2);
+    box-shadow: var(--shadow-3);
+    color: var(--text-1);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-1);
+
+    z-index: var(--layer-important);
+}
+
+.status-loader {
+    display: flex;
+
+    align-items: center;
+
+    & svg {
+        width: var(--size-3);
+        height: var(--size-3);
+    }
+}
