@@ -51,7 +51,7 @@ Create a `router.js` file which exports a router configuration that points to yo
 ```js
 import { defineRouter, defineView } from '@oridim/webui-datastar';
 
-import HomeView from './views/HomeView.tsx';
+import HomeView from './views/HomeView.jsx';
 
 export default defineRouter([
     defineView('/', HomeView),
@@ -60,13 +60,13 @@ export default defineRouter([
 
 ## 5. Create an Entry Point
 
-Create an `mod.ts` file which launches a new webview with your router configuration:
+Create an `mod.js` file which launches a new webview with your router configuration:
 
 ```js
 import { initWebUIDatastar } from '@oridim/webui-datastar';
 import { WebUI } from '@webui/deno-webui';
 
-import APP_ROUTER from './router.ts';
+import APP_ROUTER from './router.js';
 
 const window = new WebUI();
 
