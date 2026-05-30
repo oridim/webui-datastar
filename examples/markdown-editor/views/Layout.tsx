@@ -1,12 +1,12 @@
+import type { JSX } from '@oridim/webui-datastar';
 import { WebUIDatastarHead } from '@oridim/webui-datastar';
-import type { ComponentChildren } from 'preact';
 
 import StatusBar from '../components/StatusBar.tsx';
 
 import DEFAULT_STATE from '../state.ts';
 
-export interface LayoutProps {
-    readonly children: ComponentChildren;
+interface LayoutProps {
+    readonly children: JSX.Element | JSX.Element[] | string;
 }
 
 export default function Layout({ children }: LayoutProps) {
