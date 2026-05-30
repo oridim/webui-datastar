@@ -14,11 +14,11 @@ import { defineGroup, defineRouter, initRouter } from './router.ts';
 import { WebUIHead } from './webui.tsx';
 
 export interface WebUIDatastarOptions {
-    actions?: ActionRegistry;
+    readonly actions?: ActionRegistry;
 
-    router?: Router;
+    readonly router?: Router;
 
-    window: WebUI;
+    readonly window: WebUI;
 }
 
 export function defineWebUIDatastarRouter(items: RouteItem[]): Router {
