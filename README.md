@@ -91,6 +91,10 @@ Visit the [`/examples`](./examples) directory for complete usage examples on how
 
 Visit the [JSR `@oridim/webui-datastar` package page](https://jsr.io/@oridim/webui-datastar) for the API reference docs.
 
+# License
+
+webui-datastar is licensed under the [MIT License](./LICENSE).
+
 # References
 
 - [`preactjs/preact`](https://github.com/preactjs/preact) — webui-datastar uses to render JSX elements on the backend.
