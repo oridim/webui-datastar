@@ -1,0 +1,55 @@
+{
+    "name": "@oridim/webui-datastar",
+    "version": "0.0.1",
+    "exports": "./lib/mod.ts",
+    "compilerOptions": {
+        "strict": true,
+        "exactOptionalPropertyTypes": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact",
+        "jsxImportSourceTypes": "preact"
+    },
+
+    "fmt": {
+        "include": ["./"],
+
+        "useTabs": false,
+        "lineWidth": 80,
+        "indentWidth": 4,
+        "singleQuote": true,
+        "proseWrap": "preserve"
+    },
+
+    "include": ["./**/*.ts"],
+
+    "lint": {
+        "include": ["./"],
+
+        "rules": {
+            "tags": ["recommended"]
+        }
+    },
+
+    "imports": {
+        "@oridim/webui-datastar": "./lib/mod.ts",
+        "@std/media-types": "jsr:@std/media-types@^1.1.0",
+        "@std/path": "jsr:@std/path@^1.1.5",
+        "@webui/deno-webui": "jsr:@webui/deno-webui@^2.5.15",
+        "preact": "npm:preact@^10.29.2",
+        "preact-render-to-string": "npm:preact-render-to-string@^6.7.0"
+    },
+
+    "publish": {
+        "exclude": [
+            "./.vscode/",
+            "./examples/"
+        ]
+    },
+
+    "tasks": {}
+}
