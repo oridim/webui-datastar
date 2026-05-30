@@ -2,18 +2,11 @@
     "name": "@oridim/webui-datastar",
     "version": "0.0.1",
     "license": "MIT",
-    "exports": "./lib/mod.ts",
+
     "compilerOptions": {
-        "strict": true,
-        "exactOptionalPropertyTypes": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitOverride": true,
-        "noUncheckedIndexedAccess": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
         "jsx": "react-jsx",
-        "jsxImportSource": "preact",
-        "jsxImportSourceTypes": "preact"
+        "jsxImportSource": "@oridim/webui-datastar",
+        "jsxImportSourceTypes": "@oridim/webui-datastar"
     },
 
     "fmt": {
@@ -43,6 +36,11 @@
         "@webui/deno-webui": "jsr:@webui/deno-webui@^2.5.15",
         "preact": "npm:preact@^10.29.2",
         "preact-render-to-string": "npm:preact-render-to-string@^6.7.0"
+    },
+
+    "exports": {
+        ".": "./lib/mod.ts",
+        "./jsx-runtime": "./lib/jsx-runtime.ts"
     },
 
     "publish": {
