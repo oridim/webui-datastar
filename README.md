@@ -8,13 +8,15 @@
 
 # Examples
 
-See the [`/examples`](./examples) directory for complete usage examples on how to use the framework.
+Visit the [`/examples`](./examples) directory for complete usage examples on how to use the framework.
 
 # Documentation
 
 > **NOTE:** Visit [Datastar Documentation](https://data-star.dev/), [WebUI Backend Documentation](https://webui.me/docs.html#/deno), and [WebUI Frontend Documentation](https://webui.me/docs.html#/javascript) for more information on how those pieces of the tech stack work.
 
-> **TODO:** Missing.
+> **TODO:** Missing docstrings.
+
+Visit the [JSR `@oridim/webui-datastar` package page](https://jsr.io/@oridim/webui-datastar) for the API reference docs.
 
 # References
 
