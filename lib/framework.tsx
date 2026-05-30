@@ -8,6 +8,7 @@ import {
     IntegrationsHead,
 } from './integrations.tsx';
 import { POLYFILLS_GROUP, PolyfillsHead } from './polyfills.tsx';
+import type { JSX } from './preact.ts';
 import type { RouteItem, Router } from './router.ts';
 import { defineGroup, defineRouter, initRouter } from './router.ts';
 import { WebUIHead } from './webui.tsx';
@@ -30,7 +31,7 @@ export function defineWebUIDatastarRouter(items: RouteItem[]): Router {
     ]);
 }
 
-export function WebUIDatastarHead() {
+export function WebUIDatastarHead(): JSX.Element {
     return (
         <>
             <PolyfillsHead />
