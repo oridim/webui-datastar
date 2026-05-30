@@ -1,3 +1,4 @@
+import type { JSX } from './preact.ts';
 import { defineConstantFile, defineGroup } from './router.ts';
 
 import SCRIPT_VIEW_TRANSITIONS_POLYFILL from './assets/view-transitions-polyfill.min.js' with {
@@ -18,7 +19,7 @@ export const POLYFILLS_GROUP = defineGroup('polyfills', [
     ),
 ]);
 
-export function PolyfillsHead() {
+export function PolyfillsHead(): JSX.Element {
     const conditions = FEATURE_POLYFILLS.map(
         (polyfill) =>
             `{ enabled: ${polyfill.enablementCondition}, src: "${polyfill.src}" }`,

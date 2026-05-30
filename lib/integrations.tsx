@@ -1,5 +1,6 @@
 import type { ActionRegistry } from './actions.ts';
 import { PATCH_ELEMENTS_MODES } from './datastar.ts';
+import type { JSX } from './preact.ts';
 import type { Router } from './router.ts';
 import { defineConstantFile, defineGroup, matchRoute } from './router.ts';
 import { WEBUI_BASE_URL } from './webui.tsx';
@@ -54,7 +55,7 @@ export function initIntegrations(actions: ActionRegistry, router?: Router) {
     }
 }
 
-export function IntegrationsHead() {
+export function IntegrationsHead(): JSX.Element {
     return (
         <>
             <script
