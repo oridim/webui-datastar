@@ -31,6 +31,7 @@
 
     "imports": {
         "@oridim/webui-datastar": "./lib/mod.ts",
+        "@oridim/webui-datastar/jsx-runtime": "./lib/jsx-runtime.ts",
         "@std/media-types": "jsr:@std/media-types@^1.1.0",
         "@std/path": "jsr:@std/path@^1.1.5",
         "@webui/deno-webui": "jsr:@webui/deno-webui@^2.5.15",
