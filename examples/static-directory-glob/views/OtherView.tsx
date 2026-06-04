@@ -1,0 +1,10 @@
+import Layout from './Layout.tsx';
+
+export default function OtherView() {
+    return (
+        <Layout title='Other - Co-Located CSS'>
+            <h1 class='other-view--title'>I'm the other view!</h1>
+            <a href='/'>Click here to go back to the home view.</a>
+        </Layout>
+    );
+}
