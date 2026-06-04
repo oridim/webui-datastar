@@ -19,7 +19,7 @@ export type {
 export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './datastar/types.ts';
 
 export type { Consumer, Context, Provider } from './preact/context.ts';
-export { createContext, useContext } from './preact/context.ts';
+export { makeContext, useContext } from './preact/context.ts';
 export type { JSX } from './preact/components.ts';
 export { render } from './preact/render.ts';
 
