@@ -11,6 +11,7 @@ export const handleRegistration = defineAction<Signals>(
             elements: (
                 <div id='registration-container'>
                     <h2 style='color: green;'>Registration Successful!</h2>
+
                     <p>
                         Welcome to the platform, <strong>{username}</strong>.
                     </p>

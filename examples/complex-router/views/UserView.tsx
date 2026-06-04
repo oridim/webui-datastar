@@ -6,6 +6,7 @@ export default function UserView({ params }: RouterRequest<'/:id'>) {
     return (
         <Layout title={`User ${params.id}`}>
             <h1>User Profile</h1>
+
             <p>
                 You are viewing the profile for user ID:{' '}
                 <strong>{params.id}</strong>

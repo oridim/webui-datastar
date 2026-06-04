@@ -8,6 +8,7 @@ export default function SearchView({ url }: RouterRequest<'/search'>) {
     return (
         <Layout title={`Search: ${query}`}>
             <h1>Search Results</h1>
+
             <p>
                 <strong>Searched for:</strong> {query}
             </p>

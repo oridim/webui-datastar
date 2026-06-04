@@ -4,6 +4,7 @@ export default function AboutView() {
     return (
         <Layout title='About'>
             <h1>About Us</h1>
+
             <p>
                 We are testing out Deno, WebUI, and Datastar together as a
                 complete packaage.

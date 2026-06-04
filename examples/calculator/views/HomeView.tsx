@@ -32,7 +32,9 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
         let { button, display, leftOperand, operation, reset } = signals;
 
         if (!button) {
-            return { signals: {} };
+            return {
+                signals: {},
+            };
         }
 
         if (button === 'C') {
@@ -78,7 +80,11 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
                 };
             }
 
-            return { signals: { button: null } };
+            return {
+                signals: {
+                    button: null,
+                },
+            };
         }
 
         if (reset) {
@@ -86,7 +92,11 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
             reset = false;
         } else {
             if (button === '.' && display.includes('.')) {
-                return { signals: { button: null } };
+                return {
+                    signals: {
+                        button: null,
+                    },
+                };
             }
 
             display = display === '0' && button !== '.'
@@ -94,7 +104,13 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
                 : display + button;
         }
 
-        return { signals: { button: null, display, reset } };
+        return {
+            signals: {
+                button: null,
+                display,
+                reset,
+            },
+        };
     },
 );
 
@@ -121,6 +137,7 @@ export default function HomeView() {
                                     <strong data-text='$display'>0</strong>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td align='center'>
                                     <button
@@ -129,6 +146,7 @@ export default function HomeView() {
                                         7
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('8')}
@@ -136,6 +154,7 @@ export default function HomeView() {
                                         8
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('9')}
@@ -143,6 +162,7 @@ export default function HomeView() {
                                         9
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('/')}
@@ -151,6 +171,7 @@ export default function HomeView() {
                                     </button>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td align='center'>
                                     <button
@@ -159,6 +180,7 @@ export default function HomeView() {
                                         4
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('5')}
@@ -166,6 +188,7 @@ export default function HomeView() {
                                         5
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('6')}
@@ -173,6 +196,7 @@ export default function HomeView() {
                                         6
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('*')}
@@ -181,6 +205,7 @@ export default function HomeView() {
                                     </button>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td align='center'>
                                     <button
@@ -189,6 +214,7 @@ export default function HomeView() {
                                         1
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('2')}
@@ -196,6 +222,7 @@ export default function HomeView() {
                                         2
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('3')}
@@ -203,6 +230,7 @@ export default function HomeView() {
                                         3
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('-')}
@@ -211,6 +239,7 @@ export default function HomeView() {
                                     </button>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td align='center'>
                                     <button
@@ -219,6 +248,7 @@ export default function HomeView() {
                                         0
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('.')}
@@ -226,6 +256,7 @@ export default function HomeView() {
                                         .
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('=')}
@@ -233,6 +264,7 @@ export default function HomeView() {
                                         =
                                     </button>
                                 </td>
+
                                 <td align='center'>
                                     <button
                                         data-on:click={clickExpression('+')}
@@ -241,6 +273,7 @@ export default function HomeView() {
                                     </button>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td colspan={4} align='center'>
                                     <button

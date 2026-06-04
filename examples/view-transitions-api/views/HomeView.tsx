@@ -39,6 +39,7 @@ export default function HomeView() {
             <hr />
 
             <h1>Patch Transitions</h1>
+
             <p>
                 Click the button below to fetch a DOM patch. The box will spin
                 because of its unique <code>view-transition-name</code>.

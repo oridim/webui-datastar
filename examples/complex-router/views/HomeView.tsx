@@ -4,6 +4,7 @@ export default function HomeView() {
     return (
         <Layout title='Home'>
             <h1>Complex Routing</h1>
+
             <p>
                 Click the links above to test Route Groups, Dynamic Route
                 Params, and Query Params.

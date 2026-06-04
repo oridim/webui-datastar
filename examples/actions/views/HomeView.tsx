@@ -5,7 +5,11 @@ import DEFAULT_SIGNALS from '../signals.ts';
 
 export const handleSyncSignal = defineAction<Signals, PartialSignals>(
     ({ counter }) => {
-        return { signals: { counter: counter + 1 } };
+        return {
+            signals: {
+                counter: counter + 1,
+            },
+        };
     },
 );
 
@@ -115,6 +119,7 @@ export default function HomeView() {
                                     </button>
                                 </td>
                             </tr>
+
                             <tr>
                                 <td>
                                     <strong>4. AsyncGen (Body)</strong>
