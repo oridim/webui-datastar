@@ -8,6 +8,8 @@ export type {
 } from './actions.ts';
 export { defineAction, defineActionRegistry } from './actions.ts';
 
+export { useRouterRequest } from './context.ts';
+
 export type {
     ContentTypes,
     PatchElementsModes,
