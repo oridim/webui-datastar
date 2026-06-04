@@ -1,14 +1,13 @@
+export type { ActionRegistry } from './actions/action-registry.ts';
+export { defineActionRegistry } from './actions/action-registry.ts';
+export { defineAction } from './actions/directives.ts';
 export type {
     ActionCallable,
     ActionCallback,
     ActionElementsResponse,
-    ActionRegistry,
     ActionResponses,
     ActionSignalsResponse,
-} from './actions.ts';
-export { defineAction, defineActionRegistry } from './actions.ts';
-
-export { useRouterRequest } from './router/hooks.ts';
+} from './actions/types.ts';
 
 export type {
     ContentTypes,
@@ -16,8 +15,8 @@ export type {
     Signals,
     SignalValue,
     UnknownSignals,
-} from './datastar.ts';
-export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './datastar.ts';
+} from './datastar/types.ts';
+export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './datastar/types.ts';
 
 export type { WebUIDatastarOptions } from './framework.tsx';
 export {
@@ -43,6 +42,7 @@ export {
 export type { Consumer, Context, JSX, Provider } from './preact.ts';
 export { createContext, useContext } from './preact.ts';
 
+export { useRouterRequest } from './router/hooks.ts';
 export {
     defineConstantFile,
     defineRoute,
