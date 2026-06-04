@@ -23,7 +23,7 @@ export const handlePatchTransition = defineAction<Signals, PartialSignals>(
 
 export default function HomeView() {
     return (
-        <Layout title='Home - View Transitions'>
+        <Layout title='Home'>
             <h1>Page Transitions</h1>
 
             <p>

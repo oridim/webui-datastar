@@ -2,7 +2,7 @@ import Layout from '../components/Layout.tsx';
 
 export default function OtherView() {
     return (
-        <Layout title='Other - View Transitions'>
+        <Layout title='Other'>
             <h1>You are on the Other Page!</h1>
 
             <p>Did you see the slow crossfade and scale effect?</p>

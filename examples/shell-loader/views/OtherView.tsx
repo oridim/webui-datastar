@@ -4,7 +4,7 @@ export default async function OtherView() {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     return (
-        <Layout title='Other Page - Shell Loader'>
+        <Layout title='Other Page'>
             <h1>Other Page</h1>
             <p>
                 The Shell Loader should have appeared while you waited for the

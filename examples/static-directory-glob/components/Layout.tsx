@@ -12,7 +12,7 @@ export default function Layout({ children, title }: LayoutProps) {
         <html lang='en'>
             <head>
                 <meta charset='UTF-8' />
-                <title>{title}</title>
+                <title>{title} :: Static Directory Glob</title>
 
                 <WebUIDatastarHead />
 
