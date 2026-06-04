@@ -1,5 +1,4 @@
-import { defineConstantFile } from '../router/directives.ts';
-import { defineGroup } from '../router/router.ts';
+import { defineConstantFile, defineGroup } from '../router/directives.ts';
 
 import type { JSX } from '../preact/components.ts';
 

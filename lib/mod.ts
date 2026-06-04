@@ -26,6 +26,7 @@ export { render } from './preact/render.ts';
 export { useRouterRequest } from './router/hooks.ts';
 export {
     defineConstantFile,
+    defineGroup,
     defineRoute,
     defineStaticDirectory,
     defineStaticFile,
@@ -40,7 +41,7 @@ export type {
     ViewCallback,
 } from './router/types.ts';
 export type { Router } from './router/router.ts';
-export { defineGroup, matchRoute } from './router/router.ts';
+export { matchRoute } from './router/router.ts';
 
 export type { HTMLNamespaces } from './utilities/html.ts';
 export { HTML_NAMESPACES } from './utilities/html.ts';

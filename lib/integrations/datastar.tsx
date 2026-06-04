@@ -2,9 +2,9 @@ import type { ActionRegistry } from '../actions/action-registry.ts';
 
 import { PATCH_ELEMENTS_MODES } from '../datastar/types.ts';
 
-import { defineConstantFile } from '../router/directives.ts';
+import { defineConstantFile, defineGroup } from '../router/directives.ts';
 import type { Router } from '../router/router.ts';
-import { defineGroup, matchRoute } from '../router/router.ts';
+import { matchRoute } from '../router/router.ts';
 
 import type { JSX } from '../preact/components.ts';
 

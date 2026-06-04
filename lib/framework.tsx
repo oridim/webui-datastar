@@ -16,7 +16,8 @@ import { WebUIHead } from './integrations/webui.tsx';
 
 import type { JSX } from './preact/components.ts';
 
-import { defineGroup, defineRouter, initRouter } from './router/router.ts';
+import { defineGroup } from './router/directives.ts';
+import { defineRouter, initRouter } from './router/router.ts';
 import type { Router } from './router/router.ts';
 import type { RouteItem } from './router/types.ts';
 

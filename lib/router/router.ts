@@ -1,48 +1,10 @@
-import { join as posixJoin } from '@std/path/posix';
-
 import type { WebUI } from '@webui/deno-webui';
 
-import type { Route, RouteItem } from './types.ts';
 import { RESPONSE_NOT_FOUND } from './http.ts';
+import type { Route, RouteItem } from './types.ts';
+import { flattenRoutes } from './utilities.ts';
 
 export type Router = readonly Route[];
-
-function flattenRoutes(items: readonly RouteItem[]): readonly Route[] {
-    return items.reduce((accumulatedRoutes: Route[], item) => {
-        if (Array.isArray(item)) {
-            accumulatedRoutes.push(...flattenRoutes(item));
-        } else {
-            accumulatedRoutes.push(item as Route);
-        }
-
-        return accumulatedRoutes;
-    }, []);
-}
-
-export function defineGroup(
-    prefix: string,
-    items: RouteItem[],
-): readonly Route[] {
-    const flatRoutes = flattenRoutes(items);
-
-    if (!prefix || prefix === '/') {
-        return flatRoutes;
-    }
-
-    return flatRoutes.map((route) => {
-        let joinedPath = posixJoin('/', prefix, route.path);
-
-        if (joinedPath !== '/' && joinedPath.endsWith('/')) {
-            joinedPath = joinedPath.slice(0, -1);
-        }
-
-        return {
-            ...route,
-            path: joinedPath,
-            urlPattern: new URLPattern({ pathname: joinedPath }),
-        };
-    });
-}
 
 export function defineRouter(items: readonly RouteItem[]): Router {
     return flattenRoutes(items);

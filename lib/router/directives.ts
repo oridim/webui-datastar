@@ -11,9 +11,11 @@ import type {
     MapRouteParams,
     Route,
     RouteCallback,
+    RouteItem,
     RouterResponse,
     ViewCallback,
 } from './types.ts';
+import { flattenRoutes } from './utilities.ts';
 
 async function tryReadFile(
     filePath: string | URL,
@@ -36,6 +38,31 @@ async function tryReadFile(
         body: content,
         headers: { 'Content-Type': mimeType },
     };
+}
+
+export function defineGroup(
+    prefix: string,
+    items: RouteItem[],
+): readonly Route[] {
+    const flatRoutes = flattenRoutes(items);
+
+    if (!prefix || prefix === '/') {
+        return flatRoutes;
+    }
+
+    return flatRoutes.map((route) => {
+        let joinedPath = posixJoin('/', prefix, route.path);
+
+        if (joinedPath !== '/' && joinedPath.endsWith('/')) {
+            joinedPath = joinedPath.slice(0, -1);
+        }
+
+        return {
+            ...route,
+            path: joinedPath,
+            urlPattern: new URLPattern({ pathname: joinedPath }),
+        };
+    });
 }
 
 export function defineRoute<Path extends string>(
