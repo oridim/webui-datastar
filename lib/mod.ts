@@ -8,6 +8,8 @@ export type {
 } from './actions.ts';
 export { defineAction, defineActionRegistry } from './actions.ts';
 
+export { useRouterRequest } from './context.ts';
+
 export type {
     ContentTypes,
     PatchElementsModes,
@@ -30,7 +32,8 @@ export { HTML_NAMESPACES } from './html.ts';
 export type { HTTPStatus, HTTPStatusText, HTTPStatusTextMap } from './http.ts';
 export { HTTP_STATUS, HTTP_STATUS_TEXT, HTTP_STATUS_TEXT_MAP } from './http.ts';
 
-export type { JSX } from './preact.ts';
+export type { Consumer, Context, JSX, Provider } from './preact.ts';
+export { createContext, useContext } from './preact.ts';
 
 export type {
     RouteCallback,

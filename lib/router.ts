@@ -5,9 +5,11 @@ import { join as posixJoin } from '@std/path/posix';
 import type { WebUI } from '@webui/deno-webui';
 import { render } from 'preact-render-to-string';
 
+import { RouterRequestContext } from './context.ts';
 import type { HTTPStatus } from './http.ts';
 import { HTTP_STATUS, HTTP_STATUS_TEXT, HTTP_STATUS_TEXT_MAP } from './http.ts';
 import type { JSX } from './preact.ts';
+import { h } from './preact.ts';
 
 const RESPONSE_NOT_FOUND = makeHTTPResponse({
     body: `<h1>${HTTP_STATUS.notFound} - ${HTTP_STATUS_TEXT.notFound}</h1>`,
@@ -279,7 +281,13 @@ export function defineView<Path extends string>(
         path,
         async (request) => {
             const renderedElement = await view(request);
-            const renderedPayload = render(renderedElement);
+            const renderedContext = h(
+                RouterRequestContext.Provider,
+                { value: request },
+                renderedElement,
+            );
+
+            const renderedPayload = render(renderedContext);
 
             return {
                 headers: { 'Content-Type': 'text/html' },
