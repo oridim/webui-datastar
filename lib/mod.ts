@@ -1,14 +1,13 @@
+export type { ActionRegistry } from './actions/action-registry.ts';
+export { defineActionRegistry } from './actions/action-registry.ts';
+export { defineAction } from './actions/directives.ts';
 export type {
     ActionCallable,
     ActionCallback,
     ActionElementsResponse,
-    ActionRegistry,
     ActionResponses,
     ActionSignalsResponse,
-} from './actions.ts';
-export { defineAction, defineActionRegistry } from './actions.ts';
-
-export { useRouterRequest } from './context.ts';
+} from './actions/types.ts';
 
 export type {
     ContentTypes,
@@ -16,33 +15,15 @@ export type {
     Signals,
     SignalValue,
     UnknownSignals,
-} from './datastar.ts';
-export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './datastar.ts';
+} from './datastar/types.ts';
+export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './datastar/types.ts';
 
-export type { WebUIDatastarOptions } from './framework.tsx';
-export {
-    defineWebUIDatastarRouter as defineRouter,
-    initWebUIDatastar,
-    WebUIDatastarHead,
-} from './framework.tsx';
+export type { Consumer, Context, Provider } from './preact/context.ts';
+export { createContext, useContext } from './preact/context.ts';
+export type { JSX } from './preact/components.ts';
+export { render } from './preact/render.ts';
 
-export type { HTMLNamespaces } from './html.ts';
-export { HTML_NAMESPACES } from './html.ts';
-
-export type { HTTPStatus, HTTPStatusText, HTTPStatusTextMap } from './http.ts';
-export { HTTP_STATUS, HTTP_STATUS_TEXT, HTTP_STATUS_TEXT_MAP } from './http.ts';
-
-export type { Consumer, Context, JSX, Provider } from './preact.ts';
-export { createContext, useContext } from './preact.ts';
-
-export type {
-    RouteCallback,
-    RouteParams,
-    Router,
-    RouterRequest,
-    RouterResponse,
-    ViewCallback,
-} from './router.ts';
+export { useRouterRequest } from './router/hooks.ts';
 export {
     defineConstantFile,
     defineGroup,
@@ -50,5 +31,34 @@ export {
     defineStaticDirectory,
     defineStaticFile,
     defineView,
-    matchRoute,
-} from './router.ts';
+} from './router/directives.ts';
+export type {
+    ExtractRouteParams,
+    MapRouteParams,
+    RouteCallback,
+    RouterRequest,
+    RouterResponse,
+    ViewCallback,
+} from './router/types.ts';
+export type { Router } from './router/router.ts';
+export { matchRoute } from './router/router.ts';
+
+export type { HTMLNamespaces } from './utilities/html.ts';
+export { HTML_NAMESPACES } from './utilities/html.ts';
+export type {
+    HTTPStatus,
+    HTTPStatusText,
+    HTTPStatusTextMap,
+} from './utilities/http.ts';
+export {
+    HTTP_STATUS,
+    HTTP_STATUS_TEXT,
+    HTTP_STATUS_TEXT_MAP,
+} from './utilities/http.ts';
+
+export type { WebUIDatastarOptions } from './framework.tsx';
+export {
+    defineWebUIDatastarRouter as defineRouter,
+    initWebUIDatastar,
+    WebUIDatastarHead,
+} from './framework.tsx';

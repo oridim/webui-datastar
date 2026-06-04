@@ -1,6 +1,4 @@
-import type { JSX } from './preact.ts';
-
-export const WEBUI_BASE_URL = 'http://localhost';
+import type { JSX } from '../preact/components.ts';
 
 export function WebUIHead(): JSX.Element {
     return <script src='webui.js'></script>;
