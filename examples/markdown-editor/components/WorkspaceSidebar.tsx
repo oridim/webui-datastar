@@ -12,7 +12,7 @@ export default function WorkspaceSidebar() {
             <div class='workspace-sidebar--header'>
                 <span class='workspace-sidebar--title'>PROJECT FILES</span>
                 <button
-                    class='icon-btn is-active'
+                    class='icon-button is-active'
                     data-on:click='$ephemeralFile.isCreating = true'
                 >
                     <Plus />

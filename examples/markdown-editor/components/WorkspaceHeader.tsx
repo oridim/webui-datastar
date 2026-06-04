@@ -12,7 +12,7 @@ export default function WorkspaceHeader() {
     return (
         <header class='workspace-header'>
             <button
-                class='icon-btn is-active'
+                class='icon-button is-active'
                 data-on:click='$shell.isSidebarOpen = !$shell.isSidebarOpen'
             >
                 <div data-show='$shell.isSidebarOpen'>
@@ -26,7 +26,7 @@ export default function WorkspaceHeader() {
 
             <div class='workspace-header--actions'>
                 <button
-                    class='icon-btn'
+                    class='icon-button'
                     data-class={`{ 'is-active': $shell.viewMode === '${VIEW_MODES.edit}' }`}
                     data-on:click={`$shell.viewMode = '${VIEW_MODES.edit}'`}
                 >
@@ -34,7 +34,7 @@ export default function WorkspaceHeader() {
                 </button>
 
                 <button
-                    class='icon-btn'
+                    class='icon-button'
                     data-class={`{ 'is-active': $shell.viewMode === '${VIEW_MODES.split}' }`}
                     data-on:click={`$shell.viewMode = '${VIEW_MODES.split}'`}
                 >
@@ -42,7 +42,7 @@ export default function WorkspaceHeader() {
                 </button>
 
                 <button
-                    class='icon-btn'
+                    class='icon-button'
                     data-class={`{ 'is-active': $shell.viewMode === '${VIEW_MODES.preview}' }`}
                     data-on:click={`$shell.viewMode = '${VIEW_MODES.preview}'`}
                 >

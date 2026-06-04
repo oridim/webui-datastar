@@ -29,7 +29,7 @@ body {
     background: var(--surface-5);
 }
 
-.icon-btn {
+.icon-button {
     display: flex;
 
     padding: var(--size-1);

@@ -73,14 +73,14 @@ export default function EphemeralInputRow() {
             />
 
             <button
-                class='icon-btn is-success'
+                class='icon-button is-success'
                 data-on:click={createFile()}
             >
                 <Check />
             </button>
 
             <button
-                class='icon-btn is-danger'
+                class='icon-button is-danger'
                 data-on:click="$ephemeralFile.isCreating = false; $ephemeralFile.fileName = ''"
             >
                 <X />
