@@ -10,7 +10,7 @@ function generateActionID(callbackName: string): string {
 
 export function defineAction<
     InputSignals extends Signals<InputSignals> = UnknownSignals,
-    OutputSignals extends Signals<OutputSignals> = UnknownSignals,
+    OutputSignals extends Signals<OutputSignals> = InputSignals,
 >(
     callback: ActionCallback<InputSignals, OutputSignals>,
 ): ActionCallable<InputSignals, OutputSignals> {
