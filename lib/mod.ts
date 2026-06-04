@@ -43,6 +43,13 @@ export type {
 export type { Router } from './router/router.ts';
 export { matchRoute } from './router/router.ts';
 
+export type {
+    ChannelCleanupFunction,
+    ChannelDoneFunction,
+    ChannelPushFunction,
+    ChannelSetupCallback,
+} from './utilities/channel.ts';
+export { makeChannel } from './utilities/channel.ts';
 export type { HTMLNamespaces } from './utilities/html.ts';
 export { HTML_NAMESPACES } from './utilities/html.ts';
 export type {
