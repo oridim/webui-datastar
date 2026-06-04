@@ -3,6 +3,13 @@ import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
 import type { PartialSignals, Signals } from '../signals.ts';
 import DEFAULT_SIGNALS from '../signals.ts';
 
+const CALCULATOR_BUTTONS = [
+    ['7', '8', '9', '/'],
+    ['4', '5', '6', '*'],
+    ['1', '2', '3', '-'],
+    ['0', '.', '=', '+'],
+];
+
 function calculate(
     operation: string,
     leftOperand: string,
@@ -138,141 +145,21 @@ export default function HomeView() {
                                 </td>
                             </tr>
 
-                            <tr>
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('7')}
-                                    >
-                                        7
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('8')}
-                                    >
-                                        8
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('9')}
-                                    >
-                                        9
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('/')}
-                                    >
-                                        /
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('4')}
-                                    >
-                                        4
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('5')}
-                                    >
-                                        5
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('6')}
-                                    >
-                                        6
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('*')}
-                                    >
-                                        *
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('1')}
-                                    >
-                                        1
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('2')}
-                                    >
-                                        2
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('3')}
-                                    >
-                                        3
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('-')}
-                                    >
-                                        -
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('0')}
-                                    >
-                                        0
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('.')}
-                                    >
-                                        .
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('=')}
-                                    >
-                                        =
-                                    </button>
-                                </td>
-
-                                <td align='center'>
-                                    <button
-                                        data-on:click={clickExpression('+')}
-                                    >
-                                        +
-                                    </button>
-                                </td>
-                            </tr>
+                            {CALCULATOR_BUTTONS.map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                    {row.map((label) => (
+                                        <td key={label} align='center'>
+                                            <button
+                                                data-on:click={clickExpression(
+                                                    label,
+                                                )}
+                                            >
+                                                {label}
+                                            </button>
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
 
                             <tr>
                                 <td colspan={4} align='center'>
