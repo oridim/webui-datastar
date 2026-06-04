@@ -1,5 +1,5 @@
 import { contentType } from '@std/media-types';
-import { extname, join } from '@std/path';
+import { extname, globToRegExp, join } from '@std/path';
 import { join as posixJoin } from '@std/path/posix';
 
 import type { WebUI } from '@webui/deno-webui';
@@ -243,17 +243,16 @@ export function defineStaticFile(
 export function defineStaticDirectory(
     basePath: string,
     directoryPath: string | URL,
+    glob?: string,
 ): Route {
     const path = posixJoin('/', basePath, '*');
+    const regexFilter = glob ? globToRegExp(glob) : null;
 
     return defineRoute(path, (request) => {
         const file = request.match.pathname.groups['0'];
 
-        if (!file) {
-            return {
-                status: HTTP_STATUS.notFound,
-                body: HTTP_STATUS_TEXT.notFound,
-            };
+        if (!file || (regexFilter && !regexFilter.test(file))) {
+            return null;
         }
 
         let filePath: string | URL;
