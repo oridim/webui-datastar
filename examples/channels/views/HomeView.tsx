@@ -8,7 +8,7 @@ interface HomeState {
     readonly counter: number;
 }
 
-export const handleChannel = defineAction<HomeState, HomeState>(
+export const handleChannel = defineAction<HomeState>(
     ({ counter }) => {
         return makeChannel((push, done) => {
             let delta = 0;
