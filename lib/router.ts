@@ -23,7 +23,7 @@ type ExtractRouteParams<T extends string> = T extends
 
 export type RouteCallback<Path extends string> = (
     request: RouterRequest<Path>,
-) => RouterResponse | Promise<RouterResponse>;
+) => Promise<RouterResponse | null> | RouterResponse | null;
 
 export type RouteItem = Route | readonly RouteItem[];
 
@@ -40,7 +40,7 @@ export type ResponseBody =
     | unknown[];
 
 export interface Route {
-    handler: (url: URL, match: URLPatternResult) => Promise<Uint8Array>;
+    handler: (url: URL, match: URLPatternResult) => Promise<Uint8Array | null>;
 
     readonly path: string;
 
@@ -121,12 +121,12 @@ function makeHTTPResponse(response: RouterResponse): Uint8Array {
 
 async function tryReadFile(
     filePath: string | URL,
-): Promise<RouterResponse> {
+): Promise<RouterResponse | null> {
     let content: Uint8Array<ArrayBuffer>;
     try {
         content = await Deno.readFile(filePath);
     } catch {
-        return { status: 404, body: 'Not Found' };
+        return null;
     }
 
     const pathname = filePath instanceof URL
@@ -174,14 +174,19 @@ export function defineRoute<Path extends string>(
     return {
         path,
         urlPattern: new URLPattern({ pathname: path }),
-        handler: async (url, match) =>
-            makeHTTPResponse(
-                await callback({
-                    params: (match.pathname.groups || {}) as RouteParams<Path>,
-                    url,
-                    match,
-                }),
-            ),
+        handler: async (url, match) => {
+            const response = await callback({
+                params: (match.pathname.groups || {}) as RouteParams<Path>,
+                url,
+                match,
+            });
+
+            if (response) {
+                return makeHTTPResponse(response);
+            }
+
+            return null;
+        },
     };
 }
 
@@ -197,7 +202,11 @@ export async function matchRoute(
         const match = route.urlPattern.exec(url);
 
         if (match) {
-            return await route.handler(url, match);
+            const response = await route.handler(url, match);
+
+            if (response) {
+                return response;
+            }
         }
     }
 
