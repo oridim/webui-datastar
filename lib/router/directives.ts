@@ -7,8 +7,14 @@ import { render } from 'preact-render-to-string';
 import { h } from '../preact.ts';
 
 import { RouterRequestContext } from './hooks.ts';
-import { defineRoute } from './router.ts';
-import type { Route, RouterResponse, ViewCallback } from './types.ts';
+import { makeHTTPResponse } from './http.ts';
+import type {
+    MapRouteParams,
+    Route,
+    RouteCallback,
+    RouterResponse,
+    ViewCallback,
+} from './types.ts';
 
 async function tryReadFile(
     filePath: string | URL,
@@ -30,6 +36,29 @@ async function tryReadFile(
     return {
         body: content,
         headers: { 'Content-Type': mimeType },
+    };
+}
+
+export function defineRoute<Path extends string>(
+    path: Path,
+    callback: RouteCallback<Path>,
+): Route {
+    return {
+        path,
+        urlPattern: new URLPattern({ pathname: path }),
+        handler: async (url, match) => {
+            const response = await callback({
+                params: (match.pathname.groups || {}) as MapRouteParams<Path>,
+                url,
+                match,
+            });
+
+            if (response) {
+                return makeHTTPResponse(response);
+            }
+
+            return null;
+        },
     };
 }
 

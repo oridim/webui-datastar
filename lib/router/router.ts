@@ -2,13 +2,8 @@ import { join as posixJoin } from '@std/path/posix';
 
 import type { WebUI } from '@webui/deno-webui';
 
-import type {
-    MapRouteParams,
-    Route,
-    RouteCallback,
-    RouteItem,
-} from './types.ts';
-import { makeHTTPResponse, RESPONSE_NOT_FOUND } from './http.ts';
+import type { Route, RouteItem } from './types.ts';
+import { RESPONSE_NOT_FOUND } from './http.ts';
 
 export type Router = readonly Route[];
 
@@ -47,29 +42,6 @@ export function defineGroup(
             urlPattern: new URLPattern({ pathname: joinedPath }),
         };
     });
-}
-
-export function defineRoute<Path extends string>(
-    path: Path,
-    callback: RouteCallback<Path>,
-): Route {
-    return {
-        path,
-        urlPattern: new URLPattern({ pathname: path }),
-        handler: async (url, match) => {
-            const response = await callback({
-                params: (match.pathname.groups || {}) as MapRouteParams<Path>,
-                url,
-                match,
-            });
-
-            if (response) {
-                return makeHTTPResponse(response);
-            }
-
-            return null;
-        },
-    };
 }
 
 export function defineRouter(items: readonly RouteItem[]): Router {

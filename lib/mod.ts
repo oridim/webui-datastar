@@ -45,6 +45,7 @@ export { createContext, useContext } from './preact.ts';
 
 export {
     defineConstantFile,
+    defineRoute,
     defineStaticDirectory,
     defineStaticFile,
     defineView,
@@ -58,4 +59,4 @@ export type {
     ViewCallback,
 } from './router/types.ts';
 export type { Router } from './router/router.ts';
-export { defineGroup, defineRoute, matchRoute } from './router/router.ts';
+export { defineGroup, matchRoute } from './router/router.ts';
