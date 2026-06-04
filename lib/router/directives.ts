@@ -2,9 +2,8 @@ import { contentType } from '@std/media-types';
 import { extname, globToRegExp, join } from '@std/path';
 import { join as posixJoin } from '@std/path/posix';
 
-import { render } from 'preact-render-to-string';
-
-import { h } from '../preact.ts';
+import { h } from '../preact/components.ts';
+import { render } from '../preact/render.ts';
 
 import { RouterRequestContext } from './hooks.ts';
 import { makeHTTPResponse } from './http.ts';

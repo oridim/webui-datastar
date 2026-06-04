@@ -25,8 +25,10 @@ export {
     WebUIDatastarHead,
 } from './framework.tsx';
 
-export type { Consumer, Context, JSX, Provider } from './preact.ts';
-export { createContext, useContext } from './preact.ts';
+export type { Consumer, Context, Provider } from './preact/context.ts';
+export { createContext, useContext } from './preact/context.ts';
+export type { JSX } from './preact/components.ts';
+export { render } from './preact/render.ts';
 
 export { useRouterRequest } from './router/hooks.ts';
 export {

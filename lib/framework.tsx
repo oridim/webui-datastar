@@ -6,6 +6,8 @@ import {
     initActions,
 } from './actions/action-registry.ts';
 
+import type { JSX } from './preact/components.ts';
+
 import { defineGroup, defineRouter, initRouter } from './router/router.ts';
 import type { Router } from './router/router.ts';
 import type { RouteItem } from './router/types.ts';
@@ -16,7 +18,6 @@ import {
     IntegrationsHead,
 } from './integrations.tsx';
 import { POLYFILLS_GROUP, PolyfillsHead } from './polyfills.tsx';
-import type { JSX } from './preact.ts';
 import { WebUIHead } from './webui.tsx';
 
 export interface WebUIDatastarOptions {

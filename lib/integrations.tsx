@@ -6,7 +6,7 @@ import { defineConstantFile } from './router/directives.ts';
 import type { Router } from './router/router.ts';
 import { defineGroup, matchRoute } from './router/router.ts';
 
-import type { JSX } from './preact.ts';
+import type { JSX } from './preact/components.ts';
 
 import { WEBUI_BASE_URL } from './webui.tsx';
 

@@ -4,9 +4,9 @@ import type {
     UnknownSignals,
 } from '../datastar/types.ts';
 
-import type { HTMLNamespaces } from '../utilities/html.ts';
+import type { JSX } from '../preact/components.ts';
 
-import type { JSX } from '../preact.ts';
+import type { HTMLNamespaces } from '../utilities/html.ts';
 
 export type ActionCallback<
     InputSignals extends Signals<InputSignals> = UnknownSignals,
