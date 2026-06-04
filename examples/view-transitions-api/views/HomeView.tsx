@@ -6,7 +6,7 @@ interface PatchSignals {
     readonly counter: number;
 }
 
-export const handlePatchTransition = defineAction<PatchSignals, PatchSignals>(
+export const handlePatchTransition = defineAction<PatchSignals>(
     ({ counter }) => {
         const next = counter + 1;
 
