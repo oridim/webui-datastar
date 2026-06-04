@@ -1,0 +1,9 @@
+.workspace-preview {
+    flex: 1;
+
+    padding: var(--size-3);
+
+    font-size: var(--font-size-1);
+
+    overflow-y: auto;
+}

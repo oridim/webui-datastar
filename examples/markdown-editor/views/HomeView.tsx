@@ -7,14 +7,14 @@ import Layout from '../components/Layout.tsx';
 export default function HomeView() {
     return (
         <Layout>
-            <div class='home-container'>
-                <FolderOpen class='home-icon' />
+            <div class='home-view'>
+                <FolderOpen class='home-view--icon' />
 
-                <h1 class='home-title'>
+                <h1 class='home-view--title'>
                     Markdown Editor
                 </h1>
 
-                <p class='home-subtitle'>
+                <p class='home-view--sub-title'>
                     A minimalist Markdown workspace.
                 </p>
 

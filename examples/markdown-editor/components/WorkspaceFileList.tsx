@@ -101,7 +101,7 @@ export default function WorkspaceFileList(props: WorkspaceFileListProps) {
                 return (
                     <button
                         key={filePath}
-                        class='file-list-btn'
+                        class='workspace-file-list--button'
                         data-class={`{ 'is-active': $workspace.filePath === ${serializedPath} }`}
                         data-on:click={`$workspace.filePath = ${serializedPath};${readFile()}`}
                     >

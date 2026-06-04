@@ -52,9 +52,9 @@ export default function OpenWorkspaceButton() {
     return (
         <button
             data-on:click={pickDirectory()}
-            class='home-button'
+            class='open-workspace-button'
         >
-            Open Workspace <ChevronRight class='home-button-icon' />
+            Open Workspace <ChevronRight class='open-workspace-button--icon' />
         </button>
     );
 }

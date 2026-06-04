@@ -66,7 +66,7 @@ export default function EphemeralInputRow() {
             data-show='$ephemeralFile.isCreating'
         >
             <input
-                class='ephemeral-input'
+                class='ephemeral-input-row--input'
                 data-bind='ephemeralFile.fileName'
                 placeholder='filename.md'
                 autoFocus

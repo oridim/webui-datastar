@@ -1,0 +1,32 @@
+.workspace-sidebar {
+    display: flex;
+
+    flex-direction: column;
+    flex-shrink: 0;
+
+    width: var(--size-13);
+
+    border-right: var(--border-size-1) var(--surface-4) solid;
+}
+
+.workspace-sidebar--content {
+    padding: var(--size-2);
+
+    overflow-y: auto;
+}
+
+.workspace-sidebar--header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: var(--size-2) var(--size-3);
+
+    border-bottom: var(--border-size-1) var(--surface-4) solid;
+}
+
+.workspace-sidebar--title {
+    font-size: var(--font-size-0);
+    font-weight: bold;
+}

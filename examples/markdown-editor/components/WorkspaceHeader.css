@@ -1,0 +1,15 @@
+.workspace-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: var(--size-2) var(--size-3);
+
+    border-bottom: var(--border-size-1) var(--surface-4) solid;
+}
+
+.workspace-header--actions {
+    display: flex;
+
+    gap: var(--size-1);
+}

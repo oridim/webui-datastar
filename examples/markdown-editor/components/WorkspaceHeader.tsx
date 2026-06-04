@@ -24,7 +24,7 @@ export default function WorkspaceHeader() {
                 </div>
             </button>
 
-            <div class='header-actions'>
+            <div class='workspace-header--actions'>
                 <button
                     class='icon-btn'
                     data-class={`{ 'is-active': $shell.viewMode === '${VIEW_MODES.edit}' }`}

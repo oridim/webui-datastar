@@ -23,7 +23,7 @@ export default function Layout({ children }: LayoutProps) {
 
                 <WebUIDatastarHead />
 
-                <link rel='stylesheet' href='/styles.css' />
+                <link rel='stylesheet' href='/styles/styles.css' />
             </head>
 
             <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>

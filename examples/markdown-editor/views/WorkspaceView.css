@@ -1,0 +1,19 @@
+.workspace-view {
+    display: flex;
+
+    flex-direction: column;
+
+    height: 100vh;
+
+    background: var(--surface-1);
+    color: var(--text-1);
+    font-family: var(--font-sans);
+}
+
+.workspace-view--main {
+    display: flex;
+
+    flex: 1;
+
+    overflow: hidden;
+}

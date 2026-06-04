@@ -1,0 +1,22 @@
+.open-workspace-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: var(--size-2);
+    margin: auto;
+    padding: var(--size-2) var(--size-4);
+
+    background: var(--text-1);
+    border: none;
+    border-radius: var(--radius-2);
+    color: var(--surface-1);
+    font-size: var(--font-size-1);
+
+    cursor: pointer;
+}
+
+.open-workspace-button--icon {
+    width: var(--size-3);
+    height: var(--size-3);
+}
