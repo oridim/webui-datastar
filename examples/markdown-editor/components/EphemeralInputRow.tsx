@@ -4,11 +4,11 @@ import { Check, X } from 'npm:lucide-preact@1.17.0';
 
 import { listDirectory } from './WorkspaceFileList.tsx';
 
-import type { PartialState, State } from '../state.ts';
+import type { PartialSignals, Signals } from '../signals.ts';
 
 const DEFAULT_FILE_CONTENT = '# New Note';
 
-export const createFile = defineAction<State, PartialState>(
+export const createFile = defineAction<Signals, PartialSignals>(
     async function* (signals) {
         const { ephemeralFile, workspace } = signals;
 

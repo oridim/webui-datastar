@@ -1,16 +1,7 @@
 import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
 
-interface CalculatorState {
-    readonly button: string | null;
-
-    readonly display: string;
-
-    readonly leftOperand: string | null;
-
-    readonly operation: string | null;
-
-    readonly reset: boolean;
-}
+import type { PartialSignals, Signals } from '../signals.ts';
+import DEFAULT_SIGNALS from '../signals.ts';
 
 function calculate(
     operation: string,
@@ -36,77 +27,78 @@ function calculate(
     }
 }
 
-export const handleButtonPress = defineAction<
-    CalculatorState,
-    Partial<CalculatorState>
->((signals) => {
-    let { button, display, leftOperand, operation, reset } = signals;
+export const handleButtonPress = defineAction<Signals, PartialSignals>(
+    (signals) => {
+        let { button, display, leftOperand, operation, reset } = signals;
 
-    if (!button) {
-        return { signals: {} };
-    }
-
-    if (button === 'C') {
-        return {
-            signals: {
-                button: null,
-                display: '0',
-                leftOperand: null,
-                operation: null,
-                reset: false,
-            },
-        };
-    }
-
-    if (['+', '-', '*', '/'].includes(button)) {
-        if (operation && leftOperand !== null && !reset) {
-            display = calculate(operation, leftOperand, display);
+        if (!button) {
+            return { signals: {} };
         }
 
-        return {
-            signals: {
-                button: null,
-                display,
-                leftOperand: display,
-                operation: button,
-                reset: true,
-            },
-        };
-    }
+        if (button === 'C') {
+            return {
+                signals: {
+                    button: null,
+                    display: '0',
+                    leftOperand: null,
+                    operation: null,
+                    reset: false,
+                },
+            };
+        }
 
-    if (button === '=') {
-        if (operation && leftOperand !== null) {
-            display = calculate(operation, leftOperand, display);
+        if (['+', '-', '*', '/'].includes(button)) {
+            if (operation && leftOperand !== null && !reset) {
+                display = calculate(operation, leftOperand, display);
+            }
 
             return {
                 signals: {
                     button: null,
                     display,
-                    leftOperand: null,
-                    operation: null,
+                    leftOperand: display,
+                    operation: button,
                     reset: true,
                 },
             };
         }
 
-        return { signals: { button: null } };
-    }
+        if (button === '=') {
+            if (operation && leftOperand !== null) {
+                display = calculate(operation, leftOperand, display);
 
-    if (reset) {
-        display = button;
-        reset = false;
-    } else {
-        if (button === '.' && display.includes('.')) {
+                return {
+                    signals: {
+                        button: null,
+                        display,
+                        leftOperand: null,
+                        operation: null,
+                        reset: true,
+                    },
+                };
+            }
+
             return { signals: { button: null } };
         }
 
-        display = display === '0' && button !== '.' ? button : display + button;
-    }
+        if (reset) {
+            display = button;
+            reset = false;
+        } else {
+            if (button === '.' && display.includes('.')) {
+                return { signals: { button: null } };
+            }
 
-    return { signals: { button: null, display, reset } };
-});
+            display = display === '0' && button !== '.'
+                ? button
+                : display + button;
+        }
 
-export default function CalculatorView() {
+        return { signals: { button: null, display, reset } };
+    },
+);
+
+export default function HomeView() {
     const clickExpression = (value: string) =>
         `$button='${value}'; ${handleButtonPress()}`;
 
@@ -119,8 +111,8 @@ export default function CalculatorView() {
                 <WebUIDatastarHead />
             </head>
 
-            <body>
-                <div data-signals="{ button: null, display: '0', leftOperand: null, operation: null, reset: false }">
+            <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>
+                <div>
                     {/* @ts-expect-error - HACK: Preact's typings don't like the deprecated `border` attribute. */}
                     <table border={1} cellpadding='1' width='250'>
                         <tbody>

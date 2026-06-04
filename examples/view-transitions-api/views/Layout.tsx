@@ -1,6 +1,8 @@
 import type { JSX } from '@oridim/webui-datastar';
 import { WebUIDatastarHead } from '@oridim/webui-datastar';
 
+import DEFAULT_SIGNALS from '../signals.ts';
+
 interface LayoutProps {
     readonly children: JSX.Element | JSX.Element[] | string;
 
@@ -19,7 +21,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 <link rel='stylesheet' href='/styles.css' />
             </head>
 
-            <body data-signals='{ skipViewTransitions: false, counter: 0 }'>
+            <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>
                 <nav>
                     <a
                         href='/'

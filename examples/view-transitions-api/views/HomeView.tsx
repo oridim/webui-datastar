@@ -1,12 +1,10 @@
 import { defineAction } from '@oridim/webui-datastar';
 
+import type { PartialSignals, Signals } from '../signals.ts';
+
 import Layout from './Layout.tsx';
 
-interface PatchSignals {
-    readonly counter: number;
-}
-
-export const handlePatchTransition = defineAction<PatchSignals>(
+export const handlePatchTransition = defineAction<Signals, PartialSignals>(
     ({ counter }) => {
         const next = counter + 1;
 
@@ -16,7 +14,7 @@ export const handlePatchTransition = defineAction<PatchSignals>(
                 <div
                     id='transition-demo-box'
                     class='patch-box'
-                    data-text={'`Patched ${$counter} times!`'}
+                    data-text='`Patched ${$counter} times!`'
                 />
             ),
         };
@@ -49,7 +47,7 @@ export default function HomeView() {
             <div
                 id='transition-demo-box'
                 class='patch-box'
-                data-text={'`Patched ${$counter} times!`'}
+                data-text='`Patched ${$counter} times!`'
             />
 
             <button type='button' data-on:click={handlePatchTransition()}>

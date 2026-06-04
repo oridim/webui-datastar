@@ -1,19 +1,15 @@
 import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
 
-interface HomeState {
-    readonly counter: number;
+import type { PartialSignals, Signals } from '../signals.ts';
+import DEFAULT_SIGNALS from '../signals.ts';
 
-    readonly status: string;
-}
+export const handleSyncSignal = defineAction<Signals, PartialSignals>(
+    ({ counter }) => {
+        return { signals: { counter: counter + 1 } };
+    },
+);
 
-export const handleSyncSignal = defineAction<
-    HomeState,
-    Pick<HomeState, 'counter'>
->(({ counter }) => {
-    return { signals: { counter: counter + 1 } };
-});
-
-export const handleAsyncBody = defineAction<HomeState>(async () => {
+export const handleAsyncBody = defineAction<Signals>(async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     return {
@@ -21,17 +17,16 @@ export const handleAsyncBody = defineAction<HomeState>(async () => {
     };
 });
 
-export const handleGenerator = defineAction<
-    HomeState,
-    Pick<HomeState, 'status'>
->(function* () {
-    yield { signals: { status: 'Starting generator...' } };
-    yield { signals: { status: 'Processing data step 1...' } };
-    yield { signals: { status: 'Processing data step 2...' } };
-    yield { signals: { status: 'Generator finished!' } };
-});
+export const handleGenerator = defineAction<Signals, PartialSignals>(
+    function* () {
+        yield { signals: { status: 'Starting generator...' } };
+        yield { signals: { status: 'Processing data step 1...' } };
+        yield { signals: { status: 'Processing data step 2...' } };
+        yield { signals: { status: 'Generator finished!' } };
+    },
+);
 
-export const handleAsyncGenerator = defineAction<HomeState>(async function* () {
+export const handleAsyncGenerator = defineAction<Signals>(async function* () {
     yield { elements: <div id='stream-result'>Starting stream...</div> };
 
     for (let index = 1; index <= 3; index++) {
@@ -47,7 +42,7 @@ export const handleAsyncGenerator = defineAction<HomeState>(async function* () {
     yield { elements: <div id='stream-result'>Stream complete!</div> };
 });
 
-export const handleVoid = defineAction<HomeState>(() => {
+export const handleVoid = defineAction<Signals>(() => {
     console.log('\nVoid action triggered! No patches sent to frontend.\n');
     return;
 });
@@ -62,10 +57,10 @@ export default function HomeView() {
                 <WebUIDatastarHead />
             </head>
 
-            <body>
+            <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>
                 <h1>Action Demo</h1>
 
-                <div data-signals="{ counter: 0, status: 'Idle' }">
+                <div>
                     {/* @ts-expect-error - HACK: Preact's typings don't like the deprecated `border` attribute. */}
                     <table border='1' cellpadding='16' width='700'>
                         <tbody>

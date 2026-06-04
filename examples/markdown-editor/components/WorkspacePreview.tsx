@@ -1,10 +1,10 @@
 import { render as renderMarkdown } from 'jsr:@deno/gfm@0.12.0';
 import { defineAction } from '@oridim/webui-datastar';
 
-import type { PartialState, State } from '../state.ts';
-import { VIEW_MODES } from '../state.ts';
+import type { PartialSignals, Signals } from '../signals.ts';
+import { VIEW_MODES } from '../signals.ts';
 
-export const renderPreview = defineAction<State, PartialState>(
+export const renderPreview = defineAction<Signals, PartialSignals>(
     async function* (signals) {
         const { fileContent } = signals.workspace;
 

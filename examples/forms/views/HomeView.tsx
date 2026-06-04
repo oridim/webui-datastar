@@ -1,14 +1,9 @@
 import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
 
-interface RegistrationSignals {
-    readonly email: string;
+import type { Signals } from '../signals.ts';
+import DEFAULT_SIGNALS from '../signals.ts';
 
-    readonly role: string;
-
-    readonly username: string;
-}
-
-export const handleRegistration = defineAction<RegistrationSignals>(
+export const handleRegistration = defineAction<Signals>(
     async ({ username, email, role }) => {
         await new Promise((resolve) => setTimeout(resolve, 600));
 
@@ -51,7 +46,7 @@ export default function FormView() {
 
                 <div
                     id='registration-container'
-                    data-signals="{ username: '', email: '', role: 'user' }"
+                    data-signals={JSON.stringify(DEFAULT_SIGNALS)}
                 >
                     <form>
                         {/* @ts-expect-error - HACK: Preact's typings don't like the deprecated `border` attribute. */}

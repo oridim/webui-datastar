@@ -4,9 +4,9 @@ import { extname, join } from '@std/path';
 import { defineAction } from '@oridim/webui-datastar';
 import { FileText } from 'npm:lucide-preact@1.17.0';
 
-import type { PartialState, State } from '../state.ts';
+import type { PartialSignals, Signals } from '../signals.ts';
 
-export const listDirectory = defineAction<State, PartialState>(
+export const listDirectory = defineAction<Signals, PartialSignals>(
     async function* (signals) {
         const { directoryPath } = signals.workspace;
 
@@ -48,7 +48,7 @@ export const listDirectory = defineAction<State, PartialState>(
     },
 );
 
-export const readFile = defineAction<State, PartialState>(
+export const readFile = defineAction<Signals, PartialSignals>(
     async function* (signals) {
         const { filePath } = signals.workspace;
 

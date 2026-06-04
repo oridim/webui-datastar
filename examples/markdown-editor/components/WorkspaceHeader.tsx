@@ -6,7 +6,7 @@ import {
     Pen,
 } from 'npm:lucide-preact@1.17.0';
 
-import { VIEW_MODES } from '../state.ts';
+import { VIEW_MODES } from '../signals.ts';
 
 export default function WorkspaceHeader() {
     return (

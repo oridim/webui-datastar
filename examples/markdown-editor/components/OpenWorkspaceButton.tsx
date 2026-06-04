@@ -2,9 +2,9 @@ import { defineAction } from '@oridim/webui-datastar';
 import { FileDialog } from 'jsr:@miyauci/rfd@1.0.0/deno';
 import { ChevronRight } from 'npm:lucide-preact@1.17.0';
 
-import type { PartialState, State } from '../state.ts';
+import type { PartialSignals, Signals } from '../signals.ts';
 
-export const pickDirectory = defineAction<State, PartialState>(
+export const pickDirectory = defineAction<Signals, PartialSignals>(
     async function* () {
         yield {
             signals: {
