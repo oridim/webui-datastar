@@ -6,19 +6,19 @@ import {
     initActions,
 } from './actions/action-registry.ts';
 
+import {
+    initIntegrations,
+    INTEGRATIONS_GROUP,
+    IntegrationsHead,
+} from './integrations/datastar.tsx';
+import { POLYFILLS_GROUP, PolyfillsHead } from './integrations/polyfills.tsx';
+import { WebUIHead } from './integrations/webui.tsx';
+
 import type { JSX } from './preact/components.ts';
 
 import { defineGroup, defineRouter, initRouter } from './router/router.ts';
 import type { Router } from './router/router.ts';
 import type { RouteItem } from './router/types.ts';
-
-import {
-    initIntegrations,
-    INTEGRATIONS_GROUP,
-    IntegrationsHead,
-} from './integrations.tsx';
-import { POLYFILLS_GROUP, PolyfillsHead } from './polyfills.tsx';
-import { WebUIHead } from './webui.tsx';
 
 export interface WebUIDatastarOptions {
     readonly actions?: ActionRegistry;

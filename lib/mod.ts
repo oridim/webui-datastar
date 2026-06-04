@@ -18,13 +18,6 @@ export type {
 } from './datastar/types.ts';
 export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './datastar/types.ts';
 
-export type { WebUIDatastarOptions } from './framework.tsx';
-export {
-    defineWebUIDatastarRouter as defineRouter,
-    initWebUIDatastar,
-    WebUIDatastarHead,
-} from './framework.tsx';
-
 export type { Consumer, Context, Provider } from './preact/context.ts';
 export { createContext, useContext } from './preact/context.ts';
 export type { JSX } from './preact/components.ts';
@@ -61,3 +54,10 @@ export {
     HTTP_STATUS_TEXT,
     HTTP_STATUS_TEXT_MAP,
 } from './utilities/http.ts';
+
+export type { WebUIDatastarOptions } from './framework.tsx';
+export {
+    defineWebUIDatastarRouter as defineRouter,
+    initWebUIDatastar,
+    WebUIDatastarHead,
+} from './framework.tsx';
