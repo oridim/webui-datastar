@@ -1,5 +1,8 @@
 import type { WebUI } from '@webui/deno-webui';
 
+import type { Router } from './router/router.ts';
+import type { RouteItem } from './router/types.ts';
+
 import type { ActionRegistry } from './actions.ts';
 import { defineActionRegistry, initActions } from './actions.ts';
 import {
@@ -9,8 +12,7 @@ import {
 } from './integrations.tsx';
 import { POLYFILLS_GROUP, PolyfillsHead } from './polyfills.tsx';
 import type { JSX } from './preact.ts';
-import type { RouteItem, Router } from './router.ts';
-import { defineGroup, defineRouter, initRouter } from './router.ts';
+import { defineGroup, defineRouter, initRouter } from './router/router.ts';
 import { WebUIHead } from './webui.tsx';
 
 export interface WebUIDatastarOptions {

@@ -1,5 +1,7 @@
+import { defineConstantFile } from './router/directives.ts';
+import { defineGroup } from './router/router.ts';
+
 import type { JSX } from './preact.ts';
-import { defineConstantFile, defineGroup } from './router.ts';
 
 import SCRIPT_VIEW_TRANSITIONS_POLYFILL from './assets/view-transitions-polyfill.min.js';
 

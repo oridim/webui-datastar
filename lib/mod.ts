@@ -8,7 +8,7 @@ export type {
 } from './actions.ts';
 export { defineAction, defineActionRegistry } from './actions.ts';
 
-export { useRouterRequest } from './context.ts';
+export { useRouterRequest } from './router/hooks.ts';
 
 export type {
     ContentTypes,
@@ -29,26 +29,33 @@ export {
 export type { HTMLNamespaces } from './html.ts';
 export { HTML_NAMESPACES } from './html.ts';
 
-export type { HTTPStatus, HTTPStatusText, HTTPStatusTextMap } from './http.ts';
-export { HTTP_STATUS, HTTP_STATUS_TEXT, HTTP_STATUS_TEXT_MAP } from './http.ts';
+export type {
+    HTTPStatus,
+    HTTPStatusText,
+    HTTPStatusTextMap,
+} from './router/http.ts';
+export {
+    HTTP_STATUS,
+    HTTP_STATUS_TEXT,
+    HTTP_STATUS_TEXT_MAP,
+} from './router/http.ts';
 
 export type { Consumer, Context, JSX, Provider } from './preact.ts';
 export { createContext, useContext } from './preact.ts';
 
-export type {
-    RouteCallback,
-    RouteParams,
-    Router,
-    RouterRequest,
-    RouterResponse,
-    ViewCallback,
-} from './router.ts';
 export {
     defineConstantFile,
-    defineGroup,
-    defineRoute,
     defineStaticDirectory,
     defineStaticFile,
     defineView,
-    matchRoute,
-} from './router.ts';
+} from './router/directives.ts';
+export type {
+    ExtractRouteParams,
+    MapRouteParams,
+    RouteCallback,
+    RouterRequest,
+    RouterResponse,
+    ViewCallback,
+} from './router/types.ts';
+export type { Router } from './router/router.ts';
+export { defineGroup, defineRoute, matchRoute } from './router/router.ts';
