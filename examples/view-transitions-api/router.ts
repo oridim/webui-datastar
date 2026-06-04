@@ -1,6 +1,6 @@
 import {
     defineRouter,
-    defineStaticFile,
+    defineStaticDirectory,
     defineView,
 } from '@oridim/webui-datastar';
 
@@ -10,9 +10,5 @@ import OtherView from './views/OtherView.tsx';
 export default defineRouter([
     defineView('/', HomeView),
     defineView('/other', OtherView),
-
-    defineStaticFile(
-        '/styles.css',
-        new URL('./styles.css', import.meta.url),
-    ),
+    defineStaticDirectory('/', new URL('./public', import.meta.url)),
 ]);

@@ -1,7 +1,9 @@
 import type { JSX } from '@oridim/webui-datastar';
 import { WebUIDatastarHead } from '@oridim/webui-datastar';
 
-interface LayoutProps {
+import DEFAULT_SIGNALS from '../signals.ts';
+
+export interface LayoutProps {
     readonly children: JSX.Element | JSX.Element[] | string;
 
     readonly title: string;
@@ -12,14 +14,14 @@ export default function Layout({ children, title }: LayoutProps) {
         <html lang='en'>
             <head>
                 <meta charset='UTF-8' />
-                <title>{title}</title>
+                <title>{title} :: View Transitions API</title>
 
                 <WebUIDatastarHead />
 
                 <link rel='stylesheet' href='/styles.css' />
             </head>
 
-            <body data-signals='{ skipViewTransitions: false, counter: 0 }'>
+            <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>
                 <nav>
                     <a
                         href='/'

@@ -12,6 +12,16 @@ import WorkspaceView from './views/WorkspaceView.tsx';
 export default defineRouter([
     defineView('/', HomeView),
     defineView('/workspace', WorkspaceView),
-    defineConstantFile('/deno-gfm.css', CSS),
+    defineConstantFile('/styles/deno-gfm.css', CSS),
     defineStaticDirectory('/', new URL('./public', import.meta.url)),
+    defineStaticDirectory(
+        '/styles/components',
+        new URL('./components', import.meta.url),
+        '**/*.css',
+    ),
+    defineStaticDirectory(
+        '/styles/views',
+        new URL('./views', import.meta.url),
+        '**/*.css',
+    ),
 ]);

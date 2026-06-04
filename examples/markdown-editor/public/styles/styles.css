@@ -1,0 +1,17 @@
+@import url('/styles/open-props.min.css');
+@import url('/styles/open-props.normalize.min.css');
+@import url('/styles/deno-gfm.css');
+
+@import url('/styles/shared.css');
+
+@import url('/styles/components/EphemeralInputRow.css');
+@import url('/styles/components/OpenWorkspaceButton.css');
+@import url('/styles/components/StatusBar.css');
+@import url('/styles/components/WorkspaceEditor.css');
+@import url('/styles/components/WorkspaceFileList.css');
+@import url('/styles/components/WorkspaceHeader.css');
+@import url('/styles/components/WorkspacePreview.css');
+@import url('/styles/components/WorkspaceSidebar.css');
+
+@import url('/styles/views/HomeView.css');
+@import url('/styles/views/WorkspaceView.css');

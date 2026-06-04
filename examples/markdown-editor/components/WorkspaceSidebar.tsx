@@ -9,17 +9,17 @@ export default function WorkspaceSidebar() {
             class='workspace-sidebar'
             data-show='$shell.isSidebarOpen'
         >
-            <div class='sidebar-header'>
-                <span class='sidebar-title'>PROJECT FILES</span>
+            <div class='workspace-sidebar--header'>
+                <span class='workspace-sidebar--title'>PROJECT FILES</span>
                 <button
-                    class='icon-btn is-active'
+                    class='icon-button is-active'
                     data-on:click='$ephemeralFile.isCreating = true'
                 >
                     <Plus />
                 </button>
             </div>
 
-            <div class='sidebar-content'>
+            <div class='workspace-sidebar--content'>
                 <EphemeralInputRow />
                 <WorkspaceFileList />
             </div>

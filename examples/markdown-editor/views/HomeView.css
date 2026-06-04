@@ -1,0 +1,33 @@
+.home-view {
+    display: grid;
+
+    place-content: center;
+
+    height: 100vh;
+
+    background: var(--surface-1);
+    color: var(--text-1);
+    font-family: var(--font-sans);
+
+    text-align: center;
+}
+
+.home-view--icon {
+    margin: 0 auto var(--size-3);
+
+    width: var(--size-fluid-5);
+    height: var(--size-fluid-5);
+}
+
+.home-view--sub-title {
+    margin: 0 0 var(--size-4) 0;
+
+    color: var(--text-2);
+    font-size: var(--font-size-2);
+}
+
+.home-view--title {
+    margin: 0 0 var(--size-1) 0;
+
+    font-size: var(--font-size-4);
+}

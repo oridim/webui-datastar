@@ -1,9 +1,10 @@
-import Layout from './Layout.tsx';
+import Layout from '../components/Layout.tsx';
 
 export default function AboutView() {
     return (
-        <Layout title='About - Multi-Page App'>
+        <Layout title='About'>
             <h1>About Us</h1>
+
             <p>
                 We are testing out Deno, WebUI, and Datastar together as a
                 complete packaage.

@@ -1,9 +1,9 @@
 import { defineAction } from '@oridim/webui-datastar';
 
-import type { PartialState, State } from '../state.ts';
-import { VIEW_MODES } from '../state.ts';
+import type { PartialSignals, Signals } from '../signals.ts';
+import { VIEW_MODES } from '../signals.ts';
 
-export const saveFile = defineAction<State, PartialState>(
+export const saveFile = defineAction<Signals, PartialSignals>(
     async function* (signals) {
         const { fileContent, filePath } = signals.workspace;
 

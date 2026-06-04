@@ -4,11 +4,10 @@ import {
     WebUIDatastarHead,
 } from '@oridim/webui-datastar';
 
-interface HomeState {
-    readonly counter: number;
-}
+import type { Signals } from '../signals.ts';
+import DEFAULT_SIGNALS from '../signals.ts';
 
-export const handleChannel = defineAction<HomeState>(
+export const handleChannel = defineAction<Signals>(
     ({ counter }) => {
         return makeChannel((push, done) => {
             let delta = 0;
@@ -45,7 +44,7 @@ export default function HomeView() {
                 <WebUIDatastarHead />
             </head>
 
-            <body data-signals="{ counter: 0, status: 'Idle' }">
+            <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>
                 <strong data-text='$counter'>0</strong>
 
                 <button data-on:click={handleChannel()}>

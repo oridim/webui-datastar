@@ -1,7 +1,7 @@
 import type { JSX } from '@oridim/webui-datastar';
 import { WebUIDatastarHead } from '@oridim/webui-datastar';
 
-interface LayoutProps {
+export interface LayoutProps {
     readonly children: JSX.Element | JSX.Element[] | string;
 
     readonly title: string;
@@ -12,26 +12,22 @@ export default function Layout({ children, title }: LayoutProps) {
         <html lang='en'>
             <head>
                 <meta charset='UTF-8' />
-                <title>{title}</title>
+                <title>{title} :: Complex Router</title>
 
                 <WebUIDatastarHead />
-
-                <link rel='stylesheet' href='/styles.css' />
             </head>
 
-            <body
-                data-signals='{ globalLoading: false }'
-                data-on:datastar-fetch__window="$globalLoading = (evt.detail.type === 'started')"
-            >
-                <div
-                    class='shell-loader'
-                    data-class:is-loading='$globalLoading'
-                />
-
+            <body>
                 <nav>
-                    <a href='/'>Home</a>
-                    &nbsp; | &nbsp;
-                    <a href='/other'>Other Page (Slow)</a>
+                    <a href='/'>Home</a> | &nbsp;
+                    <a href='/users/99'>User 99 (Params)</a> | &nbsp;
+                    <a href='/users/42'>User 42 (Params)</a> | &nbsp;
+                    <a href='/shop/search?q=boots&sort=price'>
+                        Search Boots (Query)
+                    </a>&nbsp; | &nbsp;
+                    <a href='/shop/search?q=hats&sort=rating'>
+                        Search Hats (Query)
+                    </a>
                 </nav>
 
                 <hr />

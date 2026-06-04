@@ -10,9 +10,9 @@ export const VIEW_MODES = {
 
 export type ViewModes = typeof VIEW_MODES[keyof typeof VIEW_MODES];
 
-export type PartialState = DeepPartial<State>;
+export type PartialSignals = DeepPartial<Signals>;
 
-export interface State {
+export interface Signals {
     readonly ephemeralFile: {
         readonly fileName: string;
 
@@ -67,4 +67,4 @@ export default {
         fileContent: '',
         filePath: null,
     },
-} satisfies State;
+} satisfies Signals;

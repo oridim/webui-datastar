@@ -8,7 +8,7 @@ export default function StatusBar() {
         >
             <div
                 data-show='$status.isLoading'
-                class='status-loader'
+                class='status-bar--loader'
             >
                 <Loader2 class='spin' />
             </div>

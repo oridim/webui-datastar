@@ -1,0 +1,23 @@
+.ephemeral-input-row {
+    display: flex;
+
+    align-items: center;
+
+    padding: var(--size-1) var(--size-2);
+    margin-bottom: var(--size-2);
+
+    background: var(--surface-2);
+    border-radius: var(--radius-1);
+}
+
+.ephemeral-input-row--input {
+    flex: 1;
+
+    width: 100%;
+
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: var(--font-size-1);
+    outline: none;
+}

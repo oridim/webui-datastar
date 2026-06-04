@@ -1,0 +1,23 @@
+.workspace-editor {
+    flex: 1;
+
+    padding: var(--size-3);
+
+    background: var(--surface-1);
+    border: none;
+    border-radius: 0;
+    color: inherit;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-1);
+
+    resize: none;
+    outline: none;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    &.is-split {
+        border-right: var(--border-size-1) var(--surface-4) solid;
+    }
+}

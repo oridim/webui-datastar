@@ -4,11 +4,11 @@ import { Check, X } from 'npm:lucide-preact@1.17.0';
 
 import { listDirectory } from './WorkspaceFileList.tsx';
 
-import type { PartialState, State } from '../state.ts';
+import type { PartialSignals, Signals } from '../signals.ts';
 
 const DEFAULT_FILE_CONTENT = '# New Note';
 
-export const createFile = defineAction<State, PartialState>(
+export const createFile = defineAction<Signals, PartialSignals>(
     async function* (signals) {
         const { ephemeralFile, workspace } = signals;
 
@@ -66,21 +66,21 @@ export default function EphemeralInputRow() {
             data-show='$ephemeralFile.isCreating'
         >
             <input
-                class='ephemeral-input'
+                class='ephemeral-input-row--input'
                 data-bind='ephemeralFile.fileName'
                 placeholder='filename.md'
                 autoFocus
             />
 
             <button
-                class='icon-btn is-success'
+                class='icon-button is-success'
                 data-on:click={createFile()}
             >
                 <Check />
             </button>
 
             <button
-                class='icon-btn is-danger'
+                class='icon-button is-danger'
                 data-on:click="$ephemeralFile.isCreating = false; $ephemeralFile.fileName = ''"
             >
                 <X />

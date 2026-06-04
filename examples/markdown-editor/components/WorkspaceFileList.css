@@ -1,0 +1,31 @@
+.workspace-file-list--button {
+    display: flex;
+
+    align-items: center;
+
+    gap: var(--size-2);
+    padding: var(--size-1) var(--size-2);
+
+    width: 100%;
+
+    background: none;
+    border: none;
+    border-radius: var(--radius-1);
+    color: inherit;
+    font-size: var(--font-size-1);
+
+    text-align: left;
+
+    cursor: pointer;
+
+    &.is-active {
+        background: var(--surface-2);
+    }
+
+    & svg {
+        flex-shrink: 0;
+
+        width: var(--size-3);
+        height: var(--size-3);
+    }
+}
