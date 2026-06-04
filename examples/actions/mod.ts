@@ -1,7 +1,7 @@
 import { initWebUIDatastar } from '@oridim/webui-datastar';
 import { WebUI } from '@webui/deno-webui';
 
-import APP_ACTIONS from './actions.tsx';
+import APP_ACTIONS from './actions.ts';
 import APP_ROUTER from './router.ts';
 
 const window = new WebUI();
