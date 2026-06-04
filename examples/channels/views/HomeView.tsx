@@ -8,33 +8,32 @@ interface HomeState {
     readonly counter: number;
 }
 
-export const handleChannel = defineAction<
-    HomeState,
-    Pick<HomeState, 'counter'>
->(({ counter }) => {
-    return makeChannel((push, done) => {
-        let delta = 0;
+export const handleChannel = defineAction<HomeState, HomeState>(
+    ({ counter }) => {
+        return makeChannel((push, done) => {
+            let delta = 0;
 
-        const identifier = setInterval(() => {
-            counter++;
-            delta++;
+            const identifier = setInterval(() => {
+                counter++;
+                delta++;
 
-            push({
-                signals: {
-                    counter,
-                },
-            });
+                push({
+                    signals: {
+                        counter,
+                    },
+                });
 
-            if (delta >= 10) {
-                done();
-            }
-        }, 1000);
+                if (delta >= 10) {
+                    done();
+                }
+            }, 1000);
 
-        return () => {
-            clearInterval(identifier);
-        };
-    });
-});
+            return () => {
+                clearInterval(identifier);
+            };
+        });
+    },
+);
 
 export default function HomeView() {
     return (
