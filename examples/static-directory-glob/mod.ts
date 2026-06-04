@@ -10,5 +10,5 @@ initWebUIDatastar({
     router: APP_ROUTER,
 });
 
-await window.show('/');
+await window.showWebView('/');
 await WebUI.wait();
