@@ -25,20 +25,6 @@ export {
     WebUIDatastarHead,
 } from './framework.tsx';
 
-export type { HTMLNamespaces } from './html.ts';
-export { HTML_NAMESPACES } from './html.ts';
-
-export type {
-    HTTPStatus,
-    HTTPStatusText,
-    HTTPStatusTextMap,
-} from './router/http.ts';
-export {
-    HTTP_STATUS,
-    HTTP_STATUS_TEXT,
-    HTTP_STATUS_TEXT_MAP,
-} from './router/http.ts';
-
 export type { Consumer, Context, JSX, Provider } from './preact.ts';
 export { createContext, useContext } from './preact.ts';
 
@@ -60,3 +46,16 @@ export type {
 } from './router/types.ts';
 export type { Router } from './router/router.ts';
 export { defineGroup, matchRoute } from './router/router.ts';
+
+export type { HTMLNamespaces } from './utilities/html.ts';
+export { HTML_NAMESPACES } from './utilities/html.ts';
+export type {
+    HTTPStatus,
+    HTTPStatusText,
+    HTTPStatusTextMap,
+} from './utilities/http.ts';
+export {
+    HTTP_STATUS,
+    HTTP_STATUS_TEXT,
+    HTTP_STATUS_TEXT_MAP,
+} from './utilities/http.ts';

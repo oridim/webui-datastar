@@ -1,7 +1,7 @@
 import type { WebUI } from '@webui/deno-webui';
 
-import type { HTMLNamespaces } from '../html.ts';
-import { HTML_NAMESPACES } from '../html.ts';
+import type { HTMLNamespaces } from '../utilities/html.ts';
+import { HTML_NAMESPACES } from '../utilities/html.ts';
 
 import type { DatastarWatchers, PatchElementsModes } from './types.ts';
 import {

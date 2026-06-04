@@ -1,6 +1,6 @@
-import type { JSX } from '../preact.ts';
+import type { HTTPStatus } from '../utilities/http.ts';
 
-import type { HTTPStatus } from './http.ts';
+import type { JSX } from '../preact.ts';
 
 export type ExtractRouteParams<T extends string> = T extends
     `${string}:${infer Param}/${infer Rest}`
