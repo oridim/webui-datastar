@@ -2,7 +2,7 @@ import { defineAction } from '@oridim/webui-datastar';
 
 import type { PartialSignals, Signals } from '../signals.ts';
 
-import Layout from './Layout.tsx';
+import Layout from '../components/Layout.tsx';
 
 export const handlePatchTransition = defineAction<Signals, PartialSignals>(
     ({ counter }) => {

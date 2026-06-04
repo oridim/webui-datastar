@@ -1,4 +1,4 @@
-import Layout from './Layout.tsx';
+import Layout from '../components/Layout.tsx';
 
 export default async function OtherView() {
     await new Promise((resolve) => setTimeout(resolve, 2000));

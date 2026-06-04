@@ -1,5 +1,5 @@
 import type { RouterRequest } from '@oridim/webui-datastar';
-import Layout from './Layout.tsx';
+import Layout from '../components/Layout.tsx';
 
 export default function SearchView({ url }: RouterRequest<'/search'>) {
     const query = url.searchParams.get('q') || 'Nothing';

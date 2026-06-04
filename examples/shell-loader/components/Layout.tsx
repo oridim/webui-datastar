@@ -1,7 +1,7 @@
 import type { JSX } from '@oridim/webui-datastar';
 import { WebUIDatastarHead } from '@oridim/webui-datastar';
 
-interface LayoutProps {
+export interface LayoutProps {
     readonly children: JSX.Element | JSX.Element[] | string;
 
     readonly title: string;

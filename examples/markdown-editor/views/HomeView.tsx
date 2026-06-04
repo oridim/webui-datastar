@@ -2,7 +2,7 @@ import { FolderOpen } from 'npm:lucide-preact@1.17.0';
 
 import OpenWorkspaceButton from '../components/OpenWorkspaceButton.tsx';
 
-import Layout from './Layout.tsx';
+import Layout from '../components/Layout.tsx';
 
 export default function HomeView() {
     return (

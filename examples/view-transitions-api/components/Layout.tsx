@@ -3,7 +3,7 @@ import { WebUIDatastarHead } from '@oridim/webui-datastar';
 
 import DEFAULT_SIGNALS from '../signals.ts';
 
-interface LayoutProps {
+export interface LayoutProps {
     readonly children: JSX.Element | JSX.Element[] | string;
 
     readonly title: string;

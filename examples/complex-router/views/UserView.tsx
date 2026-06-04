@@ -1,6 +1,6 @@
 import type { RouterRequest } from '@oridim/webui-datastar';
 
-import Layout from './Layout.tsx';
+import Layout from '../components/Layout.tsx';
 
 export default function UserView({ params }: RouterRequest<'/:id'>) {
     return (

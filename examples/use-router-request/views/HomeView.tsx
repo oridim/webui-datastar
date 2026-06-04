@@ -1,6 +1,5 @@
 import ContextDisplayer from '../components/ContextDisplayer.tsx';
-
-import Layout from './Layout.tsx';
+import Layout from '../components/Layout.tsx';
 
 export default function HomeView() {
     return (
