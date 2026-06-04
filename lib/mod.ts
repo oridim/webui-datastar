@@ -19,7 +19,7 @@ export type {
 export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './datastar/types.ts';
 
 export type { Consumer, Context, Provider } from './preact/context.ts';
-export { createContext, useContext } from './preact/context.ts';
+export { makeContext, useContext } from './preact/context.ts';
 export type { JSX } from './preact/components.ts';
 export { render } from './preact/render.ts';
 
@@ -43,6 +43,13 @@ export type {
 export type { Router } from './router/router.ts';
 export { matchRoute } from './router/router.ts';
 
+export type {
+    ChannelCleanupFunction,
+    ChannelDoneFunction,
+    ChannelPushFunction,
+    ChannelSetupCallback,
+} from './utilities/channel.ts';
+export { makeChannel } from './utilities/channel.ts';
 export type { HTMLNamespaces } from './utilities/html.ts';
 export { HTML_NAMESPACES } from './utilities/html.ts';
 export type {

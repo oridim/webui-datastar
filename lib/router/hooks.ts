@@ -1,8 +1,8 @@
-import { createContext, useContext } from '../preact/context.ts';
+import { makeContext, useContext } from '../preact/context.ts';
 
 import { RouterRequest } from './types.ts';
 
-export const RouterRequestContext = createContext<
+export const RouterRequestContext = makeContext<
     RouterRequest<string> | null
 >(null);
 
