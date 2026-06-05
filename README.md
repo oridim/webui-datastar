@@ -8,8 +8,8 @@
 
 - **Client-Side Routing:** Navigate without hard refreshes by patching pages directly from the backend.
 - **Server-Side Actions:** Declaratively wire frontend-to-backend IPC directly inside your HTML.
-- **Server-Side Routing:** Easily serve views, custom routes, and static assets with a built-in backend router.
 - **Server-Side JSX Rendering (SSR):** Use JSX as your native backend HTML templating language.
+- **Server-Side Routing:** Easily serve views, custom routes, and static assets with a built-in backend router.
 - **Stream Patches:** Fully control UI updates by streaming patches from your backend sync and async function and generator actions.
 - **Zero-Build Frontend:** Import the framework and launch a webview without a frontend build step.
 
