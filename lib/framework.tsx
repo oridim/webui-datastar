@@ -60,6 +60,6 @@ export function initWebUIDatastar(options: WebUIDatastarOptions) {
         initRouter(window, router);
     }
 
-    initIntegrations(actions, router);
+    initIntegrations(window, actions, router);
     initActions(window, actions);
 }
