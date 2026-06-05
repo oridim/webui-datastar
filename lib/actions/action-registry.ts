@@ -30,14 +30,6 @@ export interface ActionRegistry {
     >(
         callback: ActionCallback<InputSignals, OutputSignals>,
     ) => ActionCallable<InputSignals, OutputSignals>;
-
-    readonly registerInternalAction: <
-        InputSignals extends Signals<InputSignals> = UnknownSignals,
-        OutputSignals extends Signals<OutputSignals> = UnknownSignals,
-    >(
-        id: string,
-        callback: ActionCallback<InputSignals, OutputSignals>,
-    ) => string;
 }
 
 function processResponse(window: WebUI, response: unknown): void {
@@ -116,23 +108,6 @@ export function defineActionRegistry(
             );
 
             return action;
-        },
-
-        registerInternalAction(
-            id,
-            callback,
-        ) {
-            const action = Object.assign(
-                (optionsExpression?: string) =>
-                    optionsExpression
-                        ? `@ipc('${id}', ${optionsExpression})`
-                        : `@ipc('${id}')`,
-                { callback, id },
-            );
-
-            registry.set(id, action as unknown as ActionCallableBase);
-
-            return id;
         },
     };
 }
