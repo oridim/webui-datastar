@@ -40,7 +40,7 @@
 
     "exports": {
         ".": "./lib/mod.ts",
-        "./preact/jsx-runtime": "./lib/preact/jsx-runtime.ts"
+        "./jsx-runtime": "./lib/preact/jsx-runtime.ts"
     },
 
     "publish": {
