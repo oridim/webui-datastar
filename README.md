@@ -98,6 +98,14 @@ await window.showWebView('/');
 await WebUI.wait();
 ```
 
+## 6. Boot the Application
+
+Give the application the permissions needed for WebUI to work when you run it:
+
+```sh
+deno run --allow-read --allow-write --allow-net --allow-env --allow-ffi ./mod.ts
+```
+
 # Examples
 
 Visit the [`/examples`](./examples) directory for complete usage examples on how to use the framework.
