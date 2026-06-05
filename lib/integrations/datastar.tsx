@@ -44,6 +44,8 @@ export function initIntegrations(
                     const response = await matchRoute(router, url);
 
                     if (response) {
+                        actionRegistry.abortActions();
+
                         const responseText = new TextDecoder().decode(
                             response,
                         );

@@ -18,6 +18,10 @@ import {
 } from './types.ts';
 
 export interface ActionRegistry {
+    readonly abortActions: () => void;
+
+    readonly abortToken: object;
+
     readonly entries: () => IterableIterator<[string, ActionCallableBase]>;
 
     readonly registerAction: <
@@ -84,11 +88,21 @@ export function defineActionRegistry(
 ): ActionRegistry {
     const registry = new Map<string, ActionCallableBase>();
 
+    let abortToken = {};
+
     for (const action of actions) {
         registry.set(action.id, action);
     }
 
     return {
+        get abortToken() {
+            return abortToken;
+        },
+
+        abortActions() {
+            abortToken = {};
+        },
+
         entries() {
             return registry.entries();
         },
@@ -123,11 +137,12 @@ export function defineActionRegistry(
     };
 }
 
-export function initActions(window: WebUI, actions: ActionRegistry) {
-    for (const [id, action] of actions.entries()) {
+export function initActions(window: WebUI, actionRegistry: ActionRegistry) {
+    for (const [id, action] of actionRegistry.entries()) {
         const { callback } = action;
 
         window.bind(id, async (event) => {
+            const { abortToken: initialAbortToken } = actionRegistry;
             const payload = JSON.parse(event.arg.string(0));
 
             let result: unknown;
@@ -139,7 +154,10 @@ export function initActions(window: WebUI, actions: ActionRegistry) {
                 return;
             }
 
-            if (!result) {
+            if (
+                !result ||
+                initialAbortToken !== actionRegistry.abortToken
+            ) {
                 return;
             }
 
@@ -153,6 +171,13 @@ export function initActions(window: WebUI, actions: ActionRegistry) {
                             | AsyncIterable<unknown>
                             | Iterable<unknown>
                     ) {
+                        if (
+                            initialAbortToken !==
+                                actionRegistry.abortToken
+                        ) {
+                            break;
+                        }
+
                         processResponse(window, response);
                     }
                 } catch (error) {
