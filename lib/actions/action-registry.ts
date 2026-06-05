@@ -1,11 +1,12 @@
 import type { WebUI } from '@webui/deno-webui';
-import { render } from 'preact-render-to-string';
 
 import {
     dispatchElementPatch,
     dispatchSignalPatch,
 } from '../datastar/patches.ts';
 import type { Signals, UnknownSignals } from '../datastar/types.ts';
+
+import { render } from '../preact/render.ts';
 
 import { defineAction } from './directives.ts';
 import {
