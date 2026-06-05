@@ -63,12 +63,6 @@ export function IntegrationsHead(): JSX.Element {
         <>
             <script
                 type='module'
-                src='/__webui-datastar/integrations/datastar.min.js'
-            >
-            </script>
-
-            <script
-                type='module'
                 src='/__webui-datastar/integrations/datastar.integrations.js'
             >
             </script>
