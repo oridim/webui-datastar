@@ -1,53 +1,37 @@
 import type { JSX } from '../preact/components.ts';
 
-import type { HTTPStatus } from '../utilities/http.ts';
-
-export type ExtractRouteParams<T extends string> = T extends
+export type ExtractRouteParams<T extends string = string> = T extends
     `${string}:${infer Param}/${infer Rest}`
     ? Param | ExtractRouteParams<`/${Rest}`>
     : T extends `${string}:${infer Param}` ? Param
     : never;
 
-export type MapRouteParams<Path extends string> =
+export type MapRouteParams<Path extends string = string> =
     [ExtractRouteParams<Path>] extends [never] ? Record<string, never>
         : Record<ExtractRouteParams<Path>, string>;
 
-export type RouteCallback<Path extends string> = (
-    request: RouterRequest<Path>,
-) => Promise<RouterResponse | null> | RouterResponse | null;
+export type RouteCallback<Path extends string = string> = (
+    context: RequestContext<Path>,
+) => Promise<Response | null> | Response | null;
 
 export type RouteItem = Route | readonly RouteItem[];
 
-export type ResponseBody =
-    | string
-    | Uint8Array
-    | Record<string, unknown>
-    | unknown[];
-
-export type ViewCallback<Path extends string> = (
-    request: RouterRequest<Path>,
+export type ViewCallback<Path extends string = string> = (
+    context: RequestContext<Path>,
 ) => JSX.Element | Promise<JSX.Element>;
 
-export interface Route {
-    handler: (url: URL, match: URLPatternResult) => Promise<Uint8Array | null>;
-
-    readonly path: string;
-
-    readonly urlPattern: URLPattern;
-}
-
-export interface RouterRequest<Path extends string> {
+export interface RequestContext<Path extends string = string> {
     readonly match: URLPatternResult;
 
     readonly params: MapRouteParams<Path>;
 
-    readonly url: URL;
+    readonly request: Request;
 }
 
-export interface RouterResponse {
-    readonly body: ResponseBody;
+export interface Route {
+    readonly callback: RouteCallback;
 
-    readonly headers?: Record<string, string>;
+    readonly path: string;
 
-    readonly status?: HTTPStatus;
+    readonly urlPattern: URLPattern;
 }

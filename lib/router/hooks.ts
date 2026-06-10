@@ -1,17 +1,21 @@
 import { makeContext, useContext } from '../preact/context.ts';
 
-import { RouterRequest } from './types.ts';
+import { RequestContext } from './types.ts';
 
 export const RouterRequestContext = makeContext<
-    RouterRequest<string> | null
+    RequestContext<string> | null
 >(null);
 
-export function useRouterRequest<Path extends string>(): RouterRequest<Path> {
+export function useRouterRequestContext<
+    Path extends string = string,
+>(): RequestContext<
+    Path
+> {
     const request = useContext(RouterRequestContext);
 
     if (!request) {
         throw new Error(
-            "bad dispatch to 'useRouterRequest' (cannot use context outside of 'RouterRequestContext')",
+            "bad dispatch to 'useRouterRequestContext' (cannot use context outside of 'RouterRequestContext')",
         );
     }
 

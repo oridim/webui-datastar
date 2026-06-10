@@ -6,39 +6,12 @@ import { h } from '../preact/components.ts';
 import { render } from '../preact/render.ts';
 
 import { RouterRequestContext } from './hooks.ts';
-import { makeHTTPResponse } from './http.ts';
-import type {
-    MapRouteParams,
-    Route,
-    RouteCallback,
-    RouteItem,
-    RouterResponse,
-    ViewCallback,
-} from './types.ts';
-import { flattenRoutes } from './utilities.ts';
-
-async function tryReadFile(
-    filePath: string | URL,
-): Promise<RouterResponse | null> {
-    let content: Uint8Array<ArrayBuffer>;
-    try {
-        content = await Deno.readFile(filePath);
-    } catch {
-        return null;
-    }
-
-    const pathname = filePath instanceof URL
-        ? filePath.pathname
-        : filePath.replace(/^file:\/\//, '');
-
-    const fileExtension = extname(pathname);
-    const mimeType = contentType(fileExtension) ?? 'application/octet-stream';
-
-    return {
-        body: content,
-        headers: { 'Content-Type': mimeType },
-    };
-}
+import type { Route, RouteCallback, RouteItem, ViewCallback } from './types.ts';
+import {
+    determineContentLength,
+    flattenRoutes,
+    tryReadFile,
+} from './utilities.ts';
 
 export function defineGroup(
     prefix: string,
@@ -70,41 +43,31 @@ export function defineRoute<Path extends string>(
     callback: RouteCallback<Path>,
 ): Route {
     return {
+        callback: callback,
         path,
         urlPattern: new URLPattern({ pathname: path }),
-        handler: async (url, match) => {
-            const response = await callback({
-                params: (match.pathname.groups || {}) as MapRouteParams<Path>,
-                url,
-                match,
-            });
-
-            if (response) {
-                return makeHTTPResponse(response);
-            }
-
-            return null;
-        },
     };
 }
 
 export function defineConstantFile(
     path: string,
-    content: string | Uint8Array,
+    content: BodyInit,
 ): Route {
     const fileExtension = extname(path);
     const mimeType = contentType(fileExtension) ?? 'application/octet-stream';
 
-    const response = {
-        body: content,
-        headers: {
-            'Content-Type': mimeType,
-        },
-    } satisfies RouterResponse;
+    const contentLength = determineContentLength(content);
+    const headers: Record<string, string> = {
+        'Content-Type': mimeType,
+    };
+
+    if (contentLength !== undefined) {
+        headers['Content-Length'] = contentLength.toString();
+    }
 
     return defineRoute(
         path,
-        () => response,
+        () => new Response(content, { headers }),
     );
 }
 
@@ -123,8 +86,8 @@ export function defineStaticDirectory(
     const path = posixJoin('/', basePath, '*');
     const regexFilter = glob ? globToRegExp(glob) : null;
 
-    return defineRoute(path, (request) => {
-        const file = request.match.pathname.groups['0'];
+    return defineRoute(path, (context) => {
+        const file = context.match.pathname.groups['0'];
 
         if (!file || (regexFilter && !regexFilter.test(file))) {
             return null;
@@ -152,20 +115,25 @@ export function defineView<Path extends string>(
 ): Route {
     return defineRoute(
         path,
-        async (request) => {
-            const renderedElement = await view(request);
+        async (context) => {
+            const renderedElement = await view(context);
             const renderedContext = h(
                 RouterRequestContext.Provider,
-                { value: request },
+                { value: context },
                 renderedElement,
             );
 
             const renderedPayload = render(renderedContext);
+            const htmlString = `<!DOCTYPE html>\n${renderedPayload}`;
 
-            return {
-                headers: { 'Content-Type': 'text/html' },
-                body: `<!DOCTYPE html>\n${renderedPayload}`,
-            };
+            const bodyBytes = new TextEncoder().encode(htmlString);
+
+            return new Response(bodyBytes, {
+                headers: {
+                    'Content-Type': 'text/html',
+                    'Content-Length': bodyBytes.byteLength.toString(),
+                },
+            });
         },
     );
 }
