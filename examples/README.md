@@ -1,6 +1,6 @@
 # Examples
 
-Every example in this directory showcases the various capabilities of the WebUI Datastar framework and the stack of WebUI and Datastar themselves.
+Every example in this directory showcases the various capabilities of the Datastar Serve framework.
 
 | Example                                                       | Description                                                                                                                                                 |
 | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -23,6 +23,12 @@ Every example in this directory showcases the various capabilities of the WebUI 
 
 ## Running An Example
 
-1. Open up the root project directory of WebUI Datastar in a terminal.
+1. Open up the root project directory of Datastar Serve in a terminal.
 2. Run `deno ci`.
-3. Run any example in your terminal via: `deno run --allow-read --allow-write --allow-net --allow-env --allow-ffi ./examples/<example-directory>/mod.ts`
+3. Run any example in your terminal via: `deno run --allow-read --allow-net ./examples/<example-directory>/mod.ts`
+
+## Running The Markdown Editor Example
+
+1. Open up the root project directory of Datastar Serve in a terminal.
+2. Run `deno ci`.
+3. Run any example in your terminal via: `deno run --allow-read --allow-write --allow-net --allow-env --allow-ffi ./examples/markdown-editor/mod.ts`
