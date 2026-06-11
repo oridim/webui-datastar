@@ -26,6 +26,7 @@ import type {
 import {
     determineContentLength,
     flattenRoutes,
+    isFormRequest,
     processStreamResponse,
     tryReadFile,
 } from './utilities.ts';
@@ -169,14 +170,22 @@ export function defineStream<
     options: StreamOptions = {},
 ): Route {
     return defineRoute(path, async (context) => {
-        const reader = await ServerSentEventGenerator.readSignals(
-            context.request,
-        );
+        const streamContext = { ...context } as StreamRequestContext<
+            Path,
+            InputSignals
+        >;
 
-        const signals = (reader.success ? reader.signals : {}) as InputSignals;
-        const streamContext = Object.assign({}, context, {
-            signals,
-        }) satisfies StreamRequestContext<Path, InputSignals>;
+        if (!isFormRequest(context)) {
+            const reader = await ServerSentEventGenerator.readSignals(
+                context.request,
+            );
+
+            if (reader.success) {
+                Object.assign(streamContext, {
+                    signals: reader.signals,
+                });
+            }
+        }
 
         const result = await callback(streamContext);
 

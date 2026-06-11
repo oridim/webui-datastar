@@ -56,11 +56,13 @@ export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './utilities/datastar.ts';
 export type { HTMLNamespaces } from './utilities/html.ts';
 export { HTML_NAMESPACES } from './utilities/html.ts';
 export type {
+    HTTPMethods,
     HTTPStatus,
     HTTPStatusText,
     HTTPStatusTextMap,
 } from './utilities/http.ts';
 export {
+    HTTP_METHODS,
     HTTP_STATUS,
     HTTP_STATUS_TEXT,
     HTTP_STATUS_TEXT_MAP,

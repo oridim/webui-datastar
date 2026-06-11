@@ -4,8 +4,14 @@ import { extname } from '@std/path';
 import type { ServerSentEventGenerator } from '@starfederation/datastar-sdk/web';
 
 import { render } from '../preact/render.ts';
+import { HTTP_METHODS } from '../utilities/http.ts';
 
-import type { Route, RouteItem, StreamResponse } from './types.ts';
+import type {
+    RequestContext,
+    Route,
+    RouteItem,
+    StreamResponse,
+} from './types.ts';
 
 export function determineContentLength(content: BodyInit): number | undefined {
     if (content instanceof ArrayBuffer || ArrayBuffer.isView(content)) {
@@ -27,6 +33,32 @@ export function flattenRoutes(items: readonly RouteItem[]): readonly Route[] {
 
         return accumulatedRoutes;
     }, []);
+}
+
+export function isFormRequest(context: RequestContext): boolean {
+    const { request, url } = context;
+
+    const { headers, method } = request;
+    const { searchParams } = url;
+
+    switch (method.toUpperCase()) {
+        case HTTP_METHODS.patch:
+        case HTTP_METHODS.post:
+        case HTTP_METHODS.put: {
+            const contentType = headers.get('content-type') ?? '';
+
+            return (
+                contentType.includes('application/x-www-form-urlencoded') ||
+                contentType.includes('multipart/form-data')
+            );
+        }
+
+        case HTTP_METHODS.delete:
+        case HTTP_METHODS.get:
+            return searchParams.has('datastar') ? false : searchParams.size > 0;
+    }
+
+    return false;
 }
 
 export function processStreamResponse(

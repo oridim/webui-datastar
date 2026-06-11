@@ -1,3 +1,15 @@
+export const HTTP_METHODS = {
+    connect: 'CONNECT',
+    delete: 'DELETE',
+    head: 'HEAD',
+    get: 'GET',
+    options: 'OPTIONS',
+    patch: 'PATCH',
+    post: 'POST',
+    put: 'PUT',
+    trace: 'TRACE',
+} as const;
+
 export const HTTP_STATUS = {
     continue: 100,
     switchingProtocols: 101,
@@ -134,6 +146,8 @@ export const HTTP_STATUS_TEXT_MAP = Object.fromEntries(
         HTTP_STATUS_TEXT[key as keyof typeof HTTP_STATUS_TEXT],
     ]),
 ) as HTTPStatusTextMap;
+
+export type HTTPMethods = typeof HTTP_METHODS[keyof typeof HTTP_METHODS];
 
 export type HTTPStatus = typeof HTTP_STATUS[keyof typeof HTTP_STATUS];
 
