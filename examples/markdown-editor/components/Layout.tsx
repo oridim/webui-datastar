@@ -1,8 +1,9 @@
 import type { JSX } from '@oridim/datastar-serve';
 import { FrameworkHead } from '@oridim/datastar-serve';
 
+import { URL_WEBUI_SCRIPT } from '../utilities/webui.ts';
+
 import DEFAULT_SIGNALS from '../signals.ts';
-import APP_WEBUI from '../webui.ts';
 
 import StatusBar from './StatusBar.tsx';
 
@@ -26,7 +27,7 @@ export default function Layout({ children }: LayoutProps) {
 
                 <script
                     type='application/javascript'
-                    src={`http://127.0.0.1:${APP_WEBUI.getPort()}/webui.js`}
+                    src={URL_WEBUI_SCRIPT.href}
                 >
                 </script>
 

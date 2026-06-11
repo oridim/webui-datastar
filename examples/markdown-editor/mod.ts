@@ -1,38 +1,14 @@
-import { serve } from '@oridim/datastar-serve';
-import { load as loadRFD } from 'jsr:@miyauci/rfd@1.0.0/deno';
-import { WebUI } from 'jsr:@webui/deno-webui@^2.5.15';
+import { SUBCOMMAND, SUBCOMMANDS } from './utilities/command.ts';
 
-import APP_ROUTER from './router.ts';
-import APP_WEBUI from './webui.ts';
+import defer * as SERVE_CALLBACK from './serve.ts';
+import defer * as UI_CALLBACK from './ui.ts';
 
-const port = WebUI.getFreePort();
+switch (SUBCOMMAND) {
+    case SUBCOMMANDS.serve:
+        await SERVE_CALLBACK.default();
+        break;
 
-await loadRFD();
-
-APP_WEBUI.bind('', (event) => {
-    console.log('hello?', { event });
-    switch (event.eventType) {
-        case WebUI.EventType.Disconnected:
-            if (!APP_WEBUI.isShown) {
-                Deno.exit(0);
-            }
-    }
-});
-
-serve({
-    router: APP_ROUTER,
-    serve: {
-        port,
-        hostname: '127.0.0.1',
-
-        async onListen({ hostname, port }) {
-            /*APP_WEBUI.showWebView(
-                `http://${hostname}:${port}/`,
-            );
-
-            await WebUI.wait();*/
-
-            console.log(`Visit: http://${hostname}:${port}`);
-        },
-    },
-});
+    case SUBCOMMANDS.ui:
+        await UI_CALLBACK.default();
+        break;
+}
