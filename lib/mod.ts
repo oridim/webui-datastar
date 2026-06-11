@@ -23,7 +23,7 @@ export { makeContext, useContext } from './preact/context.ts';
 export type { JSX } from './preact/components.ts';
 export { render } from './preact/render.ts';
 
-export { useRouterRequest } from './router/hooks.ts';
+export { useRouterRequestContext } from './router/hooks.ts';
 export {
     defineConstantFile,
     defineGroup,
@@ -35,9 +35,8 @@ export {
 export type {
     ExtractRouteParams,
     MapRouteParams,
+    RequestContext,
     RouteCallback,
-    RouterRequest,
-    RouterResponse,
     ViewCallback,
 } from './router/types.ts';
 export type { Router } from './router/router.ts';
@@ -63,9 +62,14 @@ export {
     HTTP_STATUS_TEXT_MAP,
 } from './utilities/http.ts';
 
-export type { WebUIDatastarOptions } from './framework.tsx';
+export type {
+    BaseServeOptions,
+    TCPServeOptions,
+    UnixServeOptions,
+    VSockServeOptions,
+} from './framework.tsx';
 export {
-    defineWebUIDatastarRouter as defineRouter,
-    initWebUIDatastar,
-    WebUIDatastarHead,
+    defineFrameworkRouter as defineRouter,
+    FrameworkHead,
+    serve,
 } from './framework.tsx';
