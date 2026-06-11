@@ -18,13 +18,13 @@ export function IntegrationsHead(): JSX.Element {
         <>
             <script
                 type='module'
-                src='/__datastar-deno-server/integrations/datastar.min.js'
+                src='/__datastar-serve/integrations/datastar.min.js'
             >
             </script>
 
             <script
                 type='module'
-                src='/__datastar-deno-server/integrations/datastar.integrations.js'
+                src='/__datastar-serve/integrations/datastar.integrations.js'
             >
             </script>
         </>

@@ -41,7 +41,7 @@ export interface VSockServeOptions extends BaseServeOptions {
 
 export function defineFrameworkRouter(items: RouteItem[]): Router {
     return defineRouter([
-        defineGroup('/__datastar-deno-server', [
+        defineGroup('/__datastar-serve', [
             ...POLYFILLS_GROUP,
             ...INTEGRATIONS_GROUP,
         ]),
