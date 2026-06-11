@@ -31,4 +31,4 @@ Every example in this directory showcases the various capabilities of the Datast
 
 1. Open up the root project directory of Datastar Serve in a terminal.
 2. Run `deno ci`.
-3. Run any example in your terminal via: `deno run --allow-read --allow-write --allow-net --allow-env --allow-ffi ./examples/markdown-editor/mod.ts`
+3. Run any example in your terminal via: `deno run --allow-read --allow-write --allow-net --allow-env --allow-ffi --allow-run ./examples/markdown-editor/mod.ts`
