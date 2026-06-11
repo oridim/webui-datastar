@@ -1,5 +1,5 @@
-import type { JSX } from '@oridim/webui-datastar';
-import { WebUIDatastarHead } from '@oridim/webui-datastar';
+import type { JSX } from '@oridim/datastar-serve';
+import { FrameworkHead } from '@oridim/datastar-serve';
 
 import DEFAULT_SIGNALS from '../signals.ts';
 
@@ -16,7 +16,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 <meta charset='UTF-8' />
                 <title>{title} :: View Transitions API</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
 
                 <link rel='stylesheet' href='/styles.css' />
             </head>

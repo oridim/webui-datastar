@@ -1,12 +1,17 @@
-import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
+import { defineStream, FrameworkHead } from '@oridim/datastar-serve';
 
-export const handleSlowSave = defineAction(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+export const handleSlowSave = defineStream(
+    '/streams/handleSlowSave',
+    async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    return {
-        elements: <p id='result-msg'>Data saved successfully!</p>,
-    };
-});
+        return {
+            patchElements: {
+                elements: <p id='result-msg'>Data saved successfully!</p>,
+            },
+        };
+    },
+);
 
 export default function HomeView() {
     return (
@@ -15,7 +20,7 @@ export default function HomeView() {
                 <meta charset='UTF-8' />
                 <title>IPC Spinner</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
 
                 <link rel='stylesheet' href='/styles.css' />
             </head>
@@ -23,7 +28,7 @@ export default function HomeView() {
             <body>
                 <button
                     type='button'
-                    data-on:click={handleSlowSave()}
+                    data-on:click="@get('/streams/handleSlowSave')"
                     data-indicator='saving'
                 >
                     <span data-show='$saving' class='spinner' />

@@ -1,27 +1,35 @@
-import { defineAction } from '@oridim/webui-datastar';
+import type { ViewCallback } from '@oridim/datastar-serve';
+import { defineStream } from '@oridim/datastar-serve';
 
-import type { PartialSignals, Signals } from '../signals.ts';
+import type { Signals } from '../signals.ts';
 
 import Layout from '../components/Layout.tsx';
 
-export const handlePatchTransition = defineAction<Signals, PartialSignals>(
-    ({ counter }) => {
+export const handlePatchTransition = defineStream<Signals>(
+    '/streams/handlePatchTransition',
+    ({ signals }) => {
+        const { counter } = signals;
         const next = counter + 1;
 
         return {
-            signals: { counter: next },
-            elements: (
-                <div
-                    id='transition-demo-box'
-                    class='patch-box'
-                    data-text='`Patched ${$counter} times!`'
-                />
-            ),
+            patchElements: {
+                elements: (
+                    <div
+                        id='transition-demo-box'
+                        class='patch-box'
+                        data-text='`Patched ${$counter} times!`'
+                    />
+                ),
+            },
+
+            patchSignals: {
+                signals: { counter: next },
+            },
         };
     },
 );
 
-export default function HomeView() {
+export default (() => {
     return (
         <Layout title='Home'>
             <h1>Page Transitions</h1>
@@ -51,9 +59,12 @@ export default function HomeView() {
                 data-text='`Patched ${$counter} times!`'
             />
 
-            <button type='button' data-on:click={handlePatchTransition()}>
+            <button
+                type='button'
+                data-on:click="@get('/streams/handlePatchTransition')"
+            >
                 Trigger Patch Transition
             </button>
         </Layout>
     );
-}
+}) satisfies ViewCallback;

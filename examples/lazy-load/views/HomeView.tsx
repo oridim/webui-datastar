@@ -1,17 +1,25 @@
-import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
+import { defineStream, FrameworkHead } from '@oridim/datastar-serve';
 
-export const handleLazyLoad = defineAction(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2500));
+export const handleLazyLoad = defineStream(
+    '/streams/handleLazyLoad',
+    async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2500));
 
-    return {
-        elements: (
-            <div id='lazy-content' class='loaded-box'>
-                <h2>Lazy Loaded Content!</h2>
-                <p>This was fetched over IPC only when you scrolled to it.</p>
-            </div>
-        ),
-    };
-});
+        return {
+            patchElements: {
+                elements: (
+                    <div id='lazy-content' class='loaded-box'>
+                        <h2>Lazy Loaded Content!</h2>
+                        <p>
+                            This was fetched over IPC only when you scrolled to
+                            it.
+                        </p>
+                    </div>
+                ),
+            },
+        };
+    },
+);
 
 export default function HomeView() {
     return (
@@ -20,7 +28,7 @@ export default function HomeView() {
                 <meta charset='UTF-8' />
                 <title>Lazy Load</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
 
                 <link rel='stylesheet' href='/styles.css' />
             </head>
@@ -35,7 +43,7 @@ export default function HomeView() {
                     <div
                         id='lazy-content'
                         class='skeleton-box'
-                        data-on-intersect__once={handleLazyLoad()}
+                        data-on-intersect__once="@get('/streams/handleLazyLoad')"
                     >
                         Loading heavy content...
                     </div>

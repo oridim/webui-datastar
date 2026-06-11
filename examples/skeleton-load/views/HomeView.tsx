@@ -1,22 +1,27 @@
-import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
+import { defineStream, FrameworkHead } from '@oridim/datastar-serve';
 
-export const handleFetchProfile = defineAction(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2500));
+export const handleFetchProfile = defineStream(
+    '/streams/handleFetchProfile',
+    async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2500));
 
-    return {
-        elements: (
-            <div id='profile-widget' class='profile-card'>
-                <img
-                    src='/dicebear_avataaars.FelixTheCat.svg'
-                    alt='Avatar'
-                />
+        return {
+            patchElements: {
+                elements: (
+                    <div id='profile-widget' class='profile-card'>
+                        <img
+                            src='/dicebear_avataaars.FelixTheCat.svg'
+                            alt='Avatar'
+                        />
 
-                <h2>Felix The Cat</h2>
-                <p>Senior Developer</p>
-            </div>
-        ),
-    };
-});
+                        <h2>Felix The Cat</h2>
+                        <p>Senior Developer</p>
+                    </div>
+                ),
+            },
+        };
+    },
+);
 
 export default function HomeView() {
     return (
@@ -25,7 +30,7 @@ export default function HomeView() {
                 <meta charset='UTF-8' />
                 <title>Skeleton Load</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
 
                 <link rel='stylesheet' href='/styles.css' />
             </head>
@@ -39,7 +44,7 @@ export default function HomeView() {
                     <div
                         id='profile-widget'
                         class='skeleton-card'
-                        data-init={handleFetchProfile()}
+                        data-init="@get('/streams/handleFetchProfile')"
                     >
                         <div class='skeleton-avatar' />
                         <div class='skeleton-text-line' />
