@@ -13,6 +13,14 @@ import type { RouteItem } from './router/types.ts';
 
 import { HTTP_STATUS, HTTP_STATUS_TEXT } from './utilities/http.ts';
 
+const RESPONSE_INTERNAL_SERVER_ERROR = new Response(
+    `<h1>${HTTP_STATUS.internalServerError} - ${HTTP_STATUS_TEXT.internalServerError}</h1>`,
+    {
+        status: HTTP_STATUS.internalServerError,
+        headers: { 'Content-Type': 'text/html' },
+    },
+);
+
 const RESPONSE_NOT_FOUND = new Response(
     `<h1>${HTTP_STATUS.notFound} - ${HTTP_STATUS_TEXT.notFound}</h1>`,
     {
@@ -78,7 +86,14 @@ export function serve(
 
     return Deno.serve(serveOptions as Deno.ServeOptions, async (request) => {
         if (router) {
-            const response = await matchRoute(router, request);
+            let response: Response | null;
+
+            try {
+                response = await matchRoute(router, request);
+            } catch (error) {
+                console.error(error);
+                return RESPONSE_INTERNAL_SERVER_ERROR.clone();
+            }
 
             if (response) {
                 return response;
