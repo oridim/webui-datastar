@@ -19,6 +19,7 @@ export default defineRouter([
     defineView('/', HomeView),
     defineView('/workspace', WorkspaceView),
     defineStaticDirectory('/', new URL('./public', import.meta.url)),
+    defineConstantFile('/styles/deno-gfm.css', CSS),
 
     createFile,
     listDirectory,
