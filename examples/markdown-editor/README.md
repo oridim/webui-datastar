@@ -10,3 +10,7 @@
     <img src="./screenshot-e.webp" />
     <img src="./screenshot-f.webp" />
 </center>
+
+## Technical Note
+
+Because `Deno.serve` and WebUI both require control of the executing thread they cannot be ran in the same thread. Furthermore, due to how loading of FFI bindings work (I think?) the native libraries needed cannot be loaded on an off-main thread. So, either the HTTP server or the WebUI webview needs to be ran in a child process. And that requires a bit more boilerplate. Especially to support `deno compile` for compiled distributables.
