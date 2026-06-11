@@ -2,16 +2,37 @@ import { contentType } from '@std/media-types';
 import { extname, globToRegExp, join } from '@std/path';
 import { join as posixJoin } from '@std/path/posix';
 
+import { ServerSentEventGenerator } from '@starfederation/datastar-sdk/web';
+
 import { h } from '../preact/components.ts';
 import { render } from '../preact/render.ts';
+import type {
+    Signals,
+    StreamOptions,
+    UnknownSignals,
+} from '../utilities/datastar.ts';
+import { HTTP_STATUS } from '../utilities/http.ts';
+import { isAsyncIterable, isIterable } from '../utilities/types.ts';
 
 import { RouterRequestContext } from './hooks.ts';
-import type { Route, RouteCallback, RouteItem, ViewCallback } from './types.ts';
+import type {
+    Route,
+    RouteCallback,
+    RouteItem,
+    StreamRequestContext,
+    StreamRouteCallback,
+    ViewCallback,
+} from './types.ts';
 import {
     determineContentLength,
     flattenRoutes,
+    processStreamResponse,
     tryReadFile,
 } from './utilities.ts';
+
+const RESPONSE_NO_CONTENT = new Response(null, {
+    status: HTTP_STATUS.noContent,
+});
 
 export function defineGroup(
     prefix: string,
@@ -43,7 +64,7 @@ export function defineRoute<Path extends string>(
     callback: RouteCallback<Path>,
 ): Route {
     return {
-        callback: callback,
+        callback,
         path,
         urlPattern: new URLPattern({ pathname: path }),
     };
@@ -136,4 +157,49 @@ export function defineView<Path extends string>(
             });
         },
     );
+}
+
+export function defineStream<
+    InputSignals extends Signals<unknown> = UnknownSignals,
+    OutputSignals extends Signals<unknown> = InputSignals,
+    Path extends string = string,
+>(
+    path: Path,
+    callback: StreamRouteCallback<Path, InputSignals, OutputSignals>,
+    options: StreamOptions = {},
+): Route {
+    return defineRoute(path, async (context) => {
+        const reader = await ServerSentEventGenerator.readSignals(
+            context.request,
+        );
+
+        const signals = (reader.success ? reader.signals : {}) as InputSignals;
+        const streamContext = Object.assign({}, context, {
+            signals,
+        }) satisfies StreamRequestContext<Path, InputSignals>;
+
+        const result = await callback(streamContext);
+
+        if (!result) {
+            return RESPONSE_NO_CONTENT.clone();
+        }
+
+        if (isAsyncIterable(result) || isIterable(result)) {
+            return ServerSentEventGenerator.stream(
+                async (stream) => {
+                    for await (const response of result) {
+                        processStreamResponse(stream, response);
+                    }
+                },
+                options,
+            );
+        }
+
+        return ServerSentEventGenerator.stream(
+            (stream) => {
+                processStreamResponse(stream, result);
+            },
+            options,
+        );
+    });
 }

@@ -1,45 +1,39 @@
-export type { ActionRegistry } from './actions/action-registry.ts';
-export { defineActionRegistry } from './actions/action-registry.ts';
-export { defineAction } from './actions/directives.ts';
-export type {
-    ActionCallable,
-    ActionCallback,
-    ActionElementsResponse,
-    ActionResponses,
-    ActionSignalsResponse,
-} from './actions/types.ts';
-
 export type { Consumer, Context, Provider } from './preact/context.ts';
 export { makeContext, useContext } from './preact/context.ts';
 export type { JSX } from './preact/components.ts';
 export { render } from './preact/render.ts';
-
-export { useRouterRequestContext } from './router/hooks.ts';
-export {
-    defineConstantFile,
-    defineGroup,
-    defineRoute,
-    defineStaticDirectory,
-    defineStaticFile,
-    defineView,
-} from './router/directives.ts';
-export type {
-    ExtractRouteParams,
-    MapRouteParams,
-    RequestContext,
-    RouteCallback,
-    ViewCallback,
-} from './router/types.ts';
-export type { Router } from './router/router.ts';
-export { matchRoute } from './router/router.ts';
 
 export type {
     ChannelCleanupFunction,
     ChannelDoneFunction,
     ChannelPushFunction,
     ChannelSetupCallback,
-} from './utilities/channel.ts';
-export { makeChannel } from './utilities/channel.ts';
+} from './router/channel.ts';
+export { makeChannel } from './router/channel.ts';
+export {
+    defineConstantFile,
+    defineGroup,
+    defineRoute,
+    defineStaticDirectory,
+    defineStaticFile,
+    defineStream,
+    defineView,
+} from './router/directives.ts';
+export { useRouterRequestContext } from './router/hooks.ts';
+export type { Router } from './router/router.ts';
+export { matchRoute } from './router/router.ts';
+export type {
+    ExtractRouteParams,
+    MapRouteParams,
+    RequestContext,
+    RouteCallback,
+    RouteItem,
+    StreamRequestContext,
+    StreamResponse,
+    StreamRouteCallback,
+    ViewCallback,
+} from './router/types.ts';
+
 export type {
     ContentTypes,
     ExecuteScriptArguments,
@@ -55,6 +49,7 @@ export type {
     RemoveSignalsOptions,
     Signals,
     SignalValue,
+    StreamOptions,
     UnknownSignals,
 } from './utilities/datastar.ts';
 export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './utilities/datastar.ts';

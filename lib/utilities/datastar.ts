@@ -1,6 +1,9 @@
+import type { ServerSentEventGenerator } from '@starfederation/datastar-sdk';
+
 import type { JSX } from '../preact/components.ts';
 
 import type { HTMLNamespaces } from './html.ts';
+import type { DeepPartial } from './types.ts';
 
 export const CONTENT_TYPES = {
     form: 'form',
@@ -40,6 +43,10 @@ export type SignalValue =
     | { [key: string]: SignalValue };
 
 export type Signals<T> = { [K in keyof T]: SignalValue };
+
+export type StreamOptions = Parameters<
+    (typeof ServerSentEventGenerator)['stream']
+>[3];
 
 export type UnknownSignals = Record<string, SignalValue>;
 
@@ -84,7 +91,7 @@ export interface PatchSignalsArguments<
 > {
     readonly options?: PatchSignalsOptions;
 
-    readonly signals: T;
+    readonly signals: DeepPartial<T>;
 }
 
 export interface PatchSignalsOptions {
@@ -109,10 +116,12 @@ export interface RemoveElementsOptions {
     readonly retryDuration?: number;
 }
 
-export interface RemoveSignalsArguments {
+export interface RemoveSignalsArguments<
+    T extends Signals<unknown> = UnknownSignals,
+> {
     readonly options?: RemoveSignalsOptions;
 
-    readonly signalKeys: string | string[];
+    readonly signalKeys: keyof T | (keyof T)[];
 }
 
 export interface RemoveSignalsOptions {

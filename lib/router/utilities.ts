@@ -1,7 +1,11 @@
 import { contentType } from '@std/media-types';
 import { extname } from '@std/path';
 
-import type { Route, RouteItem } from './types.ts';
+import type { ServerSentEventGenerator } from '@starfederation/datastar-sdk/web';
+
+import { render } from '../preact/render.ts';
+
+import type { Route, RouteItem, StreamResponse } from './types.ts';
 
 export function determineContentLength(content: BodyInit): number | undefined {
     if (content instanceof ArrayBuffer || ArrayBuffer.isView(content)) {
@@ -23,6 +27,59 @@ export function flattenRoutes(items: readonly RouteItem[]): readonly Route[] {
 
         return accumulatedRoutes;
     }, []);
+}
+
+export function processStreamResponse(
+    stream: ServerSentEventGenerator,
+    response: StreamResponse,
+): void {
+    for (const [key, payload] of Object.entries(response)) {
+        if (!payload) continue;
+
+        switch (key as keyof StreamResponse) {
+            case 'patchElements': {
+                const { elements, options } = payload;
+                const elementsString = typeof elements === 'string'
+                    ? elements
+                    : render(elements);
+
+                stream.patchElements(elementsString, options);
+                break;
+            }
+            case 'patchSignals': {
+                const { signals, options } = payload;
+                const signalsString = typeof signals === 'string'
+                    ? signals
+                    : JSON.stringify(signals);
+
+                stream.patchSignals(signalsString, options);
+                break;
+            }
+            case 'executeScript': {
+                const { script, options } = payload;
+
+                stream.executeScript(script, options);
+                break;
+            }
+            case 'removeElements': {
+                const { selector, elements, options } = payload;
+                const elementsString = elements
+                    ? (typeof elements === 'string'
+                        ? elements
+                        : render(elements))
+                    : undefined;
+
+                stream.removeElements(selector, elementsString, options);
+                break;
+            }
+            case 'removeSignals': {
+                const { signalKeys, options } = payload;
+
+                stream.removeSignals(signalKeys, options);
+                break;
+            }
+        }
+    }
 }
 
 export async function tryReadFile(
