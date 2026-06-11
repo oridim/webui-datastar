@@ -1,9 +1,10 @@
-import type { JSX } from '@oridim/webui-datastar';
-import { WebUIDatastarHead } from '@oridim/webui-datastar';
-
-import StatusBar from './StatusBar.tsx';
+import type { JSX } from '@oridim/datastar-serve';
+import { FrameworkHead } from '@oridim/datastar-serve';
 
 import DEFAULT_SIGNALS from '../signals.ts';
+import APP_WEBUI from '../webui.ts';
+
+import StatusBar from './StatusBar.tsx';
 
 export interface LayoutProps {
     readonly children: JSX.Element | JSX.Element[] | string;
@@ -21,7 +22,13 @@ export default function Layout({ children }: LayoutProps) {
 
                 <title>Markdown Editor</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
+
+                <script
+                    type='application/javascript'
+                    src={`http://127.0.0.1:${APP_WEBUI.getPort()}/webui.js`}
+                >
+                </script>
 
                 <link rel='stylesheet' href='/styles/styles.css' />
             </head>

@@ -1,22 +1,26 @@
-import { defineAction } from '@oridim/webui-datastar';
+import { defineStream } from '@oridim/datastar-serve';
 
-import type { PartialSignals, Signals } from '../signals.ts';
+import type { Signals } from '../signals.ts';
 import { VIEW_MODES } from '../signals.ts';
 
-export const saveFile = defineAction<Signals, PartialSignals>(
-    async function* (signals) {
-        const { fileContent, filePath } = signals.workspace;
+export const saveFile = defineStream<Signals>(
+    '/streams/saveFile',
+    async function* ({ signals }) {
+        const { workspace } = signals;
+        const { fileContent, filePath } = workspace;
 
         if (!filePath) {
             return;
         }
 
         yield {
-            signals: {
-                status: {
-                    isLoading: true,
-                    isVisible: true,
-                    message: 'Saving...',
+            patchSignals: {
+                signals: {
+                    status: {
+                        isLoading: true,
+                        isVisible: true,
+                        message: 'Saving...',
+                    },
                 },
             },
         };
@@ -24,9 +28,11 @@ export const saveFile = defineAction<Signals, PartialSignals>(
         await Deno.writeTextFile(filePath, fileContent);
 
         yield {
-            signals: {
-                status: {
-                    isVisible: false,
+            patchSignals: {
+                signals: {
+                    status: {
+                        isVisible: false,
+                    },
                 },
             },
         };
@@ -41,7 +47,7 @@ export default function WorkspaceEditor() {
             data-bind='workspace.fileContent'
             data-class={`{ 'is-split': $shell.viewMode === '${VIEW_MODES.split}' }`}
             data-show={`$shell.viewMode === '${VIEW_MODES.split}' || $shell.viewMode === '${VIEW_MODES.edit}'`}
-            data-on:input__debounce__2000ms={saveFile()}
+            data-on:input__debounce__2000ms='@post("/streams/saveFile")'
         />
     );
 }

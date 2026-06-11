@@ -1,17 +1,20 @@
-import { defineAction } from '@oridim/webui-datastar';
+import { defineStream } from '@oridim/datastar-serve';
 import { FileDialog } from 'jsr:@miyauci/rfd@1.0.0/deno';
 import { ChevronRight } from 'npm:lucide-preact@1.17.0';
 
-import type { PartialSignals, Signals } from '../signals.ts';
+import type { Signals } from '../signals.ts';
 
-export const pickDirectory = defineAction<Signals, PartialSignals>(
+export const pickDirectory = defineStream<Signals>(
+    '/streams/pickDirectory',
     async function* () {
         yield {
-            signals: {
-                status: {
-                    isLoading: true,
-                    isVisible: true,
-                    message: 'Waiting for folder selection...',
+            patchSignals: {
+                signals: {
+                    status: {
+                        isLoading: true,
+                        isVisible: true,
+                        message: 'Waiting for folder selection...',
+                    },
                 },
             },
         };
@@ -23,24 +26,30 @@ export const pickDirectory = defineAction<Signals, PartialSignals>(
 
         if (directoryPath) {
             yield {
-                execute: 'webUIDatastar.performNavigation("/workspace");',
-                signals: {
-                    status: {
-                        isVisible: false,
-                    },
+                executeScript: {
+                    script: 'datastarHijack.navigate("/workspace")',
+                },
+                patchSignals: {
+                    signals: {
+                        status: {
+                            isVisible: false,
+                        },
 
-                    workspace: {
-                        directoryPath: directoryPath,
-                        fileContent: '',
-                        filePath: null,
+                        workspace: {
+                            directoryPath: directoryPath,
+                            fileContent: '',
+                            filePath: null,
+                        },
                     },
                 },
             };
         } else {
             yield {
-                signals: {
-                    status: {
-                        isVisible: false,
+                patchSignals: {
+                    signals: {
+                        status: {
+                            isVisible: false,
+                        },
                     },
                 },
             };
@@ -51,7 +60,7 @@ export const pickDirectory = defineAction<Signals, PartialSignals>(
 export default function OpenWorkspaceButton() {
     return (
         <button
-            data-on:click={pickDirectory()}
+            data-on:click='@post("/streams/pickDirectory")'
             class='open-workspace-button'
         >
             Open Workspace <ChevronRight class='open-workspace-button--icon' />

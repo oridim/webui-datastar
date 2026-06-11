@@ -1,3 +1,5 @@
+import type { ViewCallback } from '@oridim/datastar-serve';
+
 import WorkspaceEditor from '../components/WorkspaceEditor.tsx';
 import WorkspaceHeader from '../components/WorkspaceHeader.tsx';
 import WorkspacePreview from '../components/WorkspacePreview.tsx';
@@ -5,7 +7,7 @@ import WorkspaceSidebar from '../components/WorkspaceSidebar.tsx';
 
 import Layout from '../components/Layout.tsx';
 
-export default function WorkspaceView() {
+export default (() => {
     return (
         <Layout>
             <div class='workspace-view'>
@@ -19,4 +21,4 @@ export default function WorkspaceView() {
             </div>
         </Layout>
     );
-}
+}) satisfies ViewCallback;

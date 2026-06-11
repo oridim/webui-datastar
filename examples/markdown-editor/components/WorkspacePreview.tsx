@@ -1,19 +1,23 @@
 import { render as renderMarkdown } from 'jsr:@deno/gfm@0.12.0';
-import { defineAction } from '@oridim/webui-datastar';
+import { defineStream } from '@oridim/datastar-serve';
 
-import type { PartialSignals, Signals } from '../signals.ts';
+import type { Signals } from '../signals.ts';
 import { VIEW_MODES } from '../signals.ts';
 
-export const renderPreview = defineAction<Signals, PartialSignals>(
-    async function* (signals) {
-        const { fileContent } = signals.workspace;
+export const renderPreview = defineStream<Signals>(
+    '/streams/renderPreview',
+    async function* ({ signals }) {
+        const { workspace } = signals;
+        const { fileContent } = workspace;
 
         yield {
-            signals: {
-                status: {
-                    isLoading: true,
-                    isVisible: true,
-                    message: 'Rendering...',
+            patchSignals: {
+                signals: {
+                    status: {
+                        isLoading: true,
+                        isVisible: true,
+                        message: 'Rendering...',
+                    },
                 },
             },
         };
@@ -21,11 +25,15 @@ export const renderPreview = defineAction<Signals, PartialSignals>(
         const render = renderMarkdown(fileContent);
 
         yield {
-            elements: <WorkspacePreview render={render} />,
+            patchElements: {
+                elements: <WorkspacePreview render={render} />,
+            },
 
-            signals: {
-                status: {
-                    isVisible: false,
+            patchSignals: {
+                signals: {
+                    status: {
+                        isVisible: false,
+                    },
                 },
             },
         };
@@ -43,7 +51,7 @@ export default function WorkspacePreview(props: WorkspacePreviewProps) {
         <div
             id='workspace-preview markdown-body'
             class='workspace-preview markdown-body'
-            data-on-signal-patch__debounce__500ms={`${renderPreview()}`}
+            data-on-signal-patch__debounce__500ms='@get("/streams/renderPreview")'
             data-on-signal-patch-filter='{include: /^workspace\.fileContent$/}'
             data-show={`$shell.viewMode === '${VIEW_MODES.split}' || $shell.viewMode === '${VIEW_MODES.preview}'`}
             dangerouslySetInnerHTML={{ __html: render }}
