@@ -21,6 +21,7 @@ export async function matchRoute(
                 match,
                 params: match.pathname.groups as MapRouteParams,
                 request,
+                url,
             });
 
             if (response) {

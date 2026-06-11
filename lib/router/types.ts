@@ -26,6 +26,8 @@ export interface RequestContext<Path extends string = string> {
     readonly params: MapRouteParams<Path>;
 
     readonly request: Request;
+
+    readonly url: URL;
 }
 
 export interface Route {

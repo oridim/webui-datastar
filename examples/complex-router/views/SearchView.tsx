@@ -2,13 +2,11 @@ import type { ViewCallback } from '@oridim/datastar-serve';
 
 import Layout from '../components/Layout.tsx';
 
-export default (({ request }) => {
-    const { url: x } = request;
+export default (({ url }) => {
+    const { searchParams } = url;
 
-    const url = new URL(x);
-
-    const query = url.searchParams.get('q') || 'Nothing';
-    const sort = url.searchParams.get('sort') || 'Default';
+    const query = searchParams.get('q') || 'Nothing';
+    const sort = searchParams.get('sort') || 'Default';
 
     return (
         <Layout title={`Search: ${query}`}>
