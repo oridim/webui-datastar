@@ -9,15 +9,6 @@ export type {
     ActionSignalsResponse,
 } from './actions/types.ts';
 
-export type {
-    ContentTypes,
-    PatchElementsModes,
-    Signals,
-    SignalValue,
-    UnknownSignals,
-} from './datastar/types.ts';
-export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './datastar/types.ts';
-
 export type { Consumer, Context, Provider } from './preact/context.ts';
 export { makeContext, useContext } from './preact/context.ts';
 export type { JSX } from './preact/components.ts';
@@ -49,6 +40,24 @@ export type {
     ChannelSetupCallback,
 } from './utilities/channel.ts';
 export { makeChannel } from './utilities/channel.ts';
+export type {
+    ContentTypes,
+    ExecuteScriptArguments,
+    ExecuteScriptOptions,
+    PatchElementsArguments,
+    PatchElementsModes,
+    PatchElementsOptions,
+    PatchSignalsArguments,
+    PatchSignalsOptions,
+    RemoveElementsArguments,
+    RemoveElementsOptions,
+    RemoveSignalsArguments,
+    RemoveSignalsOptions,
+    Signals,
+    SignalValue,
+    UnknownSignals,
+} from './utilities/datastar.ts';
+export { CONTENT_TYPES, PATCH_ELEMENTS_MODES } from './utilities/datastar.ts';
 export type { HTMLNamespaces } from './utilities/html.ts';
 export { HTML_NAMESPACES } from './utilities/html.ts';
 export type {
