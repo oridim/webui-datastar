@@ -110,6 +110,25 @@ Visit the [`/examples`](./examples) directory for complete usage examples on how
 
 Visit the [JSR `@oridim/datastar-serve` package page](https://jsr.io/@oridim/datastar-serve) for the API reference docs.
 
+# Fullstack + Performance Scaling + Security Disclaimer
+
+Datastar Serve makes no claims to being a high-performance nor secure HTTP server framework. It is a light wrapper framework around [`Deno.serve`](https://docs.deno.com/api/deno/~/Deno.serve) and the Datastar framework to provide a simplified developer experience. More specifically, it was made to power webview desktop applications rather than to serve remote clients.
+
+That being said, contributions to improve performance and security are always welcome as long they do not compromise on readability, maintainability, and the existing developer experience.
+
+Datastar Serve also does not target be a complete fullstack framework. Aside from potential future additions such as a middleware API this framework **does not aim to provide**:
+
+- Asset Management
+- Authentication / Authorization
+- Caching Management
+- Cookie / Session Management
+- Database ORMs
+- Form Handling
+- Jobs / Workflow System
+- Security Middleware
+
+The framework is choose-your-own-adventure as far as those features go.
+
 # License
 
 Datastar Serve is licensed under the [MIT License](./LICENSE).
