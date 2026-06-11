@@ -1,7 +1,9 @@
+import type { ViewCallback } from '@oridim/datastar-serve';
+
 import ContextDisplayer from '../components/ContextDisplayer.tsx';
 import Layout from '../components/Layout.tsx';
 
-export default function HomeView() {
+export default (() => {
     return (
         <Layout title='Home'>
             <h1>I'm the home view!</h1>
@@ -9,4 +11,4 @@ export default function HomeView() {
             <ContextDisplayer />
         </Layout>
     );
-}
+}) satisfies ViewCallback;

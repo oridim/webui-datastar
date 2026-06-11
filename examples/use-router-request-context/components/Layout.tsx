@@ -1,5 +1,5 @@
-import type { JSX } from '@oridim/webui-datastar';
-import { WebUIDatastarHead } from '@oridim/webui-datastar';
+import type { JSX } from '@oridim/datastar-serve';
+import { FrameworkHead } from '@oridim/datastar-serve';
 
 export interface LayoutProps {
     readonly children: JSX.Element | JSX.Element[] | string;
@@ -12,9 +12,9 @@ export default function Layout({ children, title }: LayoutProps) {
         <html lang='en'>
             <head>
                 <meta charset='UTF-8' />
-                <title>{title} :: useRouterRequest</title>
+                <title>{title} :: useRouterRequestContext</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
             </head>
 
             <body>

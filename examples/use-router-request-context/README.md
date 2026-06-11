@@ -1,6 +1,6 @@
-# `useRouterRequest` Example
+# `useRouterRequestContext` Example
 
-> Showcases how to use the `useRouterRequest` hook.
+> Showcases how to use the `useRouterRequestContext` hook.
 
 <center>
     <img src="./screenshot-a.webp" />

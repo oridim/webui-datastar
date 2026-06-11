@@ -1,7 +1,7 @@
-import { useRouterRequest } from '@oridim/webui-datastar';
+import { useRouterRequestContext } from '@oridim/datastar-serve';
 
 export default function ContextDisplayer() {
-    const routerRequest = useRouterRequest();
+    const routerRequest = useRouterRequestContext();
     const stringifiedRequest = JSON.stringify(routerRequest, null, 4);
 
     return (

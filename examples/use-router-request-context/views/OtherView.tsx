@@ -1,7 +1,9 @@
+import type { ViewCallback } from '@oridim/datastar-serve';
+
 import ContextDisplayer from '../components/ContextDisplayer.tsx';
 import Layout from '../components/Layout.tsx';
 
-export default function OtherView() {
+export default (() => {
     return (
         <Layout title='Other'>
             <h1>I'm the other view!</h1>
@@ -9,4 +11,4 @@ export default function OtherView() {
             <ContextDisplayer />
         </Layout>
     );
-}
+}) satisfies ViewCallback;
