@@ -2,7 +2,7 @@ import {
     defineRouter,
     defineStaticDirectory,
     defineView,
-} from '@oridim/webui-datastar';
+} from '@oridim/datastar-serve';
 
 import HomeView from './views/HomeView.tsx';
 import OtherView from './views/OtherView.tsx';

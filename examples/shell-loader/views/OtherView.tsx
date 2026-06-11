@@ -1,6 +1,8 @@
+import type { ViewCallback } from '@oridim/datastar-serve';
+
 import Layout from '../components/Layout.tsx';
 
-export default async function OtherView() {
+export default (async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     return (
@@ -12,4 +14,4 @@ export default async function OtherView() {
             </p>
         </Layout>
     );
-}
+}) satisfies ViewCallback;

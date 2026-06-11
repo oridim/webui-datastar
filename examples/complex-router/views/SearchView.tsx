@@ -1,7 +1,12 @@
-import type { RouterRequest } from '@oridim/webui-datastar';
+import type { ViewCallback } from '@oridim/datastar-serve';
+
 import Layout from '../components/Layout.tsx';
 
-export default function SearchView({ url }: RouterRequest<'/search'>) {
+export default (({ request }) => {
+    const { url: x } = request;
+
+    const url = new URL(x);
+
     const query = url.searchParams.get('q') || 'Nothing';
     const sort = url.searchParams.get('sort') || 'Default';
 
@@ -25,4 +30,4 @@ export default function SearchView({ url }: RouterRequest<'/search'>) {
             </p>
         </Layout>
     );
-}
+}) satisfies ViewCallback<'/search'>;

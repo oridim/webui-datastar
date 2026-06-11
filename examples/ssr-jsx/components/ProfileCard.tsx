@@ -1,5 +1,6 @@
 interface ProfileCardProps {
     readonly name: string;
+
     readonly role: string;
 }
 

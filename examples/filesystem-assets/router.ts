@@ -2,7 +2,7 @@ import {
     defineRouter,
     defineStaticDirectory,
     defineStaticFile,
-} from '@oridim/webui-datastar';
+} from '@oridim/datastar-serve';
 
 export default defineRouter([
     // NOTE: Plain strings are supported for the second arguments of the below
