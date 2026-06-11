@@ -1,33 +1,45 @@
-import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
+import { defineStream, FrameworkHead } from '@oridim/datastar-serve';
 
 import type { Signals } from '../signals.ts';
 import DEFAULT_SIGNALS from '../signals.ts';
 
-export const handleRegistration = defineAction<Signals>(
-    async ({ username, email, role }) => {
+export const handleRegistration = defineStream<Signals>(
+    '/streams/handleRegistration',
+    async ({ request }) => {
+        const formData = await request.formData();
+        const { username, email, role } = Object.fromEntries(
+            formData.entries(),
+        );
+
         await new Promise((resolve) => setTimeout(resolve, 600));
 
         return {
-            elements: (
-                <div id='registration-container'>
-                    <h2 style='color: green;'>Registration Successful!</h2>
+            patchElements: {
+                elements: (
+                    <div id='registration-container'>
+                        <h2 style='color: green;'>Registration Successful!</h2>
 
-                    <p>
-                        Welcome to the platform, <strong>{username}</strong>.
-                    </p>
+                        <p>
+                            Welcome to the platform,{' '}
+                            <strong>{username}</strong>.
+                        </p>
 
-                    <p>
-                        Role assigned: <strong>{role}</strong>
-                    </p>
+                        <p>
+                            Role assigned: <strong>{role}</strong>
+                        </p>
 
-                    <p>
-                        <em>A confirmation email has been sent to {email}.</em>
-                    </p>
+                        <p>
+                            <em>
+                                A confirmation email has been sent to {email}.
+                            </em>
+                        </p>
 
-                    <br />
-                    <a href='/'>Register another user</a>
-                </div>
-            ),
+                        <br />
+
+                        <a href='/'>Register another user</a>
+                    </div>
+                ),
+            },
         };
     },
 );
@@ -39,7 +51,7 @@ export default function FormView() {
                 <meta charset='UTF-8' />
                 <title>Forms</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
             </head>
 
             <body>
@@ -49,87 +61,61 @@ export default function FormView() {
                     id='registration-container'
                     data-signals={JSON.stringify(DEFAULT_SIGNALS)}
                 >
-                    <form>
-                        {/* @ts-expect-error - HACK: Preact's typings don't like the deprecated `border` attribute. */}
-                        <table border='0' cellpadding='8'>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <label for='username'>Username:</label>
-                                    </td>
+                    <form data-on:submit="@post('/streams/handleRegistration', {contentType: 'form'})">
+                        <p>
+                            <label for='username'>Username:</label>
 
-                                    <td>
-                                        <input
-                                            type='text'
-                                            id='username'
-                                            name='username'
-                                            data-bind='username'
-                                            required
-                                            minlength={3}
-                                            placeholder='Minimum: 3 characters'
-                                        />
-                                    </td>
-                                </tr>
+                            <input
+                                type='text'
+                                id='username'
+                                minlength={3}
+                                name='username'
+                                placeholder='Minimum: 3 characters'
+                                data-bind='username'
+                                required
+                            />
+                        </p>
 
-                                <tr>
-                                    <td>
-                                        <label for='email'>
-                                            Email Address:
-                                        </label>
-                                    </td>
+                        <p>
+                            <label for='email'>
+                                Email Address:
+                            </label>
 
-                                    <td>
-                                        <input
-                                            type='email'
-                                            id='email'
-                                            name='email'
-                                            data-bind='email'
-                                            required
-                                            placeholder='name@example.com'
-                                        />
-                                    </td>
-                                </tr>
+                            <input
+                                type='email'
+                                id='email'
+                                name='email'
+                                placeholder='name@example.com'
+                                data-bind='email'
+                                required
+                            />
+                        </p>
 
-                                <tr>
-                                    <td>
-                                        <label for='role'>Account Role:</label>
-                                    </td>
+                        <p>
+                            <label for='role'>Account Role:</label>
 
-                                    <td>
-                                        <select
-                                            id='role'
-                                            name='role'
-                                            data-bind='role'
-                                        >
-                                            <option value='user'>
-                                                Standard User
-                                            </option>
+                            <select
+                                id='role'
+                                name='role'
+                                data-bind='role'
+                            >
+                                <option value='user'>
+                                    Standard User
+                                </option>
 
-                                            <option value='editor'>
-                                                Content Editor
-                                            </option>
+                                <option value='editor'>
+                                    Content Editor
+                                </option>
 
-                                            <option value='admin'>
-                                                Administrator
-                                            </option>
-                                        </select>
-                                    </td>
-                                </tr>
+                                <option value='admin'>
+                                    Administrator
+                                </option>
+                            </select>
+                        </p>
 
-                                <tr>
-                                    <td colspan={2} align='right'>
-                                        <button
-                                            type='submit'
-                                            data-on:click={handleRegistration(
-                                                "{contentType: 'form'}",
-                                            )}
-                                        >
-                                            Create Account
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <button type='submit'>
+                            Create Account
+                        </button>
                     </form>
                 </div>
             </body>
