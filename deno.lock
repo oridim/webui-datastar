@@ -76,6 +76,9 @@
     }
   },
   "npm": {
+    "@starfederation/datastar-sdk@1.0.0": {
+      "integrity": "sha512-VT1co9LeRLJ3wynffvkxXLJaCh4PHt1YUhH3zCQYhjTuaeWjozNjQQrg+BUbkDMO58mSgeQp9pgOXRWciy0y6g=="
+    },
     "commander@8.3.0": {
       "integrity": "sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww=="
     },
@@ -230,7 +233,7 @@
     "dependencies": [
       "jsr:@std/media-types@^1.1.0",
       "jsr:@std/path@^1.1.5",
-      "jsr:@webui/deno-webui@^2.5.15",
+      "npm:@starfederation/datastar-sdk@1",
       "npm:preact-render-to-string@^6.7.0",
       "npm:preact@^10.29.2"
     ]
