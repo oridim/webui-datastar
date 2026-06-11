@@ -1,55 +1,102 @@
-import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
+import { defineStream, FrameworkHead } from '@oridim/datastar-serve';
 
-import type { PartialSignals, Signals } from '../signals.ts';
+import type { Signals } from '../signals.ts';
 import DEFAULT_SIGNALS from '../signals.ts';
 
-export const handleSyncSignal = defineAction<Signals, PartialSignals>(
-    ({ counter }) => {
+export const handleSyncSignals = defineStream<Signals>(
+    '/streams/handleSyncSignals',
+    ({ signals }) => {
+        const { counter } = signals;
+
         return {
-            signals: {
-                counter: counter + 1,
+            patchSignals: {
+                signals: {
+                    counter: counter + 1,
+                },
             },
         };
     },
 );
 
-export const handleAsyncBody = defineAction<Signals>(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+export const handleAsyncElements = defineStream<Signals>(
+    '/streams/handleAsyncElements',
+    async () => {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    return {
-        elements: <span id='async-result'>Loaded from DB!</span>,
-    };
-});
-
-export const handleGenerator = defineAction<Signals, PartialSignals>(
-    function* () {
-        yield { signals: { status: 'Starting generator...' } };
-        yield { signals: { status: 'Processing data step 1...' } };
-        yield { signals: { status: 'Processing data step 2...' } };
-        yield { signals: { status: 'Generator finished!' } };
+        return {
+            patchElements: {
+                elements: <span id='async-result'>Loaded from DB!</span>,
+            },
+        };
     },
 );
 
-export const handleAsyncGenerator = defineAction<Signals>(async function* () {
-    yield { elements: <div id='stream-result'>Starting stream...</div> };
-
-    for (let index = 1; index <= 3; index++) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+export const handleGeneratorSignals = defineStream<Signals>(
+    '/streams/handleGeneratorSignals',
+    function* () {
+        yield {
+            patchSignals: {
+                signals: { status: 'Starting generator...' },
+            },
+        };
 
         yield {
-            elements: (
-                <div id='stream-result'>Downloading chunk {index}/3...</div>
-            ),
+            patchSignals: {
+                signals: { status: 'Processing data step 1...' },
+            },
         };
-    }
 
-    yield { elements: <div id='stream-result'>Stream complete!</div> };
-});
+        yield {
+            patchSignals: {
+                signals: { status: 'Processing data step 2...' },
+            },
+        };
 
-export const handleVoid = defineAction<Signals>(() => {
-    console.log('\nVoid action triggered! No patches sent to frontend.\n');
-    return;
-});
+        yield {
+            patchSignals: {
+                signals: { status: 'Generator finished!' },
+            },
+        };
+    },
+);
+
+export const handleAsyncGeneratorElements = defineStream<Signals>(
+    '/streams/handleAsyncGeneratorElements',
+    async function* () {
+        yield {
+            patchElements: {
+                elements: <div id='stream-result'>Starting stream...</div>,
+            },
+        };
+
+        for (let index = 1; index <= 3; index++) {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+
+            yield {
+                patchElements: {
+                    elements: (
+                        <div id='stream-result'>
+                            Downloading chunk {index}/3...
+                        </div>
+                    ),
+                },
+            };
+        }
+
+        yield {
+            patchElements: {
+                elements: <div id='stream-result'>Stream complete!</div>,
+            },
+        };
+    },
+);
+
+export const handleVoid = defineStream<Signals>(
+    '/streams/handleVoid',
+    () => {
+        console.log('\nVoid action triggered! No patches sent to frontend.\n');
+    },
+);
 
 export default function HomeView() {
     return (
@@ -58,7 +105,7 @@ export default function HomeView() {
                 <meta charset='UTF-8' />
                 <title>Actions</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
             </head>
 
             <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>
@@ -70,7 +117,7 @@ export default function HomeView() {
                         <tbody>
                             <tr>
                                 <td>
-                                    <strong>1. Sync (Signal)</strong>
+                                    <strong>1. Sync (patchSignals)</strong>
                                 </td>
 
                                 <td>
@@ -79,7 +126,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click={handleSyncSignal()}>
+                                    <button data-on:click="@get('/streams/handleSyncSignals')">
                                         Increment
                                     </button>
                                 </td>
@@ -87,7 +134,7 @@ export default function HomeView() {
 
                             <tr>
                                 <td>
-                                    <strong>2. Async (Body)</strong>
+                                    <strong>2. Async (patchElements)</strong>
                                 </td>
 
                                 <td>
@@ -97,7 +144,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click={handleAsyncBody()}>
+                                    <button data-on:click="@get('/streams/handleAsyncElements')">
                                         Fetch Data
                                     </button>
                                 </td>
@@ -105,7 +152,7 @@ export default function HomeView() {
 
                             <tr>
                                 <td>
-                                    <strong>3. Generator (Signal)</strong>
+                                    <strong>3. Generator (patchSignals)</strong>
                                 </td>
 
                                 <td>
@@ -114,15 +161,17 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click={handleGenerator()}>
-                                        Run Sync Generator
+                                    <button data-on:click="@get('/streams/handleGeneratorSignals')">
+                                        Run Generator
                                     </button>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
-                                    <strong>4. AsyncGen (Body)</strong>
+                                    <strong>
+                                        4. AsyncGenerator (patchElements)
+                                    </strong>
                                 </td>
 
                                 <td>
@@ -132,9 +181,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button
-                                        data-on:click={handleAsyncGenerator()}
-                                    >
+                                    <button data-on:click="@get('/streams/handleAsyncGeneratorElements')">
                                         Start Stream
                                     </button>
                                 </td>
@@ -150,7 +197,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click={handleVoid()}>
+                                    <button data-on:click="@get('/streams/handleVoid')">
                                         Trigger Void
                                     </button>
                                 </td>

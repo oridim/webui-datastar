@@ -7,7 +7,7 @@
 ## Framework Features
 
 - **Client-Side Routing:** Navigate without hard refreshes by patching pages directly from the backend.
-- **Server-Side Actions:** Declaratively wire frontend-to-backend IPC directly inside your HTML.
+- **Server-Side Streams:** Declaratively wire frontend-to-backend RPC streams directly inside your HTML.
 - **Server-Side JSX Rendering (SSR):** Use JSX as your native backend HTML templating language.
 - **Server-Side Routing:** Easily serve views, custom routes, and static assets with a built-in router.
 - **Stream Patches:** Fully control UI updates by streaming patches from your backend sync and async function and generator streams.
