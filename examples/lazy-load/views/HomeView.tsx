@@ -43,7 +43,7 @@ export default function HomeView() {
                     <div
                         id='lazy-content'
                         class='skeleton-box'
-                        data-on-intersect__once="@get('/streams/handleLazyLoad')"
+                        data-on-intersect__once='@get("/streams/handleLazyLoad")'
                     >
                         Loading heavy content...
                     </div>

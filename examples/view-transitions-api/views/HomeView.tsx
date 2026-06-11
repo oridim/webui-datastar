@@ -61,7 +61,7 @@ export default (() => {
 
             <button
                 type='button'
-                data-on:click="@get('/streams/handlePatchTransition')"
+                data-on:click='@get("/streams/handlePatchTransition")'
             >
                 Trigger Patch Transition
             </button>

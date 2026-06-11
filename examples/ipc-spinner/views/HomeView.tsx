@@ -28,11 +28,11 @@ export default function HomeView() {
             <body>
                 <button
                     type='button'
-                    data-on:click="@get('/streams/handleSlowSave')"
+                    data-on:click='@get("/streams/handleSlowSave")'
                     data-indicator='saving'
                 >
                     <span data-show='$saving' class='spinner' />
-                    <span data-text="$saving ? 'Saving...' : 'Save Data'">
+                    <span data-text='$saving ? "Saving..." : "Save Data"'>
                         Save Data
                     </span>
                 </button>

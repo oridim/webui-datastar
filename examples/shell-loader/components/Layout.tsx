@@ -21,7 +21,7 @@ export default function Layout({ children, title }: LayoutProps) {
 
             <body
                 data-signals='{ globalLoading: false }'
-                data-on:datastar-fetch__window="$globalLoading = (evt.detail.type === 'started')"
+                data-on:datastar-fetch__window='$globalLoading = (evt.detail.type === "started")'
             >
                 <div
                     class='shell-loader'

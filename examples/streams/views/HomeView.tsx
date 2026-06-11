@@ -126,7 +126,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click="@get('/streams/handleSyncSignals')">
+                                    <button data-on:click='@get("/streams/handleSyncSignals")'>
                                         Increment
                                     </button>
                                 </td>
@@ -144,7 +144,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click="@get('/streams/handleAsyncElements')">
+                                    <button data-on:click='@get("/streams/handleAsyncElements")'>
                                         Fetch Data
                                     </button>
                                 </td>
@@ -161,7 +161,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click="@get('/streams/handleGeneratorSignals')">
+                                    <button data-on:click='@get("/streams/handleGeneratorSignals")'>
                                         Run Generator
                                     </button>
                                 </td>
@@ -181,7 +181,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click="@get('/streams/handleAsyncGeneratorElements')">
+                                    <button data-on:click='@get("/streams/handleAsyncGeneratorElements")'>
                                         Start Stream
                                     </button>
                                 </td>
@@ -197,7 +197,7 @@ export default function HomeView() {
                                 </td>
 
                                 <td align='center'>
-                                    <button data-on:click="@get('/streams/handleVoid')">
+                                    <button data-on:click='@get("/streams/handleVoid")'>
                                         Trigger Void
                                     </button>
                                 </td>

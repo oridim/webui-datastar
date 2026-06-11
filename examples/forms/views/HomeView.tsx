@@ -61,7 +61,7 @@ export default function FormView() {
                     id='registration-container'
                     data-signals={JSON.stringify(DEFAULT_SIGNALS)}
                 >
-                    <form data-on:submit="@post('/streams/handleRegistration', {contentType: 'form'})">
+                    <form data-on:submit='@post("/streams/handleRegistration", {contentType: "form"})'>
                         <p>
                             <label for='username'>Username:</label>
 

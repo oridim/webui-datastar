@@ -44,7 +44,7 @@ export default function HomeView() {
                     <div
                         id='profile-widget'
                         class='skeleton-card'
-                        data-init="@get('/streams/handleFetchProfile')"
+                        data-init='@get("/streams/handleFetchProfile")'
                     >
                         <div class='skeleton-avatar' />
                         <div class='skeleton-text-line' />
