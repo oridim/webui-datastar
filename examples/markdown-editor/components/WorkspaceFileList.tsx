@@ -13,7 +13,7 @@ export const listDirectory = defineStream<Signals>(
         const { directoryPath } = workspace;
 
         if (!directoryPath) {
-            return;
+            return null;
         }
 
         yield {
@@ -63,7 +63,7 @@ export const readFile = defineStream<Signals>(
         const { filePath } = workspace;
 
         if (!filePath) {
-            return;
+            return null;
         }
 
         yield {
