@@ -42,7 +42,10 @@ export type StreamChannelCallback<
 > = (
     requestContext: StreamRequestContext<Path, InputSignals>,
     channelContext: StreamChannelContext<OutputSignals>,
-) => StreamChannelCleanupFunction | void;
+) =>
+    | Promise<StreamChannelCleanupFunction | void>
+    | StreamChannelCleanupFunction
+    | void;
 
 export type StreamRouteCallback<
     Path extends string = string,

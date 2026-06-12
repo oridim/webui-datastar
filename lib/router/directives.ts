@@ -20,6 +20,7 @@ import type {
     RouteCallback,
     RouteItem,
     StreamChannelCallback,
+    StreamChannelCleanupFunction,
     StreamRequestContext,
     StreamResponse,
     StreamRouteCallback,
@@ -252,7 +253,13 @@ export function defineStreamChannel<
             };
 
             const generator = async function* () {
+                let cleanup: StreamChannelCleanupFunction | void = undefined;
+
+                signal.addEventListener('abort', handleAbort);
+
                 try {
+                    cleanup = await callback(context, { done, error, push });
+
                     while (!isDone || queue.length > 0) {
                         if (thrownError) {
                             throw thrownError;
@@ -296,9 +303,6 @@ export function defineStreamChannel<
                 waitingResolve = null;
             };
 
-            const cleanup = callback(context, { done, error, push });
-
-            signal.addEventListener('abort', handleAbort);
             return generator();
         },
         options,
