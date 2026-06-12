@@ -1,6 +1,8 @@
+import type { ViewCallback } from '@oridim/datastar-serve';
+
 import Layout from '../components/Layout.tsx';
 
-export default function OtherView() {
+export default (() => {
     return (
         <Layout title='Other'>
             <h1>You are on the Other Page!</h1>
@@ -10,4 +12,4 @@ export default function OtherView() {
             <p>Go back Home to see it again, or check the box to disable it.</p>
         </Layout>
     );
-}
+}) satisfies ViewCallback;

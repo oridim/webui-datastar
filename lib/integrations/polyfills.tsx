@@ -32,7 +32,7 @@ export function PolyfillsHead(): JSX.Element {
             
             for (const {enabled, src} of polyfills) {
                 if (enabled) {
-                    document.write('<script src="/__webui-datastar/polyfills/' + src + '"><\\/script>');
+                    document.write('<script src="/__datastar-serve/polyfills/' + src + '"><\\/script>');
                 }
             }
         })();

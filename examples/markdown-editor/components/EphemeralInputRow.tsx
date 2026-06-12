@@ -1,15 +1,14 @@
-import { defineAction } from '@oridim/webui-datastar';
+import { defineStream } from '@oridim/datastar-serve';
 import { join } from '@std/path';
 import { Check, X } from 'npm:lucide-preact@1.17.0';
 
-import { listDirectory } from './WorkspaceFileList.tsx';
-
-import type { PartialSignals, Signals } from '../signals.ts';
+import type { Signals } from '../signals.ts';
 
 const DEFAULT_FILE_CONTENT = '# New Note';
 
-export const createFile = defineAction<Signals, PartialSignals>(
-    async function* (signals) {
+export const createFile = defineStream<Signals>(
+    '/streams/createFile',
+    async function* ({ signals }) {
         const { ephemeralFile, workspace } = signals;
 
         const { fileName } = ephemeralFile;
@@ -20,11 +19,13 @@ export const createFile = defineAction<Signals, PartialSignals>(
         }
 
         yield {
-            signals: {
-                status: {
-                    isLoading: true,
-                    isVisible: true,
-                    message: 'Creating file...',
+            patchSignals: {
+                signals: {
+                    status: {
+                        isLoading: true,
+                        isVisible: true,
+                        message: 'Creating file...',
+                    },
                 },
             },
         };
@@ -33,20 +34,22 @@ export const createFile = defineAction<Signals, PartialSignals>(
         await Deno.writeTextFile(filePath, DEFAULT_FILE_CONTENT);
 
         yield {
-            signals: {
-                ephemeralFile: {
-                    isCreating: false,
-                    fileName: '',
-                    wasFileCreated: true,
-                },
+            patchSignals: {
+                signals: {
+                    ephemeralFile: {
+                        isCreating: false,
+                        fileName: '',
+                        wasFileCreated: true,
+                    },
 
-                status: {
-                    isVisible: false,
-                },
+                    status: {
+                        isVisible: false,
+                    },
 
-                workspace: {
-                    fileContent: DEFAULT_FILE_CONTENT,
-                    filePath,
+                    workspace: {
+                        fileContent: DEFAULT_FILE_CONTENT,
+                        filePath,
+                    },
                 },
             },
         };
@@ -59,7 +62,7 @@ export default function EphemeralInputRow() {
             class='ephemeral-input-row'
             data-effect={`
                 if ($ephemeralFile.wasFileCreated) {
-                    ${listDirectory()};
+                    @get("/streams/listDirectory");
                     $ephemeralFile.wasFileCreated = false;
                 }
             `}
@@ -74,14 +77,14 @@ export default function EphemeralInputRow() {
 
             <button
                 class='icon-button is-success'
-                data-on:click={createFile()}
+                data-on:click='@post("/streams/createFile")'
             >
                 <Check />
             </button>
 
             <button
                 class='icon-button is-danger'
-                data-on:click="$ephemeralFile.isCreating = false; $ephemeralFile.fileName = ''"
+                data-on:click='$ephemeralFile.isCreating = false; $ephemeralFile.fileName = ""'
             >
                 <X />
             </button>

@@ -1,7 +1,9 @@
-import { defineRouter, defineView } from '@oridim/webui-datastar';
+import { defineRouter, defineView } from '@oridim/datastar-serve';
 
-import HomeView from './views/HomeView.tsx';
+import HomeView, { handleChannel } from './views/HomeView.tsx';
 
 export default defineRouter([
     defineView('/', HomeView),
+
+    handleChannel,
 ]);

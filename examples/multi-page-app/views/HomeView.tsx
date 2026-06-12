@@ -1,6 +1,8 @@
+import type { ViewCallback } from '@oridim/datastar-serve';
+
 import Layout from '../components/Layout.tsx';
 
-export default function HomeView() {
+export default (() => {
     return (
         <Layout title='Home'>
             <h1>Welcome Home</h1>
@@ -14,4 +16,4 @@ export default function HomeView() {
             </p>
         </Layout>
     );
-}
+}) satisfies ViewCallback;

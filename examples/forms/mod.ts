@@ -1,16 +1,12 @@
-import { initWebUIDatastar } from '@oridim/webui-datastar';
-import { WebUI } from '@webui/deno-webui';
+import { serve } from '@oridim/datastar-serve';
 
-import APP_ACTIONS from './actions.ts';
 import APP_ROUTER from './router.ts';
 
-const window = new WebUI();
-
-initWebUIDatastar({
-    window,
-    actions: APP_ACTIONS,
+serve({
     router: APP_ROUTER,
+    serve: {
+        onListen({ hostname, port }) {
+            console.log(`Visit: http://${hostname}:${port}`);
+        },
+    },
 });
-
-await window.showWebView('/');
-await WebUI.wait();

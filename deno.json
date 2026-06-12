@@ -1,5 +1,5 @@
 {
-    "name": "@oridim/webui-datastar",
+    "name": "@oridim/datastar-serve",
     "version": "0.0.6",
     "license": "MIT",
 
@@ -30,10 +30,10 @@
     },
 
     "imports": {
-        "@oridim/webui-datastar": "./lib/mod.ts",
+        "@oridim/datastar-serve": "./lib/mod.ts",
+        "@starfederation/datastar-sdk": "npm:@starfederation/datastar-sdk@^1.0.0",
         "@std/media-types": "jsr:@std/media-types@^1.1.0",
         "@std/path": "jsr:@std/path@^1.1.5",
-        "@webui/deno-webui": "jsr:@webui/deno-webui@^2.5.15",
         "preact": "npm:preact@^10.29.2",
         "preact-render-to-string": "npm:preact-render-to-string@^6.7.0"
     },

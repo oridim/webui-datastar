@@ -1,4 +1,4 @@
-import { defineGroup, defineRouter, defineView } from '@oridim/webui-datastar';
+import { defineGroup, defineRouter, defineView } from '@oridim/datastar-serve';
 
 import HomeView from './views/HomeView.tsx';
 import SearchView from './views/SearchView.tsx';

@@ -1,5 +1,3 @@
-export type PartialSignals = Partial<Signals>;
-
 export interface Signals {
     readonly button: string | null;
 

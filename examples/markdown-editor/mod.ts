@@ -1,19 +1,14 @@
-import { initWebUIDatastar } from '@oridim/webui-datastar';
-import { WebUI } from '@webui/deno-webui';
-import { load as loadRFD } from 'jsr:@miyauci/rfd@1.0.0/deno';
+import { SUBCOMMAND, SUBCOMMANDS } from './utilities/command.ts';
 
-import APP_ACTIONS from './actions.ts';
-import APP_ROUTER from './router.ts';
+import defer * as SERVE_CALLBACK from './serve.ts';
+import defer * as UI_CALLBACK from './ui.ts';
 
-await loadRFD();
+switch (SUBCOMMAND) {
+    case SUBCOMMANDS.serve:
+        await SERVE_CALLBACK.default();
+        break;
 
-const window = new WebUI();
-
-initWebUIDatastar({
-    window,
-    actions: APP_ACTIONS,
-    router: APP_ROUTER,
-});
-
-await window.showWebView('/');
-await WebUI.wait();
+    case SUBCOMMANDS.ui:
+        await UI_CALLBACK.default();
+        break;
+}

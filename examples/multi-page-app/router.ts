@@ -1,4 +1,4 @@
-import { defineRouter, defineView } from '@oridim/webui-datastar';
+import { defineRouter, defineView } from '@oridim/datastar-serve';
 
 import AboutView from './views/AboutView.tsx';
 import ContactView from './views/ContactView.tsx';

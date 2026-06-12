@@ -1,25 +1,29 @@
 import { basename } from '@std/path';
 import { extname, join } from '@std/path';
 
-import { defineAction } from '@oridim/webui-datastar';
+import { defineStream } from '@oridim/datastar-serve';
 import { FileText } from 'npm:lucide-preact@1.17.0';
 
-import type { PartialSignals, Signals } from '../signals.ts';
+import type { Signals } from '../signals.ts';
 
-export const listDirectory = defineAction<Signals, PartialSignals>(
-    async function* (signals) {
-        const { directoryPath } = signals.workspace;
+export const listDirectory = defineStream<Signals>(
+    '/streams/listDirectory',
+    async function* ({ signals }) {
+        const { workspace } = signals;
+        const { directoryPath } = workspace;
 
         if (!directoryPath) {
             return;
         }
 
         yield {
-            signals: {
-                status: {
-                    isLoading: true,
-                    isVisible: true,
-                    message: 'Reading directory...',
+            patchSignals: {
+                signals: {
+                    status: {
+                        isLoading: true,
+                        isVisible: true,
+                        message: 'Reading directory...',
+                    },
                 },
             },
         };
@@ -37,31 +41,39 @@ export const listDirectory = defineAction<Signals, PartialSignals>(
         files.sort();
 
         yield {
-            elements: <WorkspaceFileList files={files} />,
+            patchElements: {
+                elements: <WorkspaceFileList files={files} />,
+            },
 
-            signals: {
-                status: {
-                    isVisible: false,
+            patchSignals: {
+                signals: {
+                    status: {
+                        isVisible: false,
+                    },
                 },
             },
         };
     },
 );
 
-export const readFile = defineAction<Signals, PartialSignals>(
-    async function* (signals) {
-        const { filePath } = signals.workspace;
+export const readFile = defineStream<Signals>(
+    '/streams/readFile',
+    async function* ({ signals }) {
+        const { workspace } = signals;
+        const { filePath } = workspace;
 
         if (!filePath) {
             return;
         }
 
         yield {
-            signals: {
-                status: {
-                    isLoading: true,
-                    isVisible: true,
-                    message: 'Loading file...',
+            patchSignals: {
+                signals: {
+                    status: {
+                        isLoading: true,
+                        isVisible: true,
+                        message: 'Loading file...',
+                    },
                 },
             },
         };
@@ -69,13 +81,15 @@ export const readFile = defineAction<Signals, PartialSignals>(
         const content = await Deno.readTextFile(filePath);
 
         yield {
-            signals: {
-                status: {
-                    isVisible: false,
-                },
+            patchSignals: {
+                signals: {
+                    status: {
+                        isVisible: false,
+                    },
 
-                workspace: {
-                    fileContent: content,
+                    workspace: {
+                        fileContent: content,
+                    },
                 },
             },
         };
@@ -92,7 +106,7 @@ export default function WorkspaceFileList(props: WorkspaceFileListProps) {
     return (
         <div
             id='workspace-file-list'
-            data-effect={`$directoryPath;${listDirectory()}`}
+            data-effect='$directoryPath;@get("/streams/listDirectory")'
         >
             {files.map((filePath) => {
                 const fileName = basename(filePath);
@@ -103,7 +117,7 @@ export default function WorkspaceFileList(props: WorkspaceFileListProps) {
                         key={filePath}
                         class='workspace-file-list--button'
                         data-class={`{ 'is-active': $workspace.filePath === ${serializedPath} }`}
-                        data-on:click={`$workspace.filePath = ${serializedPath};${readFile()}`}
+                        data-on:click={`$workspace.filePath = ${serializedPath};@get("/streams/readFile")`}
                     >
                         <FileText /> {fileName}
                     </button>

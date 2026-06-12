@@ -1,8 +1,8 @@
-import type { RouterRequest } from '@oridim/webui-datastar';
+import type { ViewCallback } from '@oridim/datastar-serve';
 
 import Layout from '../components/Layout.tsx';
 
-export default function UserView({ params }: RouterRequest<'/:id'>) {
+export default (({ params }) => {
     return (
         <Layout title={`User ${params.id}`}>
             <h1>User Profile</h1>
@@ -19,4 +19,4 @@ export default function UserView({ params }: RouterRequest<'/:id'>) {
             </p>
         </Layout>
     );
-}
+}) satisfies ViewCallback<'/:id'>;

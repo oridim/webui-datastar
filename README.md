@@ -1,36 +1,30 @@
-# webui-datastar
+# Datastar Serve
 
-> Framework for WebUI which glues a WebView frontend and Deno backend together over IPC via Datastar.
+> A Deno HTTP framework that simplifies the developer experience of using Datastar in a complete package.
 
 # Features
 
 ## Framework Features
 
 - **Client-Side Routing:** Navigate without hard refreshes by patching pages directly from the backend.
-- **Server-Side Actions:** Declaratively wire frontend-to-backend IPC directly inside your HTML.
+- **Server-Side Streams:** Declaratively wire frontend-to-backend RPC streams directly inside your HTML.
 - **Server-Side JSX Rendering (SSR):** Use JSX as your native backend HTML templating language.
-- **Server-Side Routing:** Easily serve views, custom routes, and static assets with a built-in backend router.
-- **Stream Patches:** Fully control UI updates by streaming patches from your backend sync and async function and generator actions.
+- **Server-Side Routing:** Easily serve views, custom routes, and static assets with a built-in router.
+- **Stream Patches:** Fully control UI updates by streaming patches from your backend sync and async function and generator streams.
 - **Zero-Build Frontend:** Import the framework and launch a webview without a frontend build step.
 
 ## Datastar Features
 
 [Datastar](https://data-star.dev) allows you to incorporate interactivity and reactivity declaratively into your HTML.
 
-## WebUI Features
-
-[WebUI](https://webui.me) allows you to build webviews across many platforms with only a single codebase.
-
 # Getting Started
 
 ## 1. Installation
 
-> **NOTE:** The version of WebUI you install needs to be compatible with webui-datastar's internal version of WebUI.
-
-Install the WebUI and webui-datastar:
+Install the Datastar Serve package:
 
 ```sh
-deno install jsr:@webui/deno-webui jsr:@oridim/webui-datastar
+deno install jsr:@oridim/datastar-serve
 ```
 
 ## 2. Configuration
@@ -41,8 +35,8 @@ Configure Deno and typing support of JSX by putting this in your `deno.json`:
 {
     "compilerOptions": {
         "jsx": "react-jsx",
-        "jsxImportSource": "@oridim/webui-datastar",
-        "jsxImportSourceTypes": "@oridim/webui-datastar"
+        "jsxImportSource": "@oridim/datastar-serve",
+        "jsxImportSourceTypes": "@oridim/datastar-serve"
     }
 }
 ```
@@ -68,7 +62,7 @@ export default function HomeView() {
 Create a `router.js` file which exports a router configuration that points to your view component:
 
 ```js
-import { defineRouter, defineView } from '@oridim/webui-datastar';
+import { defineRouter, defineView } from '@oridim/datastar-serve';
 
 import HomeView from './views/HomeView.jsx';
 
@@ -79,23 +73,21 @@ export default defineRouter([
 
 ## 5. Create an Entry Point
 
-Create an `mod.js` file which launches a new webview with your router configuration:
+Create an `mod.js` file starts an HTTP server with your router configuration:
 
 ```js
-import { initWebUIDatastar } from '@oridim/webui-datastar';
-import { WebUI } from '@webui/deno-webui';
+import { serve } from '@oridim/datastar-serve';
 
 import APP_ROUTER from './router.js';
 
-const window = new WebUI();
-
-initWebUIDatastar({
-    window,
+serve({
     router: APP_ROUTER,
+    serve: {
+        onListen({ hostname, port }) {
+            console.log(`Visit: http://${hostname}:${port}`);
+        },
+    },
 });
-
-await window.showWebView('/');
-await WebUI.wait();
 ```
 
 ## 6. Boot the Application
@@ -103,7 +95,7 @@ await WebUI.wait();
 Give the application the permissions needed for WebUI to work when you run it:
 
 ```sh
-deno run --allow-read --allow-write --allow-net --allow-env --allow-ffi ./mod.ts
+deno run --allow-read --allow-net ./mod.js
 ```
 
 # Examples
@@ -112,18 +104,36 @@ Visit the [`/examples`](./examples) directory for complete usage examples on how
 
 # Documentation
 
-> **NOTE:** Visit [Datastar Documentation](https://data-star.dev/), [WebUI Backend Documentation](https://webui.me/docs.html#/deno), and [WebUI Frontend Documentation](https://webui.me/docs.html#/javascript) for more information on how those pieces of the tech stack work.
+> **NOTE:** Visit [Datastar Documentation](https://data-star.dev/) for more information on how that piece of the tech stack work.
 
 > **TODO:** Missing docstrings.
 
-Visit the [JSR `@oridim/webui-datastar` package page](https://jsr.io/@oridim/webui-datastar) for the API reference docs.
+Visit the [JSR `@oridim/datastar-serve` package page](https://jsr.io/@oridim/datastar-serve) for the API reference docs.
+
+# Fullstack + Performance Scaling + Security Disclaimer
+
+Datastar Serve makes no claims to being a high-performance nor secure HTTP server framework. It is a light wrapper framework around [`Deno.serve`](https://docs.deno.com/api/deno/~/Deno.serve) and the Datastar framework to provide a simplified developer experience. More specifically, it was made to power webview desktop applications rather than to serve remote clients.
+
+That being said, contributions to improve performance and security are always welcome as long they do not compromise on readability, maintainability, and the existing developer experience.
+
+Datastar Serve also does not target be a complete fullstack framework. Aside from potential future additions such as a middleware API this framework **does not aim to provide**:
+
+- Asset Management
+- Authentication / Authorization
+- Caching Management
+- Cookie / Session Management
+- Database ORMs
+- Form Handling
+- Jobs / Workflow System
+- Security Middleware
+
+The framework is choose-your-own-adventure as far as those features go.
 
 # License
 
-webui-datastar is licensed under the [MIT License](./LICENSE).
+Datastar Serve is licensed under the [MIT License](./LICENSE).
 
 # References
 
-- [`preactjs/preact`](https://github.com/preactjs/preact) — webui-datastar uses to render JSX elements on the backend.
-- [`starfederation/datastar`](https://github.com/starfederation/datastar) — webui-datastar is built upon this framework, which provides the basis of interactivity and reactivity.
-- [`webui-dev/deno-webui`](https://github.com/webui-dev/deno-webui) — webui-datastar is built upon this library, which provides the basis of the backing webview.
+- [`preactjs/preact`](https://github.com/preactjs/preact) — Datastar Serve uses to render JSX elements on the backend.
+- [`starfederation/datastar`](https://github.com/starfederation/datastar) — Datastar Serve is built upon this framework, which provides the basis of interactivity and reactivity.

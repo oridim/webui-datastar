@@ -1,12 +1,11 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@deno/gfm@*": "0.12.0",
     "jsr:@deno/gfm@0.12.0": "0.12.0",
     "jsr:@denosaurs/emoji@~0.3.1": "0.3.1",
     "jsr:@denosaurs/plug@^1.0.6": "1.1.0",
-    "jsr:@miyauci/rfd@*": "1.0.0",
     "jsr:@miyauci/rfd@1.0.0": "1.0.0",
+    "jsr:@std/bytes@^1.0.6": "1.0.6",
     "jsr:@std/encoding@1": "1.0.9",
     "jsr:@std/fmt@1": "1.0.4",
     "jsr:@std/fs@1": "1.0.24",
@@ -16,8 +15,10 @@
     "jsr:@std/path@1": "1.1.5",
     "jsr:@std/path@^1.1.2": "1.1.5",
     "jsr:@std/path@^1.1.5": "1.1.5",
+    "jsr:@std/streams@1.1.1": "1.1.1",
     "jsr:@webui/deno-webui@^2.5.15": "2.5.15",
     "jsr:@zip-js/zip-js@^2.8.7": "2.8.26",
+    "npm:@starfederation/datastar-sdk@1": "1.0.0",
     "npm:github-slugger@2": "2.0.0",
     "npm:he@^1.2.0": "1.2.0",
     "npm:katex@0.16": "0.16.47",
@@ -29,7 +30,7 @@
     "npm:preact-render-to-string@^6.7.0": "6.7.0_preact@10.29.2",
     "npm:preact@^10.29.2": "10.29.2",
     "npm:prismjs@^1.30.0": "1.30.0",
-    "npm:sanitize-html@^2.17.0": "2.17.4"
+    "npm:sanitize-html@^2.17.0": "2.17.5"
   },
   "jsr": {
     "@deno/gfm@0.12.0": {
@@ -65,6 +66,9 @@
         "jsr:@denosaurs/plug"
       ]
     },
+    "@std/bytes@1.0.6": {
+      "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
+    },
     "@std/encoding@1.0.9": {
       "integrity": "025b8f18eb1749bc30d1353bf48b77d1eb5e35610220fa226f5a046b9240c5d7"
     },
@@ -90,6 +94,12 @@
         "jsr:@std/internal"
       ]
     },
+    "@std/streams@1.1.1": {
+      "integrity": "92556d350e537e9dce527a6d08f6f15be3ff65e656079dea69d15252187c7613",
+      "dependencies": [
+        "jsr:@std/bytes"
+      ]
+    },
     "@webui/deno-webui@2.5.15": {
       "integrity": "1d4e16d9df0984e1fd85fb9ab9e67c9a156a42b1e56a3d36eb5b8e31b774b4bc",
       "dependencies": [
@@ -103,6 +113,9 @@
     }
   },
   "npm": {
+    "@starfederation/datastar-sdk@1.0.0": {
+      "integrity": "sha512-VT1co9LeRLJ3wynffvkxXLJaCh4PHt1YUhH3zCQYhjTuaeWjozNjQQrg+BUbkDMO58mSgeQp9pgOXRWciy0y6g=="
+    },
     "commander@8.3.0": {
       "integrity": "sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww=="
     },
@@ -237,8 +250,8 @@
     "prismjs@1.30.0": {
       "integrity": "sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw=="
     },
-    "sanitize-html@2.17.4": {
-      "integrity": "sha512-2HW7v2ol/uAM7sX4hbD8Z59OGWmAPrvjL8E71UWlBcj6m+kcF6ilQBLny+cIgY214QJeJT5tQuxKKqX0SQqjGQ==",
+    "sanitize-html@2.17.5": {
+      "integrity": "sha512-ZmU1joGRrvoyctKIiuwUxqR6moLoU2Wk+2bMccN6f7UwhAmwYDvWziqPxRDDN2Qip62NqnIrVrT9akbL6Wretg==",
       "dependencies": [
         "deepmerge",
         "escape-string-regexp",
@@ -257,7 +270,7 @@
     "dependencies": [
       "jsr:@std/media-types@^1.1.0",
       "jsr:@std/path@^1.1.5",
-      "jsr:@webui/deno-webui@^2.5.15",
+      "npm:@starfederation/datastar-sdk@1",
       "npm:preact-render-to-string@^6.7.0",
       "npm:preact@^10.29.2"
     ]

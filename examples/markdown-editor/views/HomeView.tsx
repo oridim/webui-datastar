@@ -1,10 +1,11 @@
+import type { ViewCallback } from '@oridim/datastar-serve';
 import { FolderOpen } from 'npm:lucide-preact@1.17.0';
 
 import OpenWorkspaceButton from '../components/OpenWorkspaceButton.tsx';
 
 import Layout from '../components/Layout.tsx';
 
-export default function HomeView() {
+export default (() => {
     return (
         <Layout>
             <div class='home-view'>
@@ -22,4 +23,4 @@ export default function HomeView() {
             </div>
         </Layout>
     );
-}
+}) satisfies ViewCallback;

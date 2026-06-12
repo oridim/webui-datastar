@@ -1,5 +1,5 @@
-import type { JSX } from '@oridim/webui-datastar';
-import { WebUIDatastarHead } from '@oridim/webui-datastar';
+import type { JSX } from '@oridim/datastar-serve';
+import { FrameworkHead } from '@oridim/datastar-serve';
 
 export interface LayoutProps {
     readonly children: JSX.Element | JSX.Element[] | string;
@@ -14,7 +14,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 <meta charset='UTF-8' />
                 <title>{title} :: Multi-Page App</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
             </head>
 
             <body>

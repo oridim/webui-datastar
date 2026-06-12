@@ -2,43 +2,41 @@ import { contentType } from '@std/media-types';
 import { extname, globToRegExp, join } from '@std/path';
 import { join as posixJoin } from '@std/path/posix';
 
+import { ServerSentEventGenerator } from '@starfederation/datastar-sdk/web';
+
 import { h } from '../preact/components.ts';
 import { render } from '../preact/render.ts';
+import type {
+    Signals,
+    StreamOptions,
+    UnknownSignals,
+} from '../utilities/datastar.ts';
+import { HTTP_STATUS } from '../utilities/http.ts';
+import { isAsyncIterable, isIterable } from '../utilities/types.ts';
 
 import { RouterRequestContext } from './hooks.ts';
-import { makeHTTPResponse } from './http.ts';
 import type {
-    MapRouteParams,
     Route,
     RouteCallback,
     RouteItem,
-    RouterResponse,
+    StreamChannelCallback,
+    StreamChannelCleanupFunction,
+    StreamRequestContext,
+    StreamResponse,
+    StreamRouteCallback,
     ViewCallback,
 } from './types.ts';
-import { flattenRoutes } from './utilities.ts';
+import {
+    determineContentLength,
+    flattenRoutes,
+    isFormRequest,
+    processStreamResponse,
+    tryReadFile,
+} from './utilities.ts';
 
-async function tryReadFile(
-    filePath: string | URL,
-): Promise<RouterResponse | null> {
-    let content: Uint8Array<ArrayBuffer>;
-    try {
-        content = await Deno.readFile(filePath);
-    } catch {
-        return null;
-    }
-
-    const pathname = filePath instanceof URL
-        ? filePath.pathname
-        : filePath.replace(/^file:\/\//, '');
-
-    const fileExtension = extname(pathname);
-    const mimeType = contentType(fileExtension) ?? 'application/octet-stream';
-
-    return {
-        body: content,
-        headers: { 'Content-Type': mimeType },
-    };
-}
+const RESPONSE_NO_CONTENT = new Response(null, {
+    status: HTTP_STATUS.noContent,
+});
 
 export function defineGroup(
     prefix: string,
@@ -68,50 +66,40 @@ export function defineGroup(
 export function defineRoute<Path extends string>(
     path: Path,
     callback: RouteCallback<Path>,
-): Route {
+): Route<Path> {
     return {
+        callback,
         path,
         urlPattern: new URLPattern({ pathname: path }),
-        handler: async (url, match) => {
-            const response = await callback({
-                params: (match.pathname.groups || {}) as MapRouteParams<Path>,
-                url,
-                match,
-            });
-
-            if (response) {
-                return makeHTTPResponse(response);
-            }
-
-            return null;
-        },
     };
 }
 
-export function defineConstantFile(
-    path: string,
-    content: string | Uint8Array,
-): Route {
+export function defineConstantFile<Path extends string>(
+    path: Path,
+    content: BodyInit,
+): Route<Path> {
     const fileExtension = extname(path);
     const mimeType = contentType(fileExtension) ?? 'application/octet-stream';
 
-    const response = {
-        body: content,
-        headers: {
-            'Content-Type': mimeType,
-        },
-    } satisfies RouterResponse;
+    const contentLength = determineContentLength(content);
+    const headers: Record<string, string> = {
+        'Content-Type': mimeType,
+    };
+
+    if (contentLength !== undefined) {
+        headers['Content-Length'] = contentLength.toString();
+    }
 
     return defineRoute(
         path,
-        () => response,
+        () => new Response(content, { headers }),
     );
 }
 
-export function defineStaticFile(
-    path: string,
+export function defineStaticFile<Path extends string>(
+    path: Path,
     filePath: string | URL,
-): Route {
+): Route<Path> {
     return defineRoute(path, () => tryReadFile(filePath));
 }
 
@@ -123,8 +111,8 @@ export function defineStaticDirectory(
     const path = posixJoin('/', basePath, '*');
     const regexFilter = glob ? globToRegExp(glob) : null;
 
-    return defineRoute(path, (request) => {
-        const file = request.match.pathname.groups['0'];
+    return defineRoute(path, (context) => {
+        const file = context.match.pathname.groups['0'];
 
         if (!file || (regexFilter && !regexFilter.test(file))) {
             return null;
@@ -149,23 +137,174 @@ export function defineStaticDirectory(
 export function defineView<Path extends string>(
     path: Path,
     view: ViewCallback<Path>,
-): Route {
+): Route<Path> {
     return defineRoute(
         path,
-        async (request) => {
-            const renderedElement = await view(request);
+        async (context) => {
+            const renderedElement = await view(context);
             const renderedContext = h(
                 RouterRequestContext.Provider,
-                { value: request },
+                { value: context },
                 renderedElement,
             );
 
             const renderedPayload = render(renderedContext);
+            const htmlString = `<!DOCTYPE html>\n${renderedPayload}`;
 
-            return {
-                headers: { 'Content-Type': 'text/html' },
-                body: `<!DOCTYPE html>\n${renderedPayload}`,
-            };
+            const bodyBytes = new TextEncoder().encode(htmlString);
+
+            return new Response(bodyBytes, {
+                headers: {
+                    'Content-Type': 'text/html',
+                    'Content-Length': bodyBytes.byteLength.toString(),
+                },
+            });
         },
+    );
+}
+
+export function defineStream<
+    InputSignals extends Signals<unknown> = UnknownSignals,
+    OutputSignals extends Signals<unknown> = InputSignals,
+    Path extends string = string,
+>(
+    path: Path,
+    callback: StreamRouteCallback<Path, InputSignals, OutputSignals>,
+    options: StreamOptions = {},
+): Route<Path> {
+    return defineRoute(path, async (context) => {
+        const streamContext = { ...context } as StreamRequestContext<
+            Path,
+            InputSignals
+        >;
+
+        if (!isFormRequest(context)) {
+            const reader = await ServerSentEventGenerator.readSignals(
+                context.request,
+            );
+
+            if (reader.success) {
+                Object.assign(streamContext, {
+                    signals: reader.signals,
+                });
+            }
+        }
+
+        const result = await callback(streamContext);
+
+        if (!result) {
+            return RESPONSE_NO_CONTENT.clone();
+        }
+
+        if (isAsyncIterable(result) || isIterable(result)) {
+            return ServerSentEventGenerator.stream(
+                async (stream) => {
+                    for await (const response of result) {
+                        processStreamResponse(stream, response);
+                    }
+                },
+                options,
+            );
+        }
+
+        return ServerSentEventGenerator.stream(
+            (stream) => {
+                processStreamResponse(stream, result);
+            },
+            options,
+        );
+    });
+}
+
+export function defineStreamChannel<
+    InputSignals extends Signals<unknown> = UnknownSignals,
+    OutputSignals extends Signals<unknown> = InputSignals,
+    Path extends string = string,
+>(
+    path: Path,
+    callback: StreamChannelCallback<Path, InputSignals, OutputSignals>,
+    options: StreamOptions = {},
+): Route<Path> {
+    return defineStream<InputSignals, OutputSignals, Path>(
+        path,
+        (context) => {
+            const { signal } = context.request;
+            const queue: StreamResponse<OutputSignals>[] = [];
+
+            let isDone = false;
+            let thrownError: unknown;
+            let waitingResolve: (() => void) | null = null;
+
+            const done = () => {
+                isDone = true;
+
+                wakeUp();
+            };
+
+            const error = (error?: unknown) => {
+                thrownError = error;
+                isDone = true;
+
+                wakeUp();
+            };
+
+            const handleAbort = () => {
+                done();
+            };
+
+            const generator = async function* () {
+                let cleanup: StreamChannelCleanupFunction | void = undefined;
+
+                signal.addEventListener('abort', handleAbort);
+
+                try {
+                    cleanup = await callback(context, { done, error, push });
+
+                    while (!isDone || queue.length > 0) {
+                        if (thrownError) {
+                            throw thrownError;
+                        }
+
+                        if (queue.length === 0) {
+                            const { promise, resolve } = Promise.withResolvers<
+                                void
+                            >();
+                            waitingResolve = resolve;
+
+                            await promise;
+                        } else {
+                            yield queue.shift()!;
+                        }
+                    }
+
+                    if (thrownError) {
+                        throw thrownError;
+                    }
+                } finally {
+                    signal.removeEventListener('abort', handleAbort);
+
+                    if (cleanup) {
+                        cleanup();
+                    }
+                }
+            };
+
+            const push = (response: StreamResponse<OutputSignals>) => {
+                if (isDone) {
+                    return;
+                }
+
+                queue.push(response);
+                wakeUp();
+            };
+
+            const wakeUp = () => {
+                waitingResolve?.();
+                waitingResolve = null;
+            };
+
+            return generator();
+        },
+        options,
     );
 }

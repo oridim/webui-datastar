@@ -1,6 +1,6 @@
-import { defineAction, WebUIDatastarHead } from '@oridim/webui-datastar';
+import { defineStream, FrameworkHead } from '@oridim/datastar-serve';
 
-import type { PartialSignals, Signals } from '../signals.ts';
+import type { Signals } from '../signals.ts';
 import DEFAULT_SIGNALS from '../signals.ts';
 
 const CALCULATOR_BUTTONS = [
@@ -34,24 +34,25 @@ function calculate(
     }
 }
 
-export const handleButtonPress = defineAction<Signals, PartialSignals>(
-    (signals) => {
+export const handleButtonClick = defineStream<Signals>(
+    '/streams/handleButtonClick',
+    ({ signals }) => {
         let { button, display, leftOperand, operation, reset } = signals;
 
         if (!button) {
-            return {
-                signals: {},
-            };
+            return;
         }
 
         if (button === 'C') {
             return {
-                signals: {
-                    button: null,
-                    display: '0',
-                    leftOperand: null,
-                    operation: null,
-                    reset: false,
+                patchSignals: {
+                    signals: {
+                        button: null,
+                        display: '0',
+                        leftOperand: null,
+                        operation: null,
+                        reset: false,
+                    },
                 },
             };
         }
@@ -62,12 +63,14 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
             }
 
             return {
-                signals: {
-                    button: null,
-                    display,
-                    leftOperand: display,
-                    operation: button,
-                    reset: true,
+                patchSignals: {
+                    signals: {
+                        button: null,
+                        display,
+                        leftOperand: display,
+                        operation: button,
+                        reset: true,
+                    },
                 },
             };
         }
@@ -77,19 +80,23 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
                 display = calculate(operation, leftOperand, display);
 
                 return {
-                    signals: {
-                        button: null,
-                        display,
-                        leftOperand: null,
-                        operation: null,
-                        reset: true,
+                    patchSignals: {
+                        signals: {
+                            button: null,
+                            display,
+                            leftOperand: null,
+                            operation: null,
+                            reset: true,
+                        },
                     },
                 };
             }
 
             return {
-                signals: {
-                    button: null,
+                patchSignals: {
+                    signals: {
+                        button: null,
+                    },
                 },
             };
         }
@@ -100,8 +107,10 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
         } else {
             if (button === '.' && display.includes('.')) {
                 return {
-                    signals: {
-                        button: null,
+                    patchSignals: {
+                        signals: {
+                            button: null,
+                        },
                     },
                 };
             }
@@ -112,10 +121,12 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
         }
 
         return {
-            signals: {
-                button: null,
-                display,
-                reset,
+            patchSignals: {
+                signals: {
+                    button: null,
+                    display,
+                    reset,
+                },
             },
         };
     },
@@ -123,7 +134,7 @@ export const handleButtonPress = defineAction<Signals, PartialSignals>(
 
 export default function HomeView() {
     const clickExpression = (value: string) =>
-        `$button='${value}'; ${handleButtonPress()}`;
+        `$button='${value}';@get('/streams/handleButtonClick')`;
 
     return (
         <html lang='en'>
@@ -131,7 +142,7 @@ export default function HomeView() {
                 <meta charset='UTF-8' />
                 <title>Calculator</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
             </head>
 
             <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>

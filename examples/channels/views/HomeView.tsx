@@ -1,56 +1,55 @@
-import {
-    defineAction,
-    makeChannel,
-    WebUIDatastarHead,
-} from '@oridim/webui-datastar';
+import type { ViewCallback } from '@oridim/datastar-serve';
+import { defineStreamChannel, FrameworkHead } from '@oridim/datastar-serve';
 
 import type { Signals } from '../signals.ts';
 import DEFAULT_SIGNALS from '../signals.ts';
 
-export const handleChannel = defineAction<Signals>(
-    ({ counter }) => {
-        return makeChannel((push, done) => {
-            let delta = 0;
+export const handleChannel = defineStreamChannel<Signals>(
+    '/streams/handleChannel',
+    ({ signals }, { done, push }) => {
+        let { counter } = signals;
+        let delta = 0;
 
-            const identifier = setInterval(() => {
-                counter++;
-                delta++;
+        const identifier = setInterval(() => {
+            counter++;
+            delta++;
 
-                push({
+            push({
+                patchSignals: {
                     signals: {
                         counter,
                     },
-                });
+                },
+            });
 
-                if (delta >= 10) {
-                    done();
-                }
-            }, 1000);
+            if (delta >= 10) {
+                done();
+            }
+        }, 1000);
 
-            return () => {
-                clearInterval(identifier);
-            };
-        });
+        return () => {
+            clearInterval(identifier);
+        };
     },
 );
 
-export default function HomeView() {
+export default (() => {
     return (
         <html lang='en'>
             <head>
                 <meta charset='UTF-8' />
                 <title>Channels</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
             </head>
 
             <body data-signals={JSON.stringify(DEFAULT_SIGNALS)}>
                 <strong data-text='$counter'>0</strong>
 
-                <button data-on:click={handleChannel()}>
+                <button data-on:click='@get("/streams/handleChannel")'>
                     Count up by 10 over time.
                 </button>
             </body>
         </html>
     );
-}
+}) satisfies ViewCallback;

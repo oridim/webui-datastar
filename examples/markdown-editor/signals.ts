@@ -1,5 +1,3 @@
-import type { DeepPartial } from './types.ts';
-
 export const VIEW_MODES = {
     edit: 'edit',
 
@@ -9,8 +7,6 @@ export const VIEW_MODES = {
 } as const;
 
 export type ViewModes = typeof VIEW_MODES[keyof typeof VIEW_MODES];
-
-export type PartialSignals = DeepPartial<Signals>;
 
 export interface Signals {
     readonly ephemeralFile: {

@@ -1,4 +1,4 @@
-import { WebUIDatastarHead } from '@oridim/webui-datastar';
+import { FrameworkHead } from '@oridim/datastar-serve';
 
 import { Header } from '../components/Header.tsx';
 import { ProfileCard } from '../components/ProfileCard.tsx';
@@ -10,7 +10,7 @@ export default function HomeView() {
                 <meta charset='UTF-8' />
                 <title>SSR JSX</title>
 
-                <WebUIDatastarHead />
+                <FrameworkHead />
             </head>
 
             <body>
