@@ -10,7 +10,7 @@ export function defineRouter(items: readonly RouteItem[]): Router {
 export async function matchRoute(
     router: Router,
     request: Request,
-): Promise<Response | null> {
+): Promise<Response | null | void> {
     const url = new URL(request.url);
 
     for (const { callback, urlPattern } of router) {
@@ -24,11 +24,9 @@ export async function matchRoute(
                 url,
             });
 
-            if (response) {
+            if (response !== undefined) {
                 return response;
             }
         }
     }
-
-    return null;
 }

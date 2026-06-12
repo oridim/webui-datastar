@@ -116,12 +116,12 @@ export function processStreamResponse(
 
 export async function tryReadFile(
     filePath: string | URL,
-): Promise<Response | null> {
+): Promise<Response | void> {
     let content: Uint8Array<ArrayBuffer>;
     try {
         content = await Deno.readFile(filePath);
     } catch {
-        return null;
+        return;
     }
 
     const pathname = filePath instanceof URL

@@ -10,7 +10,7 @@ export const saveFile = defineStream<Signals>(
         const { fileContent, filePath } = workspace;
 
         if (!filePath) {
-            return;
+            return null;
         }
 
         yield {

@@ -15,7 +15,7 @@ export const createFile = defineStream<Signals>(
         const { directoryPath } = workspace;
 
         if (!directoryPath) {
-            return;
+            return null;
         }
 
         yield {

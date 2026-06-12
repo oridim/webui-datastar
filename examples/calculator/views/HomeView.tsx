@@ -40,7 +40,7 @@ export const handleButtonClick = defineStream<Signals>(
         let { button, display, leftOperand, operation, reset } = signals;
 
         if (!button) {
-            return;
+            return null;
         }
 
         if (button === 'C') {
