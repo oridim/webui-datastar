@@ -24,6 +24,7 @@ export type { Router } from './router/router.ts';
 export { matchRoute } from './router/router.ts';
 export type {
     ExtractRouteParams,
+    InferRoutePath,
     MapRouteParams,
     RequestContext,
     RouteCallback,
