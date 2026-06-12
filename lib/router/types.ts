@@ -29,7 +29,7 @@ export type MapRouteParams<InputRoute = string> = Record<
 
 export type RouteCallback<Path extends string = string> = (
     context: RequestContext<Path>,
-) => Promise<Response | null> | Response | null;
+) => Promise<Response | null | void> | Response | null | void;
 
 export type RouteItem = Route | readonly RouteItem[];
 
@@ -43,9 +43,9 @@ export type StreamChannelCallback<
     requestContext: StreamRequestContext<Path, InputSignals>,
     channelContext: StreamChannelContext<OutputSignals>,
 ) =>
-    | Promise<StreamChannelCleanupFunction | void>
+    | Promise<StreamChannelCleanupFunction | null>
     | StreamChannelCleanupFunction
-    | void;
+    | null;
 
 export type StreamRouteCallback<
     Path extends string = string,
@@ -56,8 +56,9 @@ export type StreamRouteCallback<
 ) =>
     | AsyncGenerator<StreamResponse<OutputSignals>>
     | Generator<StreamResponse<OutputSignals>>
-    | Promise<StreamResponse<OutputSignals> | void>
+    | Promise<StreamResponse<OutputSignals> | null | void>
     | StreamResponse<OutputSignals>
+    | null
     | void;
 
 export type ViewCallback<Path extends string = string> = (

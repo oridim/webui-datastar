@@ -11,7 +11,6 @@ import type {
     StreamOptions,
     UnknownSignals,
 } from '../utilities/datastar.ts';
-import { HTTP_STATUS } from '../utilities/http.ts';
 import { isAsyncIterable, isIterable } from '../utilities/types.ts';
 
 import { RouterRequestContext } from './hooks.ts';
@@ -33,10 +32,6 @@ import {
     processStreamResponse,
     tryReadFile,
 } from './utilities.ts';
-
-const RESPONSE_NO_CONTENT = new Response(null, {
-    status: HTTP_STATUS.noContent,
-});
 
 export function defineGroup(
     prefix: string,
@@ -193,7 +188,7 @@ export function defineStream<
         const result = await callback(streamContext);
 
         if (!result) {
-            return RESPONSE_NO_CONTENT.clone();
+            return null;
         }
 
         if (isAsyncIterable(result) || isIterable(result)) {
@@ -253,7 +248,7 @@ export function defineStreamChannel<
             };
 
             const generator = async function* () {
-                let cleanup: StreamChannelCleanupFunction | void = undefined;
+                let cleanup: StreamChannelCleanupFunction | null = null;
 
                 signal.addEventListener('abort', handleAbort);
 

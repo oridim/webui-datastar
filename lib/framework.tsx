@@ -21,6 +21,14 @@ const RESPONSE_INTERNAL_SERVER_ERROR = new Response(
     },
 );
 
+const RESPONSE_NO_CONTENT = new Response(
+    null,
+    {
+        status: HTTP_STATUS.noContent,
+        headers: { 'Content-Type': 'text/plain' },
+    },
+);
+
 const RESPONSE_NOT_FOUND = new Response(
     `<h1>${HTTP_STATUS.notFound} - ${HTTP_STATUS_TEXT.notFound}</h1>`,
     {
@@ -86,7 +94,7 @@ export function serve(
 
     return Deno.serve(serveOptions as Deno.ServeOptions, async (request) => {
         if (router) {
-            let response: Response | null;
+            let response: Response | null | void;
 
             try {
                 response = await matchRoute(router, request);
@@ -95,8 +103,10 @@ export function serve(
                 return RESPONSE_INTERNAL_SERVER_ERROR.clone();
             }
 
-            if (response) {
-                return response;
+            if (response !== undefined) {
+                return response === null
+                    ? RESPONSE_NO_CONTENT.clone()
+                    : response;
             }
         }
 
