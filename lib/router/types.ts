@@ -9,15 +9,23 @@ import type {
     UnknownSignals,
 } from '../utilities/datastar.ts';
 
-export type ExtractRouteParams<T extends string = string> = T extends
-    `${string}:${infer Param}/${infer Rest}`
-    ? Param | ExtractRouteParams<`/${Rest}`>
-    : T extends `${string}:${infer Param}` ? Param
+export type ExtractRouteParams<InputRoute = string> =
+    InferRoutePath<InputRoute> extends infer Path
+        ? Path extends `${string}:${infer Param}/${infer Rest}`
+            ? Param | ExtractRouteParams<`/${Rest}`>
+        : Path extends `${string}:${infer Param}` ? Param
+        : never
+        : never;
+
+export type InferRoutePath<InputRoute> = InputRoute extends string ? InputRoute
+    : InputRoute extends Route<infer Path> ? Path
+    : InputRoute extends readonly (infer Item)[] ? InferRoutePath<Item>
     : never;
 
-export type MapRouteParams<Path extends string = string> =
-    [ExtractRouteParams<Path>] extends [never] ? Record<string, never>
-        : Record<ExtractRouteParams<Path>, string>;
+export type MapRouteParams<InputRoute = string> = Record<
+    ExtractRouteParams<InputRoute>,
+    string
+>;
 
 export type RouteCallback<Path extends string = string> = (
     context: RequestContext<Path>,
