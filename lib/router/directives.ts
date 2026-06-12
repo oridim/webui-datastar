@@ -19,7 +19,9 @@ import type {
     Route,
     RouteCallback,
     RouteItem,
+    StreamChannelCallback,
     StreamRequestContext,
+    StreamResponse,
     StreamRouteCallback,
     ViewCallback,
 } from './types.ts';
@@ -211,4 +213,77 @@ export function defineStream<
             options,
         );
     });
+}
+
+export function defineStreamChannel<
+    InputSignals extends Signals<unknown> = UnknownSignals,
+    OutputSignals extends Signals<unknown> = InputSignals,
+    Path extends string = string,
+>(
+    path: Path,
+    callback: StreamChannelCallback<Path, InputSignals, OutputSignals>,
+    options: StreamOptions = {},
+): Route<Path> {
+    return defineStream<InputSignals, OutputSignals, Path>(
+        path,
+        (context) => {
+            const { signal } = context.request;
+            const queue: StreamResponse<OutputSignals>[] = [];
+
+            let isDone = false;
+            let waitingResolve: (() => void) | null = null;
+
+            const done = () => {
+                isDone = true;
+                wakeUp();
+            };
+
+            const handleAbort = () => {
+                done();
+            };
+
+            const generator = async function* () {
+                try {
+                    while (!isDone || queue.length > 0) {
+                        if (queue.length === 0) {
+                            const { promise, resolve } = Promise.withResolvers<
+                                void
+                            >();
+                            waitingResolve = resolve;
+
+                            await promise;
+                        } else {
+                            yield queue.shift()!;
+                        }
+                    }
+                } finally {
+                    signal.removeEventListener('abort', handleAbort);
+
+                    if (cleanup) {
+                        cleanup();
+                    }
+                }
+            };
+
+            const push = (response: StreamResponse<OutputSignals>) => {
+                if (isDone) {
+                    return;
+                }
+
+                queue.push(response);
+                wakeUp();
+            };
+
+            const wakeUp = () => {
+                waitingResolve?.();
+                waitingResolve = null;
+            };
+
+            const cleanup = callback(context, { done, push });
+
+            signal.addEventListener('abort', handleAbort);
+            return generator();
+        },
+        options,
+    );
 }

@@ -33,6 +33,17 @@ export type RouteCallback<Path extends string = string> = (
 
 export type RouteItem = Route | readonly RouteItem[];
 
+export type StreamChannelCleanupFunction = () => void;
+
+export type StreamChannelCallback<
+    Path extends string = string,
+    InputSignals extends Signals<unknown> = UnknownSignals,
+    OutputSignals extends Signals<unknown> = InputSignals,
+> = (
+    requestContext: StreamRequestContext<Path, InputSignals>,
+    channelContext: StreamChannelContext<OutputSignals>,
+) => StreamChannelCleanupFunction | void;
+
 export type StreamRouteCallback<
     Path extends string = string,
     InputSignals extends Signals<unknown> = UnknownSignals,
@@ -66,6 +77,14 @@ export interface Route<Path extends string = string> {
     readonly path: Path;
 
     readonly urlPattern: URLPattern;
+}
+
+export interface StreamChannelContext<
+    OutputSignals extends Signals<unknown> = UnknownSignals,
+> {
+    readonly done: () => void;
+
+    readonly push: (response: StreamResponse<OutputSignals>) => void;
 }
 
 export interface StreamResponse<T extends Signals<unknown> = UnknownSignals> {

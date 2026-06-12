@@ -3,13 +3,6 @@ export { makeContext, useContext } from './preact/context.ts';
 export type { JSX } from './preact/components.ts';
 export { render } from './preact/render.ts';
 
-export type {
-    ChannelCleanupFunction,
-    ChannelDoneFunction,
-    ChannelPushFunction,
-    ChannelSetupCallback,
-} from './router/channel.ts';
-export { makeChannel } from './router/channel.ts';
 export {
     defineConstantFile,
     defineGroup,
@@ -17,6 +10,7 @@ export {
     defineStaticDirectory,
     defineStaticFile,
     defineStream,
+    defineStreamChannel,
     defineView,
 } from './router/directives.ts';
 export { useRouterRequestContext } from './router/hooks.ts';
@@ -29,6 +23,9 @@ export type {
     RequestContext,
     RouteCallback,
     RouteItem,
+    StreamChannelCallback,
+    StreamChannelCleanupFunction,
+    StreamChannelContext,
     StreamRequestContext,
     StreamResponse,
     StreamRouteCallback,
