@@ -63,7 +63,7 @@ export function defineGroup(
 export function defineRoute<Path extends string>(
     path: Path,
     callback: RouteCallback<Path>,
-): Route {
+): Route<Path> {
     return {
         callback,
         path,
@@ -71,10 +71,10 @@ export function defineRoute<Path extends string>(
     };
 }
 
-export function defineConstantFile(
-    path: string,
+export function defineConstantFile<Path extends string>(
+    path: Path,
     content: BodyInit,
-): Route {
+): Route<Path> {
     const fileExtension = extname(path);
     const mimeType = contentType(fileExtension) ?? 'application/octet-stream';
 
@@ -93,10 +93,10 @@ export function defineConstantFile(
     );
 }
 
-export function defineStaticFile(
-    path: string,
+export function defineStaticFile<Path extends string>(
+    path: Path,
     filePath: string | URL,
-): Route {
+): Route<Path> {
     return defineRoute(path, () => tryReadFile(filePath));
 }
 
@@ -134,7 +134,7 @@ export function defineStaticDirectory(
 export function defineView<Path extends string>(
     path: Path,
     view: ViewCallback<Path>,
-): Route {
+): Route<Path> {
     return defineRoute(
         path,
         async (context) => {
@@ -168,7 +168,7 @@ export function defineStream<
     path: Path,
     callback: StreamRouteCallback<Path, InputSignals, OutputSignals>,
     options: StreamOptions = {},
-): Route {
+): Route<Path> {
     return defineRoute(path, async (context) => {
         const streamContext = { ...context } as StreamRequestContext<
             Path,
