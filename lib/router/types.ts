@@ -52,10 +52,10 @@ export interface RequestContext<Path extends string = string> {
     readonly url: URL;
 }
 
-export interface Route {
+export interface Route<Path extends string = string> {
     readonly callback: RouteCallback;
 
-    readonly path: string;
+    readonly path: Path;
 
     readonly urlPattern: URLPattern;
 }
