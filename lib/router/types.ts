@@ -84,6 +84,8 @@ export interface StreamChannelContext<
 > {
     readonly done: () => void;
 
+    readonly error: (error?: unknown) => void;
+
     readonly push: (response: StreamResponse<OutputSignals>) => void;
 }
 

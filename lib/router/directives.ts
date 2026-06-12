@@ -231,10 +231,19 @@ export function defineStreamChannel<
             const queue: StreamResponse<OutputSignals>[] = [];
 
             let isDone = false;
+            let thrownError: unknown;
             let waitingResolve: (() => void) | null = null;
 
             const done = () => {
                 isDone = true;
+
+                wakeUp();
+            };
+
+            const error = (error?: unknown) => {
+                thrownError = error;
+                isDone = true;
+
                 wakeUp();
             };
 
@@ -245,6 +254,10 @@ export function defineStreamChannel<
             const generator = async function* () {
                 try {
                     while (!isDone || queue.length > 0) {
+                        if (thrownError) {
+                            throw thrownError;
+                        }
+
                         if (queue.length === 0) {
                             const { promise, resolve } = Promise.withResolvers<
                                 void
@@ -255,6 +268,10 @@ export function defineStreamChannel<
                         } else {
                             yield queue.shift()!;
                         }
+                    }
+
+                    if (thrownError) {
+                        throw thrownError;
                     }
                 } finally {
                     signal.removeEventListener('abort', handleAbort);
@@ -279,7 +296,7 @@ export function defineStreamChannel<
                 waitingResolve = null;
             };
 
-            const cleanup = callback(context, { done, push });
+            const cleanup = callback(context, { done, error, push });
 
             signal.addEventListener('abort', handleAbort);
             return generator();
