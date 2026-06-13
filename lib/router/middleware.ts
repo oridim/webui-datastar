@@ -105,7 +105,10 @@ export const applyHeaders = ((headers: Record<string, string>) => {
 export const isMethod = ((method: HTTPMethods) => {
     return (callback) => {
         return (context) => {
-            if (context.request.method !== method) return;
+            if (context.request.method !== method) {
+                return;
+            }
+
             return callback(context);
         };
     };
