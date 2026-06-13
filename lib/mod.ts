@@ -23,7 +23,19 @@ export type {
     ViewMiddleware,
     ViewMiddlewareFactory,
 } from './router/middleware.ts';
-export { useMiddleware } from './router/middleware.ts';
+export {
+    useMiddleware,
+    withCONNECT,
+    withDELETE,
+    withGET,
+    withHEAD,
+    withMethod,
+    withOPTIONS,
+    withPATCH,
+    withPOST,
+    withPUT,
+    withTRACE,
+} from './router/middleware.ts';
 export type { Router } from './router/router.ts';
 export { matchRoute } from './router/router.ts';
 export type {
