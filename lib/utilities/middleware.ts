@@ -4,16 +4,10 @@ import type { AnyFunction } from './types.ts';
 
 export type DependencyAccessor<Dependency> = () => Dependency;
 
-export type DependencyInjector<Dependency> = MiddlewareFactory<
-    // **HACK:** We need to accept any type of parameters and we cannot type it as
-    // `unknown[]` due to how TypeScript handles function parameters.
-    // deno-lint-ignore no-explicit-any
-    any,
-    [dependency: Dependency]
->;
+export type DependencyInjector = Middleware;
 
 export type DependencyInjectionMiddleware<Dependency> = [
-    DependencyInjector<Dependency>,
+    DependencyInjector,
     DependencyAccessor<Dependency>,
 ];
 
@@ -23,7 +17,8 @@ export type Middleware<Callback extends AnyFunction = AnyFunction> = (
 
 export type MiddlewareFactory<
     Callback extends AnyFunction = AnyFunction,
-    // **HACK:** Ditto.
+    // **HACK:** We need to accept any type of parameters and we cannot type it as
+    // `unknown[]` due to how TypeScript handles function parameters.
     // deno-lint-ignore no-explicit-any
     Args extends any[] = any[],
 > = (...args: Args) => Middleware<Callback>;
@@ -40,18 +35,16 @@ export function withMiddleware<Callback extends AnyFunction = AnyFunction>(
 
 export function makeDependencyInjectionMiddleware<
     Dependency,
->(): DependencyInjectionMiddleware<Dependency> {
+>(dependency: Dependency): DependencyInjectionMiddleware<Dependency> {
     const storage = new AsyncLocalStorage<Dependency>();
 
     return [
-        (dependency) => {
-            return (callback) => {
-                return ((...args: unknown[]) => {
-                    return storage.run(dependency, () => {
-                        return callback(...args);
-                    });
+        (callback) => {
+            return ((...args) => {
+                return storage.run(dependency, () => {
+                    return callback(...args);
                 });
-            };
+            });
         },
 
         () => {
