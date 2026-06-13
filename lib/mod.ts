@@ -14,6 +14,29 @@ export {
     defineView,
 } from './router/directives.ts';
 export { useRouterRequestContext } from './router/hooks.ts';
+export type {
+    RouteMiddleware,
+    RouteMiddlewareFactory,
+    StreamChannelMiddleware,
+    StreamMiddleware,
+    StreamMiddlewareFactory,
+    ViewMiddleware,
+    ViewMiddlewareFactory,
+} from './router/middleware.ts';
+export {
+    applyHeaders,
+    isCONNECT,
+    isDELETE,
+    isGET,
+    isHEAD,
+    isMethod,
+    isOPTIONS,
+    isPATCH,
+    isPOST,
+    isPUT,
+    isTRACE,
+    useMiddleware,
+} from './router/middleware.ts';
 export type { Router } from './router/router.ts';
 export { matchRoute } from './router/router.ts';
 export type {
@@ -65,6 +88,19 @@ export {
     HTTP_STATUS_TEXT,
     HTTP_STATUS_TEXT_MAP,
 } from './utilities/http.ts';
+export type {
+    DependencyAccessor,
+    DependencyInjectionMiddleware,
+    DependencyInjector,
+    GuardPredicate,
+    Middleware,
+    MiddlewareFactory,
+} from './utilities/middleware.ts';
+export {
+    makeDependencyInjectionMiddleware,
+    withGuard,
+    withMiddleware,
+} from './utilities/middleware.ts';
 
 export type {
     BaseServeOptions,

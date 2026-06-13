@@ -1,6 +1,6 @@
 export type BuiltinTypes =
     | Date
-    | ((...args: unknown[]) => unknown)
+    | AnyFunction
     | Uint8Array
     | string
     | number
@@ -16,6 +16,13 @@ export type DeepPartial<T> = T extends BuiltinTypes ? T
     : T extends Promise<infer U> ? Promise<DeepPartial<U>>
     : T extends object ? { [K in keyof T]?: DeepPartial<T[K]> }
     : T;
+
+export type AnyFunction = (
+    // **HACK:** We need to accept any type of parameters and we cannot type it as
+    // `unknown[]` due to how TypeScript handles function parameters.
+    // deno-lint-ignore no-explicit-any
+    ...args: any[]
+) => unknown;
 
 export function isAsyncIterable<T = unknown>(
     value: unknown,

@@ -9,7 +9,7 @@ import type { JSX } from './preact/components.ts';
 import { defineGroup } from './router/directives.ts';
 import type { Router } from './router/router.ts';
 import { defineRouter, matchRoute } from './router/router.ts';
-import type { RouteItem } from './router/types.ts';
+import type { Route, RouteItem } from './router/types.ts';
 
 import { HTTP_STATUS, HTTP_STATUS_TEXT } from './utilities/http.ts';
 
@@ -55,7 +55,9 @@ export interface VSockServeOptions extends BaseServeOptions {
     readonly serve: Deno.ServeVsockOptions;
 }
 
-export function defineFrameworkRouter(items: RouteItem[]): Router {
+export function defineFrameworkRouter(
+    items: Exclude<RouteItem, Route>,
+): Router {
     return defineRouter([
         defineGroup('/__datastar-serve', [
             ...POLYFILLS_GROUP,

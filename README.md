@@ -116,7 +116,7 @@ Datastar Serve makes no claims to being a high-performance nor secure HTTP serve
 
 That being said, contributions to improve performance and security are always welcome as long they do not compromise on readability, maintainability, and the existing developer experience.
 
-Datastar Serve also does not target be a complete fullstack framework. Aside from potential future additions such as a middleware API this framework **does not aim to provide**:
+Datastar Serve also does not target be a complete fullstack framework. The framework **does not aim to provide**:
 
 - Asset Management
 - Authentication / Authorization

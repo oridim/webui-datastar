@@ -3,7 +3,7 @@ import { flattenRoutes } from './utilities.ts';
 
 export type Router = readonly Route[];
 
-export function defineRouter(items: readonly RouteItem[]): Router {
+export function defineRouter(items: Exclude<RouteItem, Route>): Router {
     return flattenRoutes(items);
 }
 
