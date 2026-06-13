@@ -88,8 +88,17 @@ export {
     HTTP_STATUS_TEXT,
     HTTP_STATUS_TEXT_MAP,
 } from './utilities/http.ts';
-export type { Middleware, MiddlewareFactory } from './utilities/middleware.ts';
-export { withMiddleware } from './utilities/middleware.ts';
+export type {
+    DependencyAccessor,
+    DependencyInjectionMiddleware,
+    DependencyInjector,
+    Middleware,
+    MiddlewareFactory,
+} from './utilities/middleware.ts';
+export {
+    makeDependencyInjectionMiddleware,
+    withMiddleware,
+} from './utilities/middleware.ts';
 
 export type {
     BaseServeOptions,
