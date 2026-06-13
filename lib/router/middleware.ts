@@ -86,7 +86,7 @@ export function useMiddleware(
     };
 }
 
-export const withMethod = ((method: HTTPMethods) => {
+export const isMethod = ((method: HTTPMethods) => {
     return (callback) => {
         return (context) => {
             if (context.request.method !== method) return;
@@ -95,20 +95,20 @@ export const withMethod = ((method: HTTPMethods) => {
     };
 }) satisfies RouteMiddlewareFactory;
 
-export const withCONNECT = withMethod(HTTP_METHODS.connect);
+export const isCONNECT = isMethod(HTTP_METHODS.connect);
 
-export const withDELETE = withMethod(HTTP_METHODS.delete);
+export const isDELETE = isMethod(HTTP_METHODS.delete);
 
-export const withGET = withMethod(HTTP_METHODS.get);
+export const isGET = isMethod(HTTP_METHODS.get);
 
-export const withHEAD = withMethod(HTTP_METHODS.head);
+export const isHEAD = isMethod(HTTP_METHODS.head);
 
-export const withOPTIONS = withMethod(HTTP_METHODS.options);
+export const isOPTIONS = isMethod(HTTP_METHODS.options);
 
-export const withPATCH = withMethod(HTTP_METHODS.patch);
+export const isPATCH = isMethod(HTTP_METHODS.patch);
 
-export const withPOST = withMethod(HTTP_METHODS.post);
+export const isPOST = isMethod(HTTP_METHODS.post);
 
-export const withPUT = withMethod(HTTP_METHODS.put);
+export const isPUT = isMethod(HTTP_METHODS.put);
 
-export const withTRACE = withMethod(HTTP_METHODS.trace);
+export const isTRACE = isMethod(HTTP_METHODS.trace);
