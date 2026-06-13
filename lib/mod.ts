@@ -16,9 +16,12 @@ export {
 export { useRouterRequestContext } from './router/hooks.ts';
 export type {
     RouteMiddleware,
+    RouteMiddlewareFactory,
     StreamChannelMiddleware,
     StreamMiddleware,
+    StreamMiddlewareFactory,
     ViewMiddleware,
+    ViewMiddlewareFactory,
 } from './router/middleware.ts';
 export { useMiddleware } from './router/middleware.ts';
 export type { Router } from './router/router.ts';

@@ -1,5 +1,5 @@
 import type { Signals, UnknownSignals } from '../utilities/datastar.ts';
-import type { Middleware } from '../utilities/middleware.ts';
+import type { Middleware, MiddlewareFactory } from '../utilities/middleware.ts';
 import { withMiddleware } from '../utilities/middleware.ts';
 
 import {
@@ -30,6 +30,26 @@ export type StreamMiddleware<
 export type ViewMiddleware<Path extends string = string> = Middleware<
     ViewCallback<Path>
 >;
+
+export type RouteMiddlewareFactory<
+    Path extends string = string,
+    Args extends unknown[] = unknown[],
+> = MiddlewareFactory<RouteCallback<Path>, Args>;
+
+export type StreamMiddlewareFactory<
+    Path extends string = string,
+    InputSignals extends Signals<unknown> = UnknownSignals,
+    OutputSignals extends Signals<unknown> = InputSignals,
+    Args extends unknown[] = unknown[],
+> = MiddlewareFactory<
+    StreamRouteCallback<Path, InputSignals, OutputSignals>,
+    Args
+>;
+
+export type ViewMiddlewareFactory<
+    Path extends string = string,
+    Args extends unknown[] = unknown[],
+> = MiddlewareFactory<ViewCallback<Path>, Args>;
 
 export function useMiddleware(
     middlewares: readonly Middleware<RouteCallback>[],
