@@ -1,6 +1,10 @@
-export type Middleware<T> = (callback: T) => T;
+import type { AnyFunction } from './types.ts';
 
-export function withMiddleware<T>(
+export type Middleware<T extends AnyFunction = AnyFunction> = (
+    callback: T,
+) => T;
+
+export function withMiddleware<T extends AnyFunction = AnyFunction>(
     middlewares: readonly Middleware<T>[],
     callback: T,
 ): T {
