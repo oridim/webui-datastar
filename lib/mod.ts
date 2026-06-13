@@ -24,6 +24,7 @@ export type {
     ViewMiddlewareFactory,
 } from './router/middleware.ts';
 export {
+    applyHeaders,
     isCONNECT,
     isDELETE,
     isGET,

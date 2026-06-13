@@ -86,6 +86,22 @@ export function useMiddleware(
     };
 }
 
+export const applyHeaders = ((headers: Record<string, string>) => {
+    return (callback) => {
+        return async (context) => {
+            const response = await callback(context);
+
+            if (response instanceof Response) {
+                for (const [key, value] of Object.entries(headers)) {
+                    response.headers.set(key, value);
+                }
+            }
+
+            return response;
+        };
+    };
+}) satisfies RouteMiddlewareFactory;
+
 export const isMethod = ((method: HTTPMethods) => {
     return (callback) => {
         return (context) => {
