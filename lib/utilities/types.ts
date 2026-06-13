@@ -18,7 +18,7 @@ export type DeepPartial<T> = T extends BuiltinTypes ? T
     : T;
 
 export type AnyFunction = (
-    // HACK: We need to accept any type of parameters and we cannot type it as
+    // **HACK:** We need to accept any type of parameters and we cannot type it as
     // `unknown[]` due to how TypeScript handles function parameters.
     // deno-lint-ignore no-explicit-any
     ...args: any[]
