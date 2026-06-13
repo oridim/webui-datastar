@@ -1,8 +1,11 @@
-import { Signals, UnknownSignals } from '../utilities/datastar.ts';
-import { Middleware } from '../utilities/middleware.ts';
+import type { Signals, UnknownSignals } from '../utilities/datastar.ts';
+import type { Middleware } from '../utilities/middleware.ts';
+import { withMiddleware } from '../utilities/middleware.ts';
 
 import {
+    Route,
     RouteCallback,
+    RouteItem,
     StreamChannelCallback,
     StreamRouteCallback,
     ViewCallback,
@@ -27,3 +30,29 @@ export type StreamMiddleware<
 export type ViewMiddleware<Path extends string = string> = Middleware<
     ViewCallback<Path>
 >;
+
+export function useMiddleware(
+    middlewares: readonly Middleware<RouteCallback>[],
+    item: Route,
+): Route;
+export function useMiddleware(
+    middlewares: readonly Middleware<RouteCallback>[],
+    item: Exclude<RouteItem, Route>,
+): Exclude<RouteItem, Route>;
+export function useMiddleware(
+    middlewares: readonly Middleware<RouteCallback>[],
+    item: RouteItem,
+): RouteItem;
+export function useMiddleware(
+    middlewares: readonly Middleware<RouteCallback>[],
+    item: RouteItem,
+): RouteItem {
+    if (item instanceof Array) {
+        return item.map((route) => useMiddleware(middlewares, route));
+    }
+
+    return {
+        ...item,
+        callback: withMiddleware(middlewares, item.callback),
+    };
+}
