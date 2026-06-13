@@ -137,6 +137,11 @@ export function defineView<Path extends string>(
         path,
         async (context) => {
             const renderedElement = await view(context);
+
+            if (!renderedElement) {
+                return renderedElement;
+            }
+
             const renderedContext = h(
                 RouterRequestContext.Provider,
                 { value: context },

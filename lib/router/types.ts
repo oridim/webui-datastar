@@ -63,7 +63,7 @@ export type StreamRouteCallback<
 
 export type ViewCallback<Path extends string = string> = (
     context: RequestContext<Path>,
-) => JSX.Element | Promise<JSX.Element>;
+) => Promise<JSX.Element | null | void> | JSX.Element | null | void;
 
 export interface RequestContext<Path extends string = string> {
     readonly match: URLPatternResult;
