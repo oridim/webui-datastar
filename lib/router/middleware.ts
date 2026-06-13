@@ -86,7 +86,9 @@ export function useMiddleware(
     };
 }
 
-export const applyHeaders = ((headers: Record<string, string>) => {
+export const applyHeaders: RouteMiddlewareFactory = (
+    headers: Record<string, string>,
+) => {
     return (callback) => {
         return async (context) => {
             const response = await callback(context);
@@ -100,9 +102,9 @@ export const applyHeaders = ((headers: Record<string, string>) => {
             return response;
         };
     };
-}) satisfies RouteMiddlewareFactory;
+};
 
-export const isMethod = ((method: HTTPMethods) => {
+export const isMethod: RouteMiddlewareFactory = (method: HTTPMethods) => {
     return (callback) => {
         return (context) => {
             if (context.request.method !== method) {
@@ -112,22 +114,22 @@ export const isMethod = ((method: HTTPMethods) => {
             return callback(context);
         };
     };
-}) satisfies RouteMiddlewareFactory;
+};
 
-export const isCONNECT = isMethod(HTTP_METHODS.connect);
+export const isCONNECT: RouteMiddleware = isMethod(HTTP_METHODS.connect);
 
-export const isDELETE = isMethod(HTTP_METHODS.delete);
+export const isDELETE: RouteMiddleware = isMethod(HTTP_METHODS.delete);
 
-export const isGET = isMethod(HTTP_METHODS.get);
+export const isGET: RouteMiddleware = isMethod(HTTP_METHODS.get);
 
-export const isHEAD = isMethod(HTTP_METHODS.head);
+export const isHEAD: RouteMiddleware = isMethod(HTTP_METHODS.head);
 
-export const isOPTIONS = isMethod(HTTP_METHODS.options);
+export const isOPTIONS: RouteMiddleware = isMethod(HTTP_METHODS.options);
 
-export const isPATCH = isMethod(HTTP_METHODS.patch);
+export const isPATCH: RouteMiddleware = isMethod(HTTP_METHODS.patch);
 
-export const isPOST = isMethod(HTTP_METHODS.post);
+export const isPOST: RouteMiddleware = isMethod(HTTP_METHODS.post);
 
-export const isPUT = isMethod(HTTP_METHODS.put);
+export const isPUT: RouteMiddleware = isMethod(HTTP_METHODS.put);
 
-export const isTRACE = isMethod(HTTP_METHODS.trace);
+export const isTRACE: RouteMiddleware = isMethod(HTTP_METHODS.trace);
