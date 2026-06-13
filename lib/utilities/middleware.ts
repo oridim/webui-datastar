@@ -11,14 +11,22 @@ export type DependencyInjectionMiddleware<Dependency> = [
     DependencyAccessor<Dependency>,
 ];
 
+export type GuardPredicate<
+    // **HACK:** We need to accept any type of parameters and we cannot type it as
+    // `unknown[]` due to how TypeScript handles function parameters.
+    // deno-lint-ignore no-explicit-any
+    Args extends any[] = any[],
+> = (
+    ...args: Args
+) => Promise<boolean> | boolean;
+
 export type Middleware<Callback extends AnyFunction = AnyFunction> = (
     callback: Callback,
 ) => Callback;
 
 export type MiddlewareFactory<
     Callback extends AnyFunction = AnyFunction,
-    // **HACK:** We need to accept any type of parameters and we cannot type it as
-    // `unknown[]` due to how TypeScript handles function parameters.
+    // **HACK:** Ditto
     // deno-lint-ignore no-explicit-any
     Args extends any[] = any[],
 > = (...args: Args) => Middleware<Callback>;
@@ -60,3 +68,18 @@ export function makeDependencyInjectionMiddleware<
         },
     ];
 }
+
+export const withGuard = ((
+    predicate: GuardPredicate,
+    fallback: unknown,
+): Middleware => {
+    return (callback) => {
+        return (async (...args) => {
+            if (!(await predicate(...args))) {
+                return fallback;
+            }
+
+            return callback(...args);
+        });
+    };
+}) satisfies MiddlewareFactory;

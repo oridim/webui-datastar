@@ -92,11 +92,13 @@ export type {
     DependencyAccessor,
     DependencyInjectionMiddleware,
     DependencyInjector,
+    GuardPredicate,
     Middleware,
     MiddlewareFactory,
 } from './utilities/middleware.ts';
 export {
     makeDependencyInjectionMiddleware,
+    withGuard,
     withMiddleware,
 } from './utilities/middleware.ts';
 
