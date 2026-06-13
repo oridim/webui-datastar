@@ -14,6 +14,12 @@ export {
     defineView,
 } from './router/directives.ts';
 export { useRouterRequestContext } from './router/hooks.ts';
+export type {
+    RouteMiddleware,
+    StreamChannelMiddleware,
+    StreamMiddleware,
+    ViewMiddleware,
+} from './router/middleware.ts';
 export type { Router } from './router/router.ts';
 export { matchRoute } from './router/router.ts';
 export type {
